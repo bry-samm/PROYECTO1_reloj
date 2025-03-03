@@ -1,0 +1,48 @@
+<ASSEMBLER_INFO>
+ <VERSION>2.2.8</VERSION>
+ <DEVICE>"ATmega328P"</DEVICE>
+ <WORKING_DIR>C:\Users\bsmor\OneDrive\Documentos\GitHub\PROYECTO1_reloj\Proyecto1_reloj\Proyecto1_reloj\Debug</WORKING_DIR>
+ <INCLUDE_PATH>
+  <DIR>C:/Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.7.374\avrasm\inc</DIR>
+  <DIR>C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avrassembler\Include</DIR>
+  <DIR></DIR>
+ </INCLUDE_PATH>
+ <SOURCE_FILE>C:\Users\bsmor\OneDrive\Documentos\GitHub\PROYECTO1_reloj\Proyecto1_reloj\Proyecto1_reloj\main.asm</SOURCE_FILE>
+ <INCLUDED_FILES>
+  <FILE>C:/Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.7.374\avrasm\inc\m328Pdef.inc</FILE>
+  <FILE>C:/Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.7.374\avrasm\inc\M328PDEF.inc</FILE>
+ </INCLUDED_FILES>
+ <OBJECT_FILES>
+  <FILE>C:\Users\bsmor\OneDrive\Documentos\GitHub\PROYECTO1_reloj\Proyecto1_reloj\Proyecto1_reloj\Debug\Proyecto1_reloj.obj</FILE>
+ </OBJECT_FILES>
+ <HEX_FILES>
+  <FILE>Proyecto1_reloj.hex</FILE>
+ </HEX_FILES>
+ <OUTPUT_FILES>
+  <FILE>Proyecto1_reloj.map</FILE>
+  <FILE>Proyecto1_reloj.lss</FILE>
+ </OUTPUT_FILES>
+ <LABELS>
+  <START><FILE>C:\Users\bsmor\OneDrive\Documentos\GitHub\PROYECTO1_reloj\Proyecto1_reloj\Proyecto1_reloj\main.asm</FILE><LINE>28</LINE></START>
+  <ISR_BOTON><FILE>C:\Users\bsmor\OneDrive\Documentos\GitHub\PROYECTO1_reloj\Proyecto1_reloj\Proyecto1_reloj\main.asm</FILE><LINE>245</LINE></ISR_BOTON>
+  <ISR_TIMER0><FILE>C:\Users\bsmor\OneDrive\Documentos\GitHub\PROYECTO1_reloj\Proyecto1_reloj\Proyecto1_reloj\main.asm</FILE><LINE>223</LINE></ISR_TIMER0>
+  <SETUP><FILE>C:\Users\bsmor\OneDrive\Documentos\GitHub\PROYECTO1_reloj\Proyecto1_reloj\Proyecto1_reloj\main.asm</FILE><LINE>36</LINE></SETUP>
+  <DISPLAY_VAL><FILE>C:\Users\bsmor\OneDrive\Documentos\GitHub\PROYECTO1_reloj\Proyecto1_reloj\Proyecto1_reloj\main.asm</FILE><LINE>67</LINE></DISPLAY_VAL>
+  <SET_INICIO><FILE>C:\Users\bsmor\OneDrive\Documentos\GitHub\PROYECTO1_reloj\Proyecto1_reloj\Proyecto1_reloj\main.asm</FILE><LINE>125</LINE></SET_INICIO>
+  <MAIN><FILE>C:\Users\bsmor\OneDrive\Documentos\GitHub\PROYECTO1_reloj\Proyecto1_reloj\Proyecto1_reloj\main.asm</FILE><LINE>103</LINE></MAIN>
+  <CONTADOR_1><FILE>C:\Users\bsmor\OneDrive\Documentos\GitHub\PROYECTO1_reloj\Proyecto1_reloj\Proyecto1_reloj\main.asm</FILE><LINE>114</LINE></CONTADOR_1>
+  <SUMA><FILE>C:\Users\bsmor\OneDrive\Documentos\GitHub\PROYECTO1_reloj\Proyecto1_reloj\Proyecto1_reloj\main.asm</FILE><LINE>130</LINE></SUMA>
+  <LOOP1><FILE>C:\Users\bsmor\OneDrive\Documentos\GitHub\PROYECTO1_reloj\Proyecto1_reloj\Proyecto1_reloj\main.asm</FILE><LINE>134</LINE></LOOP1>
+  <UNIDADES_ENCONTRADAS><FILE>C:\Users\bsmor\OneDrive\Documentos\GitHub\PROYECTO1_reloj\Proyecto1_reloj\Proyecto1_reloj\main.asm</FILE><LINE>141</LINE></UNIDADES_ENCONTRADAS>
+  <INCREMENTAR_UNIDADES><FILE>C:\Users\bsmor\OneDrive\Documentos\GitHub\PROYECTO1_reloj\Proyecto1_reloj\Proyecto1_reloj\main.asm</FILE><LINE>170</LINE></INCREMENTAR_UNIDADES>
+  <ACTUALIZAR_DECENAS><FILE>C:\Users\bsmor\OneDrive\Documentos\GitHub\PROYECTO1_reloj\Proyecto1_reloj\Proyecto1_reloj\main.asm</FILE><LINE>157</LINE></ACTUALIZAR_DECENAS>
+  <LOOP2><FILE>C:\Users\bsmor\OneDrive\Documentos\GitHub\PROYECTO1_reloj\Proyecto1_reloj\Proyecto1_reloj\main.asm</FILE><LINE>160</LINE></LOOP2>
+  <DECENAS_ENCONTRADAS><FILE>C:\Users\bsmor\OneDrive\Documentos\GitHub\PROYECTO1_reloj\Proyecto1_reloj\Proyecto1_reloj\main.asm</FILE><LINE>167</LINE></DECENAS_ENCONTRADAS>
+  <FIN_SUM><FILE>C:\Users\bsmor\OneDrive\Documentos\GitHub\PROYECTO1_reloj\Proyecto1_reloj\Proyecto1_reloj\main.asm</FILE><LINE>173</LINE></FIN_SUM>
+  <SUMA_BOTON><FILE>C:\Users\bsmor\OneDrive\Documentos\GitHub\PROYECTO1_reloj\Proyecto1_reloj\Proyecto1_reloj\main.asm</FILE><LINE>204</LINE></SUMA_BOTON>
+  <FIN_SUM_BOTON><FILE>C:\Users\bsmor\OneDrive\Documentos\GitHub\PROYECTO1_reloj\Proyecto1_reloj\Proyecto1_reloj\main.asm</FILE><LINE>209</LINE></FIN_SUM_BOTON>
+  <RESTA><FILE>C:\Users\bsmor\OneDrive\Documentos\GitHub\PROYECTO1_reloj\Proyecto1_reloj\Proyecto1_reloj\main.asm</FILE><LINE>212</LINE></RESTA>
+  <SET_MAX><FILE>C:\Users\bsmor\OneDrive\Documentos\GitHub\PROYECTO1_reloj\Proyecto1_reloj\Proyecto1_reloj\main.asm</FILE><LINE>217</LINE></SET_MAX>
+  <FIN_SUM_TIMER><FILE>C:\Users\bsmor\OneDrive\Documentos\GitHub\PROYECTO1_reloj\Proyecto1_reloj\Proyecto1_reloj\main.asm</FILE><LINE>237</LINE></FIN_SUM_TIMER>
+ </LABELS>
+</ASSEMBLER_INFO>
