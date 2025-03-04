@@ -9,11 +9,11 @@
 
 //============================================================== LABORATORIO 3 ===============================================================
 .include "M328PDEF.inc"
-.equ	
+.equ	T1VALOR		= 0x00
 .equ	MODO		= 8
-.def	MODO_ACTUAL	= R18
-.def	CONTADOR	= R19
-.def	ACTION		= R20
+.def	MODO_ACTUAL	= R17
+.def	CONTADOR	= R18
+.def	ACTION		= R19
 
 .cseg
 .org	0x0000
@@ -21,6 +21,9 @@
 	
 .org	PCI0addr
 	JMP	ISR_BOTON
+
+.org	OVF2addr
+	JMP	ISR_TIMER2
 
 .org	OVF1addr
 	JMP	ISR_TIMER1
@@ -35,6 +38,7 @@ START:
 	OUT		SPL, R16		// SPL 
 	LDI		R16, HIGH(RAMEND)
 	OUT		SPH, R16		// SPH 
+
 //=================================================================================
 //Configurar el microcontrolador (MCU)
 SETUP:
@@ -63,27 +67,31 @@ SETUP:
 
 	//PORTB parcial
 	//Como entrada
-	CBI		PORTB, PB0
-	CBI		PORTB, PB1
-	CBI		PORTB, PB2
+	CBI		DDRB, PB0
+	CBI		DDRB, PB1
+	CBI		DDRB, PB2
 	SBI		PORTB, PB0
 	SBI		PORTB, PB1
 	SBI		PORTB, PB2
 	//Como salida
-	SBI		PORTB, PB3
-	SBI		PORTB, PB4
-	SBI		PORTB, PB5
+	SBI		DDRB, PB3
+	SBI		DDRB, PB4
+	SBI		DDRB, PB5
 	CBI		PORTB, PB3
 	CBI		PORTB, PB4
 	CBI		PORTB, PB5
 
 	//Configuración del display
 
-	DISPLAY_VAL:	.db		0x7E, 0x30,	0x6D, 0x79, 0x33, 0x5B, 0x5F, 0x70, 0x7F, 0x7B
+	DISPLAY_VAL:	.db		0x7D, 0x48,	0x3E, 0x6E, 0x4B, 0x67, 0x77, 0x4C, 0x7F, 0x6F
 	//						 0	    1	  2		3	 4     5	  6     7     8		9
 	CALL SET_INICIO
 
 //===================== CONFIGURACIÓN INTERRUPCIONES =======================
+//Para el timer2
+	LDI		R16, (1 << TOIE2)
+	STS		TIMSK2, R16
+
 //Para el timer1
 	LDI		R16, (1 << TOIE1)
 	STS		TIMSK1, R16
@@ -99,13 +107,13 @@ SETUP:
 	LDI		R16, (1 << PCIE0)	//Habilito las interrupciones en el PORTB
 	STS		PCICR, R16
 
-//Setear algunos registros en 0
-	CLR		MODO_ACTUAL
-	CLR		CONTADOR
-	CLR		ACTION
+//======================================= DEFINIR Y SETEAR EN 0 ALGUNOS REGISTROS ========================================================
+//No usar registro 30 y 31
 
-//Propódito general
-	LDI		R17, 0x00
+	CLR		R20					//Contador del timer0 para poder cambiar entre transistores de display
+	CLR		MODO_ACTUAL			//R19
+	CLR		CONTADOR			//R18
+	CLR		ACTION				//R17
 	LDI		R16, 0x00
 	
 	LPM		R23, Z				// Mostrar en el display1 0
@@ -161,7 +169,6 @@ SET_INICIO:
 	LDI		ZH, HIGH(DISPLAY_VAL <<1)
 	RET
 
-
 //================================================== RUTINAS DE INTERRUPCIÓN =====================================================================
 ISR_BOTON:
     PUSH	R16
@@ -180,13 +187,44 @@ ISR_TIMER0:
 	IN		R16,  SREG
 	PUSH	R16
 
+	LDI		R16, 100			//Poner a 100
+	OUT		TCNT0, R16			// Cargar valor inicial en TCNT0
 
+	INC		R1
+	MOV		R16, R1
+	ANDI	R16, 0x04
+	CPI		R16, 0x01
+	BREQ	DISPLAY1
+	CPI		R16, 0x02
+	BREQ	DISPLAY2
+	CPI		R16, 0x03
+	BREQ	DISPLAY3
+	CPI		R16, 0x04
+	BREQ	DISPLAY4
+
+DISPLAY1:
+	RJMP	FIN_TMR0
+
+	
+
+FIN_TMR0:
 	POP		R16
 	OUT		SREG, R16
 	POP		R16
 	RETI
 
 ISR_TIMER1:
+	PUSH	R16
+	IN		R16,  SREG
+	PUSH	R16
+
+
+	POP		R16
+	OUT		SREG, R16
+	POP		R16
+	RETI
+
+ISR_TIMER2:
 	PUSH	R16
 	IN		R16,  SREG
 	PUSH	R16
