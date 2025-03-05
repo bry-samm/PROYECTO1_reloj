@@ -9,11 +9,15 @@
 
 //============================================================== LABORATORIO 3 ===============================================================
 .include "M328PDEF.inc"
-.equ	T1VALOR		= 0x00
-.equ	MODO		= 8
-.def	MODO_ACTUAL	= R17
-.def	CONTADOR	= R18
-.def	ACTION		= R19
+.equ	T1VALOR		= 0xC2F7
+.equ	MODO_CANT	= 8
+.def	MODO		= R18
+.def	CONTADOR	= R19
+.def	ACTION		= R20
+.def	UNI_MIN		= R21
+.def	DEC_MIN		= R22
+.def	UNI_HORA	= R23
+.def	DEC_HORA	= R24
 
 .cseg
 .org	0x0000
@@ -56,6 +60,17 @@ SETUP:
 	LDI		R16, 100			//Poner a 100
 	OUT		TCNT0, R16			// Cargar valor inicial en TCNT0
 //######################################
+
+	//Inicializar timer1
+	LDI		R16, LOW(T1VALOR)
+	STS		TCNT1L, R16
+	LDI		R16, HIGH(T1VALOR)
+	STS		TCNT1H, R16
+
+	LDI		R16, 0x00
+	STS		TCCR1A, R16
+	LDI		R16, (1<<CS11) | (1<<CS10)
+	STS		TCCR1B, R16
 	
 	//PORTD y PORTC como salida e inicialmente apagado 
 	LDI		R16, 0xFF
@@ -111,10 +126,13 @@ SETUP:
 //No usar registro 30 y 31
 
 	CLR		R20					//Contador del timer0 para poder cambiar entre transistores de display
-	CLR		MODO_ACTUAL			//R19
-	CLR		CONTADOR			//R18
-	CLR		ACTION				//R17
+	CLR		MODO				//R18
+	CLR		CONTADOR			//R19
+	CLR		ACTION				//R20
+//Propósito general 
+	LDI		R17, 0x00
 	LDI		R16, 0x00
+	CLR		R1
 	
 	LPM		R23, Z				// Mostrar en el display1 0
 	LPM		R25, Z				// Mostrar en el display2 0
@@ -147,20 +165,52 @@ MAIN:
 //==================================================== RUTINAS DEL MAIN ======================================================================
 
 FECHA:
+	CBI		PORTB, PB3			// LEDS que muestran el modo 000
+	CBI		PORTB, PB4
+	CBI		PORTB, PB5
+
 	RJMP	MAIN
 HORA:
+	SBI		PORTB, PB3			// Leds	que muestran el modo 001
+	CBI		PORTB, PB4
+	CBI		PORTB, PB5
+
 	RJMP	MAIN
 CONF_MIN:
+	CBI		PORTB, PB3			// LEDS que muestran el modo 010
+	SBI		PORTB, PB4
+	CBI		PORTB, PB5
+
 	RJMP	MAIN
 CONF_HORA:
+	SBI		PORTB, PB3			// LEDS que muestran el modo 011
+	SBI		PORTB, PB4
+	CBI		PORTB, PB5
+
 	RJMP	MAIN
 CONF_DIA:
+	CBI		PORTB, PB3			// LEDS que muestran el modo 100
+	CBI		PORTB, PB4
+	SBI		PORTB, PB5
+
 	RJMP	MAIN
 CONF_MES:
+	SBI		PORTB, PB3			// LEDS que muestran el modo 101
+	CBI		PORTB, PB4
+	SBI		PORTB, PB5
+
 	RJMP	MAIN
 CONF_ALARMA:
+	CBI		PORTB, PB3			// LEDS que muestran el modo 110
+	SBI		PORTB, PB4
+	SBI		PORTB, PB5
+
 	RJMP	MAIN
 ALARMA_OFF:
+	SBI		PORTB, PB3			// LEDS que muestran el modo 111
+	SBI		PORTB, PB4
+	SBI		PORTB, PB5
+
 	RJMP	MAIN
 
 //================================================= RUTINAS NO INTERRUPCIÓN ==================================================================
@@ -175,14 +225,58 @@ ISR_BOTON:
     IN		R16, SREG
     PUSH	R16
 
-	SBI		
+	SBIS	PINB, PB2			// Verifica si se presionó el botón de modo
+	INC		MODO
+	LDI		R16, MODO_CANT
+	CP		MODO, R16			// Verifica si ya se sobrepasó la cantidad de modos
+	BRNE	CONTINUAR_BOTON		
+	CLR		MODO
+
+CONTINUAR_BOTON:				//Verifica que modo debe de ejecutarse
+	CPI		MODO, 0
+	BREQ	MODO0_ISR
+	CPI		MODO, 1
+	BREQ	MODO1_ISR
+	CPI		MODO, 2
+	BREQ	MODO2_ISR
+	CPI		MODO, 3
+	BREQ	MODO3_ISR
+	CPI		MODO, 4
+	BREQ	MODO4_ISR
+	CPI		MODO, 5
+	BREQ	MODO5_ISR
+	CPI		MODO, 6
+	BREQ	MODO6_ISR
+	CPI		MODO, 7
+	BREQ	MODO7_ISR
+//Comienza verificación y ejecución de modos
+MODO0_ISR:
+	RJMP	EXIT_MODO_ISR
+MODO1_ISR:
+	RJMP	EXIT_MODO_ISR
+MODO2_ISR:
+	RJMP	EXIT_MODO_ISR
+MODO3_ISR:
+	RJMP	EXIT_MODO_ISR
+MODO4_ISR:
+	RJMP	EXIT_MODO_ISR
+MODO5_ISR:
+	RJMP	EXIT_MODO_ISR
+MODO6_ISR:
+	RJMP	EXIT_MODO_ISR
+MODO7_ISR:
+	RJMP	EXIT_MODO_ISR
+
+EXIT_MODO_ISR:
 
     POP		R16
     OUT		SREG, R16
     POP		R16
     RETI
 
+//..............................................................
 ISR_TIMER0:
+	PUSH	R17
 	PUSH	R16
 	IN		R16,  SREG
 	PUSH	R16
@@ -190,9 +284,9 @@ ISR_TIMER0:
 	LDI		R16, 100			//Poner a 100
 	OUT		TCNT0, R16			// Cargar valor inicial en TCNT0
 
+	LDI		R17, 0x00
 	INC		R1
 	MOV		R16, R1
-	ANDI	R16, 0x04
 	CPI		R16, 0x01
 	BREQ	DISPLAY1
 	CPI		R16, 0x02
@@ -203,21 +297,52 @@ ISR_TIMER0:
 	BREQ	DISPLAY4
 
 DISPLAY1:
+	OUT		PORTC, R17
+	OUT		PORTD, R17
+	SBI		PORTC, PC0
+	OUT		PORTD, UNI_MIN	
 	RJMP	FIN_TMR0
-
+DISPLAY2:
+	OUT		PORTC, R17
+	OUT		PORTD, R17
+	SBI		PORTC, PC1
+	OUT		PORTD, DEC_MIN	
+	RJMP	FIN_TMR0
+DISPLAY3:
+	OUT		PORTC, R17
+	OUT		PORTD, R17
+	SBI		PORTC, PC2
+	OUT		PORTD, UNI_HORA
+	RJMP	FIN_TMR0
+DISPLAY4:
+	OUT		PORTC, R17
+	OUT		PORTD, R17
+	SBI		PORTC, PC3
+	OUT		PORTD, DEC_HORA	
+	RJMP	FIN_TMR0
 	
-
 FIN_TMR0:
+	CPI		R16, 0x04
+	BRNE	RESET_END_ISR
+	CLR		R16
+	MOV		R1, R16
+
+RESET_END_ISR:
 	POP		R16
 	OUT		SREG, R16
 	POP		R16
+	POP		R17
 	RETI
-
+//.............................................................
 ISR_TIMER1:
 	PUSH	R16
 	IN		R16,  SREG
 	PUSH	R16
 
+	LDI		R16, LOW(T1VALOR)
+	STS		TCNT1L, R16
+	LDI		R16, HIGH(T1VALOR)
+	STS		TCNT1H, R16
 
 	POP		R16
 	OUT		SREG, R16
@@ -228,6 +353,7 @@ ISR_TIMER2:
 	PUSH	R16
 	IN		R16,  SREG
 	PUSH	R16
+
 
 
 	POP		R16
