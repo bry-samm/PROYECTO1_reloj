@@ -9,10 +9,10 @@
 
 //============================================================== LABORATORIO 3 ===============================================================
 .include "M328PDEF.inc"  
-.equ	T2VALOR		= 216
+.equ	T2VALOR		= 100
 .equ	T1VALOR		= 0x1B1E 
 .equ	T0VALOR		= 251
-.equ	MODO_CANT	= 8
+.equ	MODO_CANT	= 9
 
 .def	MODO		= R18
 .def	CONTADOR	= R19
@@ -35,10 +35,10 @@
 	
 .org	PCI0addr
 	JMP	ISR_BOTON
-/*
-.org	OVF2addr
-	JMP	ISR_TIMER2*/
 
+.org	OVF2addr
+	JMP	ISR_TIMER2
+	
 .org	OVF1addr
 	JMP	ISR_TIMER1
 
@@ -67,19 +67,18 @@ SETUP:
 	LDI		R16, (1 << CLKPS2)	//Configura prescaler a 16 (16 MHz / 16 = 1 MHz)
 	STS		CLKPR, R16
 
-
 	// Inicializar timer0
 	LDI		R16, (1<<CS02) | (1<<CS00)	//Configuración para el prescaler de 1024 (ver datasheet)
 	OUT		TCCR0B, R16			// Setear prescaler del TIMER 0 a 1024
 	LDI		R16, T0VALOR		//Poner a T0VALOR previamente definido
 	OUT		TCNT0, R16			// Cargar valor inicial en TCNT0
 
-	LDI		R16, (1 << TOV0)
-	OUT		TIFR0, R16			// Limpiar la bandera de desbordamiento
+	//LDI		R16, (1 << TOV0)
+	//OUT		TIFR0, R16			// Limpiar la bandera de desbordamiento
 
 	//Inicializar timer1
-	LDI		R16, 0x00
-	STS		TCCR1A, R16			// Modo normal
+	//LDI		R16, 0x00
+	//STS		TCCR1A, R16			// Modo normal
 	LDI		R16, (1<<CS12) | (1<<CS10)
 	STS		TCCR1B, R16
 
@@ -88,17 +87,17 @@ SETUP:
     LDI     R16, HIGH(T1VALOR)
     STS     TCNT1H, R16
 
-	LDI		R16, (1 << TOV1)
-	STS		TIFR1, R16			// Limpiar la bandera de desbordamiento 
+	//LDI		R16, (1 << TOV1)
+	//STS		TIFR1, R16			// Limpiar la bandera de desbordamiento 
 
 	//Inicializar timer2
-	LDI		R16, T2VALOR		// Poner a 100
+	LDI		R16, (1<<CS22)		// Configurar prescaler en 256
+	STS		TCCR2B, R16			// Setear prescaler del TIMER 2 a 256
+	LDI		R16, T2VALOR		// Poner a T2VALOR
 	STS		TCNT2, R16			// Cargar valor inicial en TCNT2
-	LDI		R16, (1<<CS22)		// Configurar prescaler en 64
-	STS		TCCR2B, R16			// Setear prescaler del TIMER 2 a 64
 
-	LDI		R16, (1 << TOV2)
-	STS		TIFR2, R16			// Limpiar el flag de desbordamiento
+	//LDI		R16, (1 << TOV2)
+	//STS		TIFR2, R16			// Limpiar el flag de desbordamiento
 
 	//PORTD y PORTC como salida e inicialmente apagado 
 	LDI		R16, 0xFF
@@ -125,13 +124,16 @@ SETUP:
 	CBI		PORTB, PB5
 
 	//Configuración del display
-
 	DISPLAY_VAL:	.db		0x7D, 0x48,	0x3E, 0x6E, 0x4B, 0x67, 0x77, 0x4C, 0x7F, 0x6F
 	//						 0	    1	  2		3	 4     5	  6     7     8		9
 
 	//Tabla para tener la cantidad de días en los meses del año 
 	TABLA_DIAS:		.db		31, 28 , 31, 30, 31, 30, 31, 31, 30, 31, 30, 31
 	//				   		1	2    3	 4   5	 6   7   8	 9   10  11  12
+
+	//Configuración display para mostrar ON/OFF alarma
+	ALARMA_LETRA:	.db		0x7D, 0x5F, 0x17, 0x00
+	//				   		 O     N     F
 
 	CALL SET_INICIO
 	LDI		ZL, LOW(DISPLAY_VAL <<1)	//Coloca el direccionador indirecto en la posición inicial
@@ -141,10 +143,9 @@ SETUP:
 //Para el timer2
 	LDI		R16, (1 << TOIE2)
 	STS		TIMSK2, R16
-
-////Para el timer1
-//	LDI		R16, (1 << TOIE1)
-//	STS		TIMSK1, R16
+//Para el timer1
+	LDI		R16, (1 << TOIE1)
+	STS		TIMSK1, R16
 
 //Para el timer0
 	LDI		R16, (1 << TOIE0)
@@ -182,6 +183,8 @@ SETUP:
 	CLR		R11	
 	CLR		R12
 	CLR		R16		
+	CLR		R25
+	CLR		R28
 
 	SEI
 //============================================================================
@@ -199,10 +202,19 @@ MAIN:
 	CPI		MODO, 5
 	BREQ	CONF_MES
 	CPI		MODO, 6
-	BREQ	CONF_ALARMA
+	BREQ	CONF_ALARMA_MIN
 	CPI		MODO, 7
-	BREQ	ALARMA_OFF
+	BREQ	CONF_ALARMA_HORA
+	CPI		MODO, 8
+	BREQ	ON_OFF
 	RJMP	MAIN
+
+CONF_ALARMA_MIN:
+	RJMP	CONF_ALARMA_MIN_F
+CONF_ALARMA_HORA:
+	RJMP	CONF_ALARMA_HORA_F
+ON_OFF:
+	RJMP	ON_OFF_1
 //==================================================== RUTINAS DEL MAIN ======================================================================
 HORA:
 	LDI		ACTION_DIS, 0x01
@@ -210,9 +222,10 @@ HORA:
 	CBI		PORTB, PB4
 	CBI		PORTB, PB5
 
-	//Para el timer0
-	LDI		R16, (1 << TOIE0)
-	STS		TIMSK0, R16
+//Para el timer1
+	LDI		R16, (1 << TOIE1)
+	STS		TIMSK1, R16
+
 	RJMP	MAIN
 FECHA:
 	LDI		ACTION_DIS, 0x02
@@ -220,20 +233,23 @@ FECHA:
 	CBI		PORTB, PB4
 	CBI		PORTB, PB5
 
+	////Para el timer1
+	//LDI		R16, (1 << TOIE1)
+	//STS		TIMSK1, R16
+
 	RJMP	MAIN
 
 CONF_MIN:
+	//Parar interrupción del timer1
+	CLR		R16
+	STS		TIMSK1, R16
+
+
 	LDI		ACTION_DIS, 0x01
 	CBI		PORTB, PB3			// LEDS que muestran el modo 010
 	SBI		PORTB, PB4
 	CBI		PORTB, PB5
-
-	// Deshabilitar interrupciones de Timer1
-    //Para el timer1
-	LDI		R16, 0x00
-	STS		TIMSK1, R16
-
-	STS		TCCR1B, R16
+	//STS		TCCR1B, R16
 	/*
 	CPI		ACTION, 0x01
 	CALL	SUMA
@@ -247,11 +263,10 @@ CONF_HORA:
 	SBI		PORTB, PB3			// LEDS que muestran el modo 011
 	SBI		PORTB, PB4
 	CBI		PORTB, PB5
-
-	// Deshabilitar interrupciones de y Timer1
-    //Para el timer1
-	LDI		R16, (0 << TOIE1)
-	STS		TIMSK1, R16
+	 
+	////Para el timer1
+	//CLR		R16
+	//STS		TIMSK1, R16
 
 	RJMP	MAIN
 CONF_DIA:
@@ -259,19 +274,15 @@ CONF_DIA:
 	CBI		PORTB, PB3			// LEDS que muestran el modo 100
 	CBI		PORTB, PB4
 	SBI		PORTB, PB5
+
+	////Para el timer1
+	//CLR		R16
+	//STS		TIMSK1, R16
 	
 	CPI		ACTION, 0x01
 	BRNE	EXIT_DIA
 	LDI		ACTION, 0
 	CALL	SUMA_DIA
-	/*
-	CALL	SUMA_DIA
-	CPI		ACTION, 0x02
-	//CALL	RESTA_DIA
-	CLR		ACTION
-
-	LDI		ACTION_DIS, 0x02*/
-
 EXIT_DIA:
 	RJMP	MAIN
 
@@ -281,25 +292,33 @@ CONF_MES:
 	CBI		PORTB, PB4
 	SBI		PORTB, PB5
 
+	////Para el timer1
+	//CLR		R16
+	//STS		TIMSK1, R16
+
 	CPI		ACTION, 0x01
 	BRNE	EXIT_MES
 	LDI		ACTION, 0
 	CALL	SUMA_MES		
-
 EXIT_MES:
 	RJMP	MAIN
-CONF_ALARMA:
+CONF_ALARMA_MIN_F:
 	LDI		ACTION_DIS, 0x01
 	CBI		PORTB, PB3			// LEDS que muestran el modo 110
 	SBI		PORTB, PB4
 	SBI		PORTB, PB5
 
 	RJMP	MAIN
-ALARMA_OFF:
+CONF_ALARMA_HORA_F:
 	LDI		ACTION_DIS, 0x01
 	SBI		PORTB, PB3			// LEDS que muestran el modo 111
 	SBI		PORTB, PB4
 	SBI		PORTB, PB5
+
+	RJMP	MAIN
+ON_OFF_1:
+	LDI		ZL, LOW(ALARMA_LETRA <<1)	//Coloca el direccionador indirecto en la posición inicial
+	LDI		ZH, HIGH(ALARMA_LETRA <<1)
 
 	RJMP	MAIN
 
@@ -458,6 +477,8 @@ CONTINUAR_BOTON:				//Verifica que modo debe de ejecutarse
 	BREQ	MODO6_ISR
 	CPI		MODO, 7
 	BREQ	MODO7_ISR
+	CPI		MODO, 8
+	BREQ	MODO8_ISR
 //Comienza verificación y ejecución de modos
 MODO0_ISR:
 	RJMP	EXIT_MODO_ISR
@@ -487,6 +508,8 @@ MODO5_ISR:
 MODO6_ISR:
 	RJMP	EXIT_MODO_ISR
 MODO7_ISR:
+	RJMP	EXIT_MODO_ISR
+MODO8_ISR:
 	RJMP	EXIT_MODO_ISR
 
 EXIT_MODO_ISR:
@@ -578,8 +601,8 @@ DISPLAY3:
 	CBI		PORTC, PC0
 	CBI		PORTC, PC2
 	CBI		PORTC, PC3
-
     OUT     PORTD, R1
+
 //Verificar el modo actual para mostrar hora o fecha
 	CPI		ACTION_DIS, 0x01
 	BREQ	DISPLAY3_HORA
@@ -599,6 +622,7 @@ FLUJO_DISPLAY3:
     ADC     ZH, R1
     LPM     R16, Z
 	SBI     PORTC, PC1
+
     OUT     PORTD, R16
 
     RJMP    FIN_TMR0
@@ -734,16 +758,19 @@ ISR_TIMER2:
 	PUSH	R16
 	IN		R16,  SREG
 	PUSH	R16
+	
+	//SBI		TIFR2, TOV2
 
 	LDI		R16, T2VALOR		// Cargar definido al inicio T2VALOR
 	STS		TCNT2, R16			// Cargar valor inicial en TCNT2
 	
-	INC		R28
-	CPI		R28, 50
+	INC		R25
+	CPI		R25, 50
 	BRNE	FIN_TMR2
-	SBI		PORTD, PD7
-	CLR		R28
+	SBI		PINC, PC5
+	CLR		R25
 
+	 
 FIN_TMR2:
 	POP		R16
 	OUT		SREG, R16
