@@ -252,6 +252,9 @@ HORA:
 	//Habilitar interrupciones del timer1
 	LDI		R16, (1 << TOIE1)
 	STS		TIMSK1, R16
+
+	CALL	SONAR_ALARMA
+
 	RJMP	MAIN
 //---------------------------------------------------------------------------------------------------------------
 FECHA:
@@ -262,6 +265,9 @@ FECHA:
 	//Habilitar interrupciones del timer1
 	LDI		R16, (1 << TOIE1)
 	STS		TIMSK1, R16
+
+	CALL	SONAR_ALARMA
+
 	RJMP	MAIN
 //--------------------------------------------------------------------------------------------------------------
 CONF_MIN:
@@ -387,6 +393,27 @@ CONF_ALARMA_HORA:
 	SBI		PORTB, PB4
 	SBI		PORTB, PB5
 
+	//Parar interrupción del timer1
+	CLR		R16
+	STS		TIMSK1, R16
+
+    CPI     ACTION, 0x01       ; Compara ACTION con 0x01
+    BREQ    DO_SUMA_HORA_ALARMA            ; Si ACTION == 0x01, salta a DO_SUMA
+    CPI     ACTION, 0x02       ; Compara ACTION con 0x02
+    BREQ    DO_RESTA_HORA_ALARMA           ; Si ACTION == 0x02, salta a DO_RESTA
+    CLR     ACTION             ; Limpia ACTION (opcional, dependiendo de tu lógica)
+    RJMP    MAIN               ; Vuelve al inicio del bucle
+
+DO_SUMA_HORA_ALARMA:
+    CALL    SUMA_HORA_ALARMA               ; Llama a la subrutina SUMA
+    CLR     ACTION             ; Limpia ACTION después de la operación
+    RJMP    MAIN               ; Vuelve al inicio del bucle
+
+DO_RESTA_HORA_ALARMA:
+    CALL    RESTA_HORA_ALARMA              ; Llama a la subrutina RESTA
+    CLR     ACTION             ; Limpia ACTION después de la operación
+    RJMP    MAIN               ; Vuelve al inicio del bucle
+
 	RJMP	MAIN
 //---------------------------------------------------------------------------------------------------------------------
 ON_OFF:
@@ -395,7 +422,7 @@ ON_OFF:
 
 	RJMP	MAIN
 
-//================================================= RUTINAS NO INTERRUPCIÓN ==================================================================
+//========================================================================== RUTINAS NO INTERRUPCIÓN ====================================================================================
 SET_INICIO:
 	LDI		ZL, LOW(DISPLAY_VAL <<1)	//Coloca el direccionador indirecto en la posición inicial
 	LDI		ZH, HIGH(DISPLAY_VAL <<1)
@@ -673,7 +700,98 @@ UPDATE_RES_DEC_MIN_ALARMA:
     ; Actualiza las decenas de minutos
     MOV     R12, R16            ; Guarda R16 en R4
     RET                        ; Retorna de la subrutina
+//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+SUMA_HORA_ALARMA:
+    ; Incrementa las unidades de hora (R5)
+	MOV		R16, R14
+	CPI		R16, 2
+	BRNE	CONTINUAR_NORMAL_HORA_ALARMA
 
+	MOV		R16, R13
+	INC		R16
+	CPI		R16, 4
+	BRNE	UPDATE_SUM_UNI_HORA_ALARMA
+	RJMP	RESET_HORAS_ALARMA
+
+CONTINUAR_NORMAL_HORA_ALARMA:
+    MOV     R16, R13            ; Carga R5 en R16
+    INC     R16                ; Incrementa R16
+    CPI     R16, 10            ; Compara R16 con 10
+    BRNE    UPDATE_SUM_UNI_HORA_ALARMA ; Si R16 != 10, salta a UPDATE_SUM_UNI_MIN
+
+    ; Si R16 == 10, reinicia las unidades de minutos e incrementa las decenas
+    CLR     R16                ; Reinicia R16 a 0
+    MOV     R13, R16            ; Guarda 0 en R3 (unidades de minutos)
+    MOV     R16, R14            ; Carga R4 en R16
+    INC     R16                ; Incrementa R16 (decenas de minutos)
+    CPI     R16, 6             ; Compara R16 con 6
+    BRNE    UPDATE_SUM_DEC_HORA_ALARMA ; Si R16 != 6, salta a UPDATE_SUM_DEC_MIN
+
+RESET_HORAS_ALARMA:
+    ; Si R16 == 6, reinicia las decenas de minutos
+    CLR     R16                ; Reinicia R16 a 0
+    MOV     R14, R16            ; Guarda 0 en R4 (decenas de minutos)
+	MOV		R13, R16
+    RET                        ; Retorna de la subrutina
+
+UPDATE_SUM_UNI_HORA_ALARMA:
+    ; Actualiza las unidades de minutos
+    MOV     R13, R16            ; Guarda R16 en R3
+    RET                        ; Retorna de la subrutina
+
+UPDATE_SUM_DEC_HORA_ALARMA:
+    ; Actualiza las decenas de minutos
+    MOV     R14 , R16            ; Guarda R16 en R4
+    RET                        ; Retorna de la subrutina
+//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+RESTA_HORA_ALARMA:
+    ; Resta las unidades de minutos (R3)
+    MOV     R16, R13            ; Carga R3 en R16
+    DEC     R16                ; Decrementa R16
+    CPI     R16, 0xFF          ; Compara R16 con -1 (0xFF en complemento a 2)
+    BRNE    UPDATE_RES_UNI_HORA_ALARMA  ; Si R16 != -1, salta a UPDATE_RES_UNI_MIN
+
+    ; Si R16 == -1, ajusta las unidades a 9 y decrementa las decenas
+    LDI     R16, 9             ; Carga 9 en R16 (unidades de minutos)
+    MOV     R13, R16            ; Guarda 9 en R3
+    MOV     R16, R14           ; Carga R4 en R16
+    DEC     R16                ; Decrementa R16 (decenas de minutos)
+    CPI     R16, 0xFF          ; Compara R16 con -1 (0xFF en complemento a 2)
+    BRNE    UPDATE_RES_DEC_HORA_ALARMA  ; Si R16 != -1, salta a UPDATE_RES_DEC_MIN
+
+RESET_HORA_DEC_ALARMA:
+    ; Si R16 == -1, ajusta las decenas a 5 (para volver a 59)
+    LDI     R16, 2             ; Carga 5 en R16 (decenas de minutos)
+    MOV     R14, R16            ; Guarda 5 en R4
+	LDI		R16, 3
+	MOV		R13, R16
+    RET                        ; Retorna de la subrutina
+
+UPDATE_RES_UNI_HORA_ALARMA:
+    ; Actualiza las unidades de minutos
+    MOV     R13, R16            ; Guarda R16 en R3
+    RET                        ; Retorna de la subrutina
+
+UPDATE_RES_DEC_HORA_ALARMA:
+    ; Actualiza las decenas de minutos
+    MOV     R14, R16            ; Guarda R16 en R4
+    RET                        ; Retorna de la subrutina
+//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+SONAR_ALARMA:
+	CP		R3, R11
+	BRNE	NO_SONAR
+	CP		R4, R12
+	BRNE	NO_SONAR
+	CP		R5, R13
+	BRNE	NO_SONAR
+	CP		R6, R14
+	BRNE	NO_SONAR
+	SBI		PORTC, PC4
+	RJMP	EXIT_ALARMA
+NO_SONAR:
+	CBI		PORTC, PC4
+EXIT_ALARMA:
+	RET
 //================================================== RUTINAS DE INTERRUPCIÓN =====================================================================
 ISR_BOTON:
     PUSH	R16
