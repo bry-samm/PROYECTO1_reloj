@@ -138,8 +138,8 @@ SETUP:
 	//				   		1	2    3	 4   5	 6   7   8	 9   10  11  12
 
 	//Configuración display para mostrar ON/OFF alarma
-	ALARMA_LETRA:	.db		0x7D, 0x5F, 0x17, 0x00
-	//				   		 O     N     F
+	ALARMA_LETRA:	.db		0x00, 0x7D, 0x5D, 0x17
+	//				   		        O     N     F
 
 	CALL SET_INICIO
 	LDI		ZL, LOW(DISPLAY_VAL <<1)	//Coloca el direccionador indirecto en la posición inicial
@@ -187,10 +187,10 @@ SETUP:
 	CLR		R12
 	CLR		R13
 	CLR		R14
-	CLR		R15
-	CLR		R16	
-	CLR		R17	
-	CLR		R18
+	LDI		R16, 0x03
+	MOV		R15, R16
+	LDI		R17, 0x03
+	LDI		R18, 0x01
 	CLR		R19
 	CLR		R20
 	CLR		R21
@@ -202,6 +202,7 @@ SETUP:
 	CLR		R27
 	CLR		R28
 
+	CLR		R16	
 	SEI
 //============================================================================
 MAIN:
@@ -414,13 +415,40 @@ DO_RESTA_HORA_ALARMA:
     CLR     ACTION             ; Limpia ACTION después de la operación
     RJMP    MAIN               ; Vuelve al inicio del bucle
 
-	RJMP	MAIN
 //---------------------------------------------------------------------------------------------------------------------
 ON_OFF:
-	LDI		ZL, LOW(ALARMA_LETRA <<1)	//Coloca el direccionador indirecto en la posición inicial
-	LDI		ZH, HIGH(ALARMA_LETRA <<1)
+	LDI		ACTION_DIS, 0x04
+	
+	//Parar interrupción del timer1
+	CLR		R16
+	STS		TIMSK1, R16
 
-	RJMP	MAIN
+    CPI     ACTION, 0x01       ; Compara ACTION con 0x01
+    BREQ    DO_ON            ; Si ACTION == 0x01, salta a DO_SUMA
+    CPI     ACTION, 0x02       ; Compara ACTION con 0x02
+    BREQ    DO_OFF           ; Si ACTION == 0x02, salta a DO_RESTA
+    CLR     ACTION             ; Limpia ACTION (opcional, dependiendo de tu lógica)
+    RJMP    MAIN               ; Vuelve al inicio del bucle
+
+DO_ON:
+	LDI		R19, 0x01			//Activo la bandera de acción para que suene la alarma
+	CLR		R15					// Coloco el valor correspondiente para que su muestre "nada"
+	LDI		R17, 0x02			// Coloco el valor correspondiente para que se muestre "N"
+	LDI		R18, 0x01			// Coloco el valor correspondiente para que se muestre "O"
+    CALL    SONAR_ALARMA               ; Llama a la subrutina SUMA
+    CLR     ACTION             ; Limpia ACTION después de la operación
+    RJMP    MAIN               ; Vuelve al inicio del bucle
+
+DO_OFF:
+	LDI		R19, 0x00
+	LDI		R16, 0x03
+	MOV		R15, R16			// Coloco el valor correspondiente para que su muestre "F"
+	LDI		R17, 0x03			// Coloco el valor correspondiente para que se muestre "F"
+	LDI		R18, 0x01			// Coloco el valor correspondiente para que se muestre "O"
+    CALL    SONAR_ALARMA              ; Llama a la subrutina RESTA
+    CLR     ACTION             ; Limpia ACTION después de la operación
+    RJMP    MAIN               ; Vuelve al inicio del bucle
+
 
 //========================================================================== RUTINAS NO INTERRUPCIÓN ====================================================================================
 SET_INICIO:
@@ -584,7 +612,8 @@ SUMA_DIA:
 	MOV		R16, R24
 	CP		R16, R27
 	BRNE    CONTINUAR_SUMA_DIA
-    CLR     R7
+	LDI		R16, 0x01
+    MOV		R7, R16
     CLR     R8
     CLR     R24
     RET
@@ -612,8 +641,7 @@ SUMA_MES:
 	INC		R16
 	CPI		R16, 3
 	BRNE    UPDATE_UNI_MES
-    CLR     R16
-	RJMP	UPDATE_UNI_MES
+	RJMP	RESET_MES
 CONT_NORMAL_MES:
 	MOV		R16, R9
 	INC		R16
@@ -631,12 +659,18 @@ UPDATE_UNI_MES:
     CLR     R16
 UPDATE_DEC_MES:
     MOV     R10, R16
+	RJMP	ACTUALIZAR_SUM_MES
+RESET_MES:
+	LDI		R16 ,0x01
+	MOV		R9, R16
+	CLR		R16
+	MOV		R10, R16
 ACTUALIZAR_SUM_MES:
 	MOV		R16, R25
 	INC		R16
 	CPI		R16, 13
 	BRNE	EXIT_SUM_MES
-	CLR		R16
+	LDI		R16, 0x01
 EXIT_SUM_MES:
 	MOV		R25, R16
     RET
@@ -778,6 +812,8 @@ UPDATE_RES_DEC_HORA_ALARMA:
     RET                        ; Retorna de la subrutina
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 SONAR_ALARMA:
+	CPI		R19, 0x01
+	BRNE	NO_SONAR
 	CP		R3, R11
 	BRNE	NO_SONAR
 	CP		R4, R12
@@ -868,7 +904,8 @@ MODO7_ISR:
 MODO8_ISR:
 	SBIS	PINB, PB1
 	LDI		ACTION, 0x01
-
+	SBIS	PINB, PB0
+	LDI		ACTION, 0x02
 	RJMP	EXIT_MODO_ISR
 EXIT_MODO_ISR:
     POP		R16
@@ -891,10 +928,12 @@ ISR_TIMER0:
 	CPI		R16, 0x02
 	BREQ	DISPLAY2
 	CPI		R16, 0x03
-	BREQ	DISPLAY3
+	BREQ	DISPLAY3_RJMP
 	CPI		R16, 0x04
 	BREQ	DISPLAY4_RJMP
 
+DISPLAY3_RJMP:
+	RJMP	DISPLAY3
 DISPLAY4_RJMP:
 	RJMP	DISPLAY4
 //++++++++++++++++++++++++++++++++
@@ -911,6 +950,8 @@ DISPLAY1:
 	BREQ	DISPLAY1_FECHA
 	CPI		ACTION_DIS, 0x03
 	BREQ	DISPLAY1_ALARMA
+	CPI		ACTION_DIS, 0x04
+	BREQ	DISPLAY1_ALARMA_ON_OFF
 DISPLAY1_HORA:
 	MOV		R16, R3
 	RJMP	FLUJO_DISPLAY1
@@ -930,7 +971,18 @@ FLUJO_DISPLAY1:
 	SBI		PORTC, PC3
 	OUT		PORTD, R16
 	RJMP	FIN_TMR0
-//++++++++++++++++++++++++++++++++
+DISPLAY1_ALARMA_ON_OFF:
+	MOV		R16, R15
+	LDI		ZL, LOW(ALARMA_LETRA <<1)	//Coloca el direccionador indirecto en la posición inicial
+	LDI		ZH, HIGH(ALARMA_LETRA <<1)
+	ADD		ZL, R16
+	ADC		ZH, R1
+	LPM		R16, Z
+	SBI		PORTC, PC3
+	OUT		PORTD, R16
+	RJMP	FIN_TMR0
+
+//+++++++++++++++++++++++++++++++++++++++++++++++++++
 DISPLAY2:
 	CBI		PORTC, PC0
 	CBI		PORTC, PC1
@@ -944,6 +996,8 @@ DISPLAY2:
 	BREQ	DISPLAY2_FECHA
 	CPI		ACTION_DIS, 0x03
 	BREQ	DISPLAY2_ALARMA
+	CPI		ACTION_DIS, 0x04
+	BREQ	DISPLAY2_ALARMA_ON_OFF
 DISPLAY2_HORA:
 	MOV		R16, R4
 	RJMP	FLUJO_DISPLAY2
@@ -964,7 +1018,17 @@ FLUJO_DISPLAY2:
 	OUT		PORTD, R16
 
 	RJMP	FIN_TMR0
-
+DISPLAY2_ALARMA_ON_OFF:
+	MOV		R16, R17
+	LDI		ZL, LOW(ALARMA_LETRA <<1)	//Coloca el direccionador indirecto en la posición inicial
+	LDI		ZH, HIGH(ALARMA_LETRA <<1)
+	ADD		ZL, R16
+	ADC		ZH, R1
+	LPM		R16, Z
+	SBI		PORTC, PC2
+	OUT		PORTD, R16
+	RJMP	FIN_TMR0
+//+++++++++++++++++++++++++++++++++++++++++++++++
 DISPLAY3:
 	CBI		PORTC, PC0
 	CBI		PORTC, PC2
@@ -978,6 +1042,8 @@ DISPLAY3:
 	BREQ	DISPLAY3_FECHA
 	CPI		ACTION_DIS, 0x03
 	BREQ	DISPLAY3_ALARMA
+	CPI		ACTION_DIS, 0x04
+	BREQ	DISPLAY3_ALARMA_ON_OFF
 DISPLAY3_HORA:
 	MOV		R16, R5
 	RJMP	FLUJO_DISPLAY3
@@ -998,6 +1064,17 @@ FLUJO_DISPLAY3:
     OUT     PORTD, R16
     RJMP    FIN_TMR0
 
+DISPLAY3_ALARMA_ON_OFF:
+	MOV		R16, R18
+	LDI		ZL, LOW(ALARMA_LETRA <<1)	//Coloca el direccionador indirecto en la posición inicial
+	LDI		ZH, HIGH(ALARMA_LETRA <<1)
+	ADD		ZL, R16
+	ADC		ZH, R1
+	LPM		R16, Z
+	SBI		PORTC, PC1
+	OUT		PORTD, R16
+	RJMP	FIN_TMR0
+//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 DISPLAY4:
 	CBI		PORTC, PC1
 	CBI		PORTC, PC2
@@ -1011,6 +1088,8 @@ DISPLAY4:
 	BREQ	DISPLAY4_FECHA
 	CPI		ACTION_DIS, 0x03
 	BREQ	DISPLAY4_ALARMA
+	CPI		ACTION_DIS, 0x04
+	BREQ	DISPLAY4_ALARMA_ON_OFF
 DISPLAY4_HORA:
 	MOV		R16, R6
 	RJMP	FLUJO_DISPLAY4
@@ -1031,7 +1110,17 @@ FLUJO_DISPLAY4:
     OUT     PORTD, R16
 
     RJMP    FIN_TMR0
-
+DISPLAY4_ALARMA_ON_OFF:
+	MOV		R16, R1
+	LDI		ZL, LOW(ALARMA_LETRA <<1)	//Coloca el direccionador indirecto en la posición inicial
+	LDI		ZH, HIGH(ALARMA_LETRA <<1)
+	ADD		ZL, R16
+	ADC		ZH, R1
+	LPM		R16, Z
+	SBI		PORTC, PC0
+	OUT		PORTD, R16
+	RJMP	FIN_TMR0
+//++++++++++++++++++++++++++++++++++++++++++++++++++++
 FIN_TMR0:
 	MOV		R16, R2
 	CPI		R16, 0x04
