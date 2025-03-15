@@ -24,15 +24,15 @@
  </OUTPUT_FILES>
  <LABELS>
   <START><FILE>C:\Users\bsmor\OneDrive\Documentos\GitHub\PROYECTO1_reloj\Proyecto1_reloj\Proyecto1_reloj\main.asm</FILE><LINE>55</LINE></START>
-  <ISR_BOTON><FILE>C:\Users\bsmor\OneDrive\Documentos\GitHub\PROYECTO1_reloj\Proyecto1_reloj\Proyecto1_reloj\main.asm</FILE><LINE>594</LINE></ISR_BOTON>
-  <ISR_TIMER2><FILE>C:\Users\bsmor\OneDrive\Documentos\GitHub\PROYECTO1_reloj\Proyecto1_reloj\Proyecto1_reloj\main.asm</FILE><LINE>911</LINE></ISR_TIMER2>
-  <ISR_TIMER1><FILE>C:\Users\bsmor\OneDrive\Documentos\GitHub\PROYECTO1_reloj\Proyecto1_reloj\Proyecto1_reloj\main.asm</FILE><LINE>826</LINE></ISR_TIMER1>
-  <ISR_TIMER0><FILE>C:\Users\bsmor\OneDrive\Documentos\GitHub\PROYECTO1_reloj\Proyecto1_reloj\Proyecto1_reloj\main.asm</FILE><LINE>677</LINE></ISR_TIMER0>
+  <ISR_BOTON><FILE>C:\Users\bsmor\OneDrive\Documentos\GitHub\PROYECTO1_reloj\Proyecto1_reloj\Proyecto1_reloj\main.asm</FILE><LINE>678</LINE></ISR_BOTON>
+  <ISR_TIMER2><FILE>C:\Users\bsmor\OneDrive\Documentos\GitHub\PROYECTO1_reloj\Proyecto1_reloj\Proyecto1_reloj\main.asm</FILE><LINE>1017</LINE></ISR_TIMER2>
+  <ISR_TIMER1><FILE>C:\Users\bsmor\OneDrive\Documentos\GitHub\PROYECTO1_reloj\Proyecto1_reloj\Proyecto1_reloj\main.asm</FILE><LINE>932</LINE></ISR_TIMER1>
+  <ISR_TIMER0><FILE>C:\Users\bsmor\OneDrive\Documentos\GitHub\PROYECTO1_reloj\Proyecto1_reloj\Proyecto1_reloj\main.asm</FILE><LINE>761</LINE></ISR_TIMER0>
   <SETUP><FILE>C:\Users\bsmor\OneDrive\Documentos\GitHub\PROYECTO1_reloj\Proyecto1_reloj\Proyecto1_reloj\main.asm</FILE><LINE>64</LINE></SETUP>
   <DISPLAY_VAL><FILE>C:\Users\bsmor\OneDrive\Documentos\GitHub\PROYECTO1_reloj\Proyecto1_reloj\Proyecto1_reloj\main.asm</FILE><LINE>133</LINE></DISPLAY_VAL>
   <TABLA_DIAS><FILE>C:\Users\bsmor\OneDrive\Documentos\GitHub\PROYECTO1_reloj\Proyecto1_reloj\Proyecto1_reloj\main.asm</FILE><LINE>137</LINE></TABLA_DIAS>
   <ALARMA_LETRA><FILE>C:\Users\bsmor\OneDrive\Documentos\GitHub\PROYECTO1_reloj\Proyecto1_reloj\Proyecto1_reloj\main.asm</FILE><LINE>141</LINE></ALARMA_LETRA>
-  <SET_INICIO><FILE>C:\Users\bsmor\OneDrive\Documentos\GitHub\PROYECTO1_reloj\Proyecto1_reloj\Proyecto1_reloj\main.asm</FILE><LINE>375</LINE></SET_INICIO>
+  <SET_INICIO><FILE>C:\Users\bsmor\OneDrive\Documentos\GitHub\PROYECTO1_reloj\Proyecto1_reloj\Proyecto1_reloj\main.asm</FILE><LINE>399</LINE></SET_INICIO>
   <MAIN><FILE>C:\Users\bsmor\OneDrive\Documentos\GitHub\PROYECTO1_reloj\Proyecto1_reloj\Proyecto1_reloj\main.asm</FILE><LINE>207</LINE></MAIN>
   <HORA_RJMP><FILE>C:\Users\bsmor\OneDrive\Documentos\GitHub\PROYECTO1_reloj\Proyecto1_reloj\Proyecto1_reloj\main.asm</FILE><LINE>228</LINE></HORA_RJMP>
   <FECHA_RJMP><FILE>C:\Users\bsmor\OneDrive\Documentos\GitHub\PROYECTO1_reloj\Proyecto1_reloj\Proyecto1_reloj\main.asm</FILE><LINE>230</LINE></FECHA_RJMP>
@@ -49,74 +49,87 @@
   <CONF_HORA><FILE>C:\Users\bsmor\OneDrive\Documentos\GitHub\PROYECTO1_reloj\Proyecto1_reloj\Proyecto1_reloj\main.asm</FILE><LINE>294</LINE></CONF_HORA>
   <CONF_DIA><FILE>C:\Users\bsmor\OneDrive\Documentos\GitHub\PROYECTO1_reloj\Proyecto1_reloj\Proyecto1_reloj\main.asm</FILE><LINE>321</LINE></CONF_DIA>
   <CONF_MES><FILE>C:\Users\bsmor\OneDrive\Documentos\GitHub\PROYECTO1_reloj\Proyecto1_reloj\Proyecto1_reloj\main.asm</FILE><LINE>338</LINE></CONF_MES>
-  <CONF_ALARMA_MIN><FILE>C:\Users\bsmor\OneDrive\Documentos\GitHub\PROYECTO1_reloj\Proyecto1_reloj\Proyecto1_reloj\main.asm</FILE><LINE>354</LINE></CONF_ALARMA_MIN>
-  <CONF_ALARMA_HORA><FILE>C:\Users\bsmor\OneDrive\Documentos\GitHub\PROYECTO1_reloj\Proyecto1_reloj\Proyecto1_reloj\main.asm</FILE><LINE>361</LINE></CONF_ALARMA_HORA>
-  <ON_OFF><FILE>C:\Users\bsmor\OneDrive\Documentos\GitHub\PROYECTO1_reloj\Proyecto1_reloj\Proyecto1_reloj\main.asm</FILE><LINE>368</LINE></ON_OFF>
+  <CONF_ALARMA_MIN><FILE>C:\Users\bsmor\OneDrive\Documentos\GitHub\PROYECTO1_reloj\Proyecto1_reloj\Proyecto1_reloj\main.asm</FILE><LINE>355</LINE></CONF_ALARMA_MIN>
+  <CONF_ALARMA_HORA><FILE>C:\Users\bsmor\OneDrive\Documentos\GitHub\PROYECTO1_reloj\Proyecto1_reloj\Proyecto1_reloj\main.asm</FILE><LINE>384</LINE></CONF_ALARMA_HORA>
+  <ON_OFF><FILE>C:\Users\bsmor\OneDrive\Documentos\GitHub\PROYECTO1_reloj\Proyecto1_reloj\Proyecto1_reloj\main.asm</FILE><LINE>392</LINE></ON_OFF>
   <DO_SUMA><FILE>C:\Users\bsmor\OneDrive\Documentos\GitHub\PROYECTO1_reloj\Proyecto1_reloj\Proyecto1_reloj\main.asm</FILE><LINE>284</LINE></DO_SUMA>
   <DO_RESTA><FILE>C:\Users\bsmor\OneDrive\Documentos\GitHub\PROYECTO1_reloj\Proyecto1_reloj\Proyecto1_reloj\main.asm</FILE><LINE>289</LINE></DO_RESTA>
-  <SUMA_MIN><FILE>C:\Users\bsmor\OneDrive\Documentos\GitHub\PROYECTO1_reloj\Proyecto1_reloj\Proyecto1_reloj\main.asm</FILE><LINE>381</LINE></SUMA_MIN>
-  <RESTA_MIN><FILE>C:\Users\bsmor\OneDrive\Documentos\GitHub\PROYECTO1_reloj\Proyecto1_reloj\Proyecto1_reloj\main.asm</FILE><LINE>411</LINE></RESTA_MIN>
+  <SUMA_MIN><FILE>C:\Users\bsmor\OneDrive\Documentos\GitHub\PROYECTO1_reloj\Proyecto1_reloj\Proyecto1_reloj\main.asm</FILE><LINE>405</LINE></SUMA_MIN>
+  <RESTA_MIN><FILE>C:\Users\bsmor\OneDrive\Documentos\GitHub\PROYECTO1_reloj\Proyecto1_reloj\Proyecto1_reloj\main.asm</FILE><LINE>435</LINE></RESTA_MIN>
   <DO_SUMA_HORA><FILE>C:\Users\bsmor\OneDrive\Documentos\GitHub\PROYECTO1_reloj\Proyecto1_reloj\Proyecto1_reloj\main.asm</FILE><LINE>311</LINE></DO_SUMA_HORA>
   <DO_RESTA_HORA><FILE>C:\Users\bsmor\OneDrive\Documentos\GitHub\PROYECTO1_reloj\Proyecto1_reloj\Proyecto1_reloj\main.asm</FILE><LINE>316</LINE></DO_RESTA_HORA>
-  <SUMA_HORA><FILE>C:\Users\bsmor\OneDrive\Documentos\GitHub\PROYECTO1_reloj\Proyecto1_reloj\Proyecto1_reloj\main.asm</FILE><LINE>441</LINE></SUMA_HORA>
-  <RESTA_HORA><FILE>C:\Users\bsmor\OneDrive\Documentos\GitHub\PROYECTO1_reloj\Proyecto1_reloj\Proyecto1_reloj\main.asm</FILE><LINE>484</LINE></RESTA_HORA>
+  <SUMA_HORA><FILE>C:\Users\bsmor\OneDrive\Documentos\GitHub\PROYECTO1_reloj\Proyecto1_reloj\Proyecto1_reloj\main.asm</FILE><LINE>465</LINE></SUMA_HORA>
+  <RESTA_HORA><FILE>C:\Users\bsmor\OneDrive\Documentos\GitHub\PROYECTO1_reloj\Proyecto1_reloj\Proyecto1_reloj\main.asm</FILE><LINE>508</LINE></RESTA_HORA>
   <EXIT_DIA><FILE>C:\Users\bsmor\OneDrive\Documentos\GitHub\PROYECTO1_reloj\Proyecto1_reloj\Proyecto1_reloj\main.asm</FILE><LINE>335</LINE></EXIT_DIA>
-  <SUMA_DIA><FILE>C:\Users\bsmor\OneDrive\Documentos\GitHub\PROYECTO1_reloj\Proyecto1_reloj\Proyecto1_reloj\main.asm</FILE><LINE>517</LINE></SUMA_DIA>
+  <SUMA_DIA><FILE>C:\Users\bsmor\OneDrive\Documentos\GitHub\PROYECTO1_reloj\Proyecto1_reloj\Proyecto1_reloj\main.asm</FILE><LINE>541</LINE></SUMA_DIA>
   <EXIT_MES><FILE>C:\Users\bsmor\OneDrive\Documentos\GitHub\PROYECTO1_reloj\Proyecto1_reloj\Proyecto1_reloj\main.asm</FILE><LINE>352</LINE></EXIT_MES>
-  <SUMA_MES><FILE>C:\Users\bsmor\OneDrive\Documentos\GitHub\PROYECTO1_reloj\Proyecto1_reloj\Proyecto1_reloj\main.asm</FILE><LINE>556</LINE></SUMA_MES>
-  <UPDATE_SUM_UNI_MIN><FILE>C:\Users\bsmor\OneDrive\Documentos\GitHub\PROYECTO1_reloj\Proyecto1_reloj\Proyecto1_reloj\main.asm</FILE><LINE>401</LINE></UPDATE_SUM_UNI_MIN>
-  <UPDATE_SUM_DEC_MIN><FILE>C:\Users\bsmor\OneDrive\Documentos\GitHub\PROYECTO1_reloj\Proyecto1_reloj\Proyecto1_reloj\main.asm</FILE><LINE>406</LINE></UPDATE_SUM_DEC_MIN>
-  <UPDATE_RES_UNI_MIN><FILE>C:\Users\bsmor\OneDrive\Documentos\GitHub\PROYECTO1_reloj\Proyecto1_reloj\Proyecto1_reloj\main.asm</FILE><LINE>431</LINE></UPDATE_RES_UNI_MIN>
-  <UPDATE_RES_DEC_MIN><FILE>C:\Users\bsmor\OneDrive\Documentos\GitHub\PROYECTO1_reloj\Proyecto1_reloj\Proyecto1_reloj\main.asm</FILE><LINE>436</LINE></UPDATE_RES_DEC_MIN>
-  <CONTINUAR_NORMAL_HORA><FILE>C:\Users\bsmor\OneDrive\Documentos\GitHub\PROYECTO1_reloj\Proyecto1_reloj\Proyecto1_reloj\main.asm</FILE><LINE>453</LINE></CONTINUAR_NORMAL_HORA>
-  <UPDATE_SUM_UNI_HORA><FILE>C:\Users\bsmor\OneDrive\Documentos\GitHub\PROYECTO1_reloj\Proyecto1_reloj\Proyecto1_reloj\main.asm</FILE><LINE>474</LINE></UPDATE_SUM_UNI_HORA>
-  <RESET_HORAS><FILE>C:\Users\bsmor\OneDrive\Documentos\GitHub\PROYECTO1_reloj\Proyecto1_reloj\Proyecto1_reloj\main.asm</FILE><LINE>467</LINE></RESET_HORAS>
-  <UPDATE_SUM_DEC_HORA><FILE>C:\Users\bsmor\OneDrive\Documentos\GitHub\PROYECTO1_reloj\Proyecto1_reloj\Proyecto1_reloj\main.asm</FILE><LINE>479</LINE></UPDATE_SUM_DEC_HORA>
-  <UPDATE_RES_UNI_HORA><FILE>C:\Users\bsmor\OneDrive\Documentos\GitHub\PROYECTO1_reloj\Proyecto1_reloj\Proyecto1_reloj\main.asm</FILE><LINE>507</LINE></UPDATE_RES_UNI_HORA>
-  <UPDATE_RES_DEC_HORA><FILE>C:\Users\bsmor\OneDrive\Documentos\GitHub\PROYECTO1_reloj\Proyecto1_reloj\Proyecto1_reloj\main.asm</FILE><LINE>512</LINE></UPDATE_RES_DEC_HORA>
-  <RESET_HORA_DEC><FILE>C:\Users\bsmor\OneDrive\Documentos\GitHub\PROYECTO1_reloj\Proyecto1_reloj\Proyecto1_reloj\main.asm</FILE><LINE>499</LINE></RESET_HORA_DEC>
-  <CONTINUAR_SUMA_DIA><FILE>C:\Users\bsmor\OneDrive\Documentos\GitHub\PROYECTO1_reloj\Proyecto1_reloj\Proyecto1_reloj\main.asm</FILE><LINE>541</LINE></CONTINUAR_SUMA_DIA>
-  <UPDATE_SUM_UNI_DIA><FILE>C:\Users\bsmor\OneDrive\Documentos\GitHub\PROYECTO1_reloj\Proyecto1_reloj\Proyecto1_reloj\main.asm</FILE><LINE>551</LINE></UPDATE_SUM_UNI_DIA>
-  <CONT_NORMAL_MES><FILE>C:\Users\bsmor\OneDrive\Documentos\GitHub\PROYECTO1_reloj\Proyecto1_reloj\Proyecto1_reloj\main.asm</FILE><LINE>566</LINE></CONT_NORMAL_MES>
-  <UPDATE_UNI_MES><FILE>C:\Users\bsmor\OneDrive\Documentos\GitHub\PROYECTO1_reloj\Proyecto1_reloj\Proyecto1_reloj\main.asm</FILE><LINE>572</LINE></UPDATE_UNI_MES>
-  <ACTUALIZAR_SUM_MES><FILE>C:\Users\bsmor\OneDrive\Documentos\GitHub\PROYECTO1_reloj\Proyecto1_reloj\Proyecto1_reloj\main.asm</FILE><LINE>583</LINE></ACTUALIZAR_SUM_MES>
-  <UPDATE_DEC_MES><FILE>C:\Users\bsmor\OneDrive\Documentos\GitHub\PROYECTO1_reloj\Proyecto1_reloj\Proyecto1_reloj\main.asm</FILE><LINE>581</LINE></UPDATE_DEC_MES>
-  <EXIT_SUM_MES><FILE>C:\Users\bsmor\OneDrive\Documentos\GitHub\PROYECTO1_reloj\Proyecto1_reloj\Proyecto1_reloj\main.asm</FILE><LINE>589</LINE></EXIT_SUM_MES>
-  <CONTINUAR_BOTON><FILE>C:\Users\bsmor\OneDrive\Documentos\GitHub\PROYECTO1_reloj\Proyecto1_reloj\Proyecto1_reloj\main.asm</FILE><LINE>606</LINE></CONTINUAR_BOTON>
-  <MODO0_ISR><FILE>C:\Users\bsmor\OneDrive\Documentos\GitHub\PROYECTO1_reloj\Proyecto1_reloj\Proyecto1_reloj\main.asm</FILE><LINE>626</LINE></MODO0_ISR>
-  <MODO1_ISR><FILE>C:\Users\bsmor\OneDrive\Documentos\GitHub\PROYECTO1_reloj\Proyecto1_reloj\Proyecto1_reloj\main.asm</FILE><LINE>628</LINE></MODO1_ISR>
-  <MODO2_ISR><FILE>C:\Users\bsmor\OneDrive\Documentos\GitHub\PROYECTO1_reloj\Proyecto1_reloj\Proyecto1_reloj\main.asm</FILE><LINE>630</LINE></MODO2_ISR>
-  <MODO3_ISR><FILE>C:\Users\bsmor\OneDrive\Documentos\GitHub\PROYECTO1_reloj\Proyecto1_reloj\Proyecto1_reloj\main.asm</FILE><LINE>636</LINE></MODO3_ISR>
-  <MODO4_ISR><FILE>C:\Users\bsmor\OneDrive\Documentos\GitHub\PROYECTO1_reloj\Proyecto1_reloj\Proyecto1_reloj\main.asm</FILE><LINE>642</LINE></MODO4_ISR>
-  <MODO5_ISR><FILE>C:\Users\bsmor\OneDrive\Documentos\GitHub\PROYECTO1_reloj\Proyecto1_reloj\Proyecto1_reloj\main.asm</FILE><LINE>648</LINE></MODO5_ISR>
-  <MODO6_ISR><FILE>C:\Users\bsmor\OneDrive\Documentos\GitHub\PROYECTO1_reloj\Proyecto1_reloj\Proyecto1_reloj\main.asm</FILE><LINE>654</LINE></MODO6_ISR>
-  <MODO7_ISR><FILE>C:\Users\bsmor\OneDrive\Documentos\GitHub\PROYECTO1_reloj\Proyecto1_reloj\Proyecto1_reloj\main.asm</FILE><LINE>660</LINE></MODO7_ISR>
-  <MODO8_ISR><FILE>C:\Users\bsmor\OneDrive\Documentos\GitHub\PROYECTO1_reloj\Proyecto1_reloj\Proyecto1_reloj\main.asm</FILE><LINE>666</LINE></MODO8_ISR>
-  <EXIT_MODO_ISR><FILE>C:\Users\bsmor\OneDrive\Documentos\GitHub\PROYECTO1_reloj\Proyecto1_reloj\Proyecto1_reloj\main.asm</FILE><LINE>671</LINE></EXIT_MODO_ISR>
-  <DISPLAY1><FILE>C:\Users\bsmor\OneDrive\Documentos\GitHub\PROYECTO1_reloj\Proyecto1_reloj\Proyecto1_reloj\main.asm</FILE><LINE>696</LINE></DISPLAY1>
-  <DISPLAY2><FILE>C:\Users\bsmor\OneDrive\Documentos\GitHub\PROYECTO1_reloj\Proyecto1_reloj\Proyecto1_reloj\main.asm</FILE><LINE>724</LINE></DISPLAY2>
-  <DISPLAY3><FILE>C:\Users\bsmor\OneDrive\Documentos\GitHub\PROYECTO1_reloj\Proyecto1_reloj\Proyecto1_reloj\main.asm</FILE><LINE>754</LINE></DISPLAY3>
-  <DISPLAY4><FILE>C:\Users\bsmor\OneDrive\Documentos\GitHub\PROYECTO1_reloj\Proyecto1_reloj\Proyecto1_reloj\main.asm</FILE><LINE>784</LINE></DISPLAY4>
-  <DISPLAY1_HORA><FILE>C:\Users\bsmor\OneDrive\Documentos\GitHub\PROYECTO1_reloj\Proyecto1_reloj\Proyecto1_reloj\main.asm</FILE><LINE>707</LINE></DISPLAY1_HORA>
-  <DISPLAY1_FECHA><FILE>C:\Users\bsmor\OneDrive\Documentos\GitHub\PROYECTO1_reloj\Proyecto1_reloj\Proyecto1_reloj\main.asm</FILE><LINE>710</LINE></DISPLAY1_FECHA>
-  <FLUJO_DISPLAY1><FILE>C:\Users\bsmor\OneDrive\Documentos\GitHub\PROYECTO1_reloj\Proyecto1_reloj\Proyecto1_reloj\main.asm</FILE><LINE>713</LINE></FLUJO_DISPLAY1>
-  <FIN_TMR0><FILE>C:\Users\bsmor\OneDrive\Documentos\GitHub\PROYECTO1_reloj\Proyecto1_reloj\Proyecto1_reloj\main.asm</FILE><LINE>813</LINE></FIN_TMR0>
-  <DISPLAY2_HORA><FILE>C:\Users\bsmor\OneDrive\Documentos\GitHub\PROYECTO1_reloj\Proyecto1_reloj\Proyecto1_reloj\main.asm</FILE><LINE>736</LINE></DISPLAY2_HORA>
-  <DISPLAY2_FECHA><FILE>C:\Users\bsmor\OneDrive\Documentos\GitHub\PROYECTO1_reloj\Proyecto1_reloj\Proyecto1_reloj\main.asm</FILE><LINE>739</LINE></DISPLAY2_FECHA>
-  <FLUJO_DISPLAY2><FILE>C:\Users\bsmor\OneDrive\Documentos\GitHub\PROYECTO1_reloj\Proyecto1_reloj\Proyecto1_reloj\main.asm</FILE><LINE>742</LINE></FLUJO_DISPLAY2>
-  <DISPLAY3_HORA><FILE>C:\Users\bsmor\OneDrive\Documentos\GitHub\PROYECTO1_reloj\Proyecto1_reloj\Proyecto1_reloj\main.asm</FILE><LINE>765</LINE></DISPLAY3_HORA>
-  <DISPLAY3_FECHA><FILE>C:\Users\bsmor\OneDrive\Documentos\GitHub\PROYECTO1_reloj\Proyecto1_reloj\Proyecto1_reloj\main.asm</FILE><LINE>768</LINE></DISPLAY3_FECHA>
-  <FLUJO_DISPLAY3><FILE>C:\Users\bsmor\OneDrive\Documentos\GitHub\PROYECTO1_reloj\Proyecto1_reloj\Proyecto1_reloj\main.asm</FILE><LINE>771</LINE></FLUJO_DISPLAY3>
-  <DISPLAY4_HORA><FILE>C:\Users\bsmor\OneDrive\Documentos\GitHub\PROYECTO1_reloj\Proyecto1_reloj\Proyecto1_reloj\main.asm</FILE><LINE>795</LINE></DISPLAY4_HORA>
-  <DISPLAY4_FECHA><FILE>C:\Users\bsmor\OneDrive\Documentos\GitHub\PROYECTO1_reloj\Proyecto1_reloj\Proyecto1_reloj\main.asm</FILE><LINE>798</LINE></DISPLAY4_FECHA>
-  <FLUJO_DISPLAY4><FILE>C:\Users\bsmor\OneDrive\Documentos\GitHub\PROYECTO1_reloj\Proyecto1_reloj\Proyecto1_reloj\main.asm</FILE><LINE>801</LINE></FLUJO_DISPLAY4>
-  <RESET_END_ISR><FILE>C:\Users\bsmor\OneDrive\Documentos\GitHub\PROYECTO1_reloj\Proyecto1_reloj\Proyecto1_reloj\main.asm</FILE><LINE>820</LINE></RESET_END_ISR>
-  <UPDATE_UNI_MIN><FILE>C:\Users\bsmor\OneDrive\Documentos\GitHub\PROYECTO1_reloj\Proyecto1_reloj\Proyecto1_reloj\main.asm</FILE><LINE>843</LINE></UPDATE_UNI_MIN>
-  <EXIT_TMR1_ISR><FILE>C:\Users\bsmor\OneDrive\Documentos\GitHub\PROYECTO1_reloj\Proyecto1_reloj\Proyecto1_reloj\main.asm</FILE><LINE>903</LINE></EXIT_TMR1_ISR>
-  <UPDATE_DEC_MIN><FILE>C:\Users\bsmor\OneDrive\Documentos\GitHub\PROYECTO1_reloj\Proyecto1_reloj\Proyecto1_reloj\main.asm</FILE><LINE>857</LINE></UPDATE_DEC_MIN>
-  <CONT_NORMAL><FILE>C:\Users\bsmor\OneDrive\Documentos\GitHub\PROYECTO1_reloj\Proyecto1_reloj\Proyecto1_reloj\main.asm</FILE><LINE>874</LINE></CONT_NORMAL>
-  <UPDATE_UNI_HORA><FILE>C:\Users\bsmor\OneDrive\Documentos\GitHub\PROYECTO1_reloj\Proyecto1_reloj\Proyecto1_reloj\main.asm</FILE><LINE>881</LINE></UPDATE_UNI_HORA>
-  <RESET_TOTAL><FILE>C:\Users\bsmor\OneDrive\Documentos\GitHub\PROYECTO1_reloj\Proyecto1_reloj\Proyecto1_reloj\main.asm</FILE><LINE>893</LINE></RESET_TOTAL>
-  <CONTINUAR_DEC_HORA><FILE>C:\Users\bsmor\OneDrive\Documentos\GitHub\PROYECTO1_reloj\Proyecto1_reloj\Proyecto1_reloj\main.asm</FILE><LINE>899</LINE></CONTINUAR_DEC_HORA>
+  <SUMA_MES><FILE>C:\Users\bsmor\OneDrive\Documentos\GitHub\PROYECTO1_reloj\Proyecto1_reloj\Proyecto1_reloj\main.asm</FILE><LINE>580</LINE></SUMA_MES>
+  <DO_SUMA_MIN_ALARMA><FILE>C:\Users\bsmor\OneDrive\Documentos\GitHub\PROYECTO1_reloj\Proyecto1_reloj\Proyecto1_reloj\main.asm</FILE><LINE>373</LINE></DO_SUMA_MIN_ALARMA>
+  <DO_RESTA_MIN_ALARMA><FILE>C:\Users\bsmor\OneDrive\Documentos\GitHub\PROYECTO1_reloj\Proyecto1_reloj\Proyecto1_reloj\main.asm</FILE><LINE>378</LINE></DO_RESTA_MIN_ALARMA>
+  <SUMA_MIN_ALARMA><FILE>C:\Users\bsmor\OneDrive\Documentos\GitHub\PROYECTO1_reloj\Proyecto1_reloj\Proyecto1_reloj\main.asm</FILE><LINE>617</LINE></SUMA_MIN_ALARMA>
+  <RESTA_MIN_ALARMA><FILE>C:\Users\bsmor\OneDrive\Documentos\GitHub\PROYECTO1_reloj\Proyecto1_reloj\Proyecto1_reloj\main.asm</FILE><LINE>647</LINE></RESTA_MIN_ALARMA>
+  <UPDATE_SUM_UNI_MIN_ALARMA><FILE>C:\Users\bsmor\OneDrive\Documentos\GitHub\PROYECTO1_reloj\Proyecto1_reloj\Proyecto1_reloj\main.asm</FILE><LINE>425</LINE></UPDATE_SUM_UNI_MIN_ALARMA>
+  <UPDATE_SUM_DEC_MIN_ALARMA><FILE>C:\Users\bsmor\OneDrive\Documentos\GitHub\PROYECTO1_reloj\Proyecto1_reloj\Proyecto1_reloj\main.asm</FILE><LINE>430</LINE></UPDATE_SUM_DEC_MIN_ALARMA>
+  <UPDATE_RES_UNI_MIN><FILE>C:\Users\bsmor\OneDrive\Documentos\GitHub\PROYECTO1_reloj\Proyecto1_reloj\Proyecto1_reloj\main.asm</FILE><LINE>455</LINE></UPDATE_RES_UNI_MIN>
+  <UPDATE_RES_DEC_MIN><FILE>C:\Users\bsmor\OneDrive\Documentos\GitHub\PROYECTO1_reloj\Proyecto1_reloj\Proyecto1_reloj\main.asm</FILE><LINE>460</LINE></UPDATE_RES_DEC_MIN>
+  <CONTINUAR_NORMAL_HORA><FILE>C:\Users\bsmor\OneDrive\Documentos\GitHub\PROYECTO1_reloj\Proyecto1_reloj\Proyecto1_reloj\main.asm</FILE><LINE>477</LINE></CONTINUAR_NORMAL_HORA>
+  <UPDATE_SUM_UNI_HORA><FILE>C:\Users\bsmor\OneDrive\Documentos\GitHub\PROYECTO1_reloj\Proyecto1_reloj\Proyecto1_reloj\main.asm</FILE><LINE>498</LINE></UPDATE_SUM_UNI_HORA>
+  <RESET_HORAS><FILE>C:\Users\bsmor\OneDrive\Documentos\GitHub\PROYECTO1_reloj\Proyecto1_reloj\Proyecto1_reloj\main.asm</FILE><LINE>491</LINE></RESET_HORAS>
+  <UPDATE_SUM_DEC_HORA><FILE>C:\Users\bsmor\OneDrive\Documentos\GitHub\PROYECTO1_reloj\Proyecto1_reloj\Proyecto1_reloj\main.asm</FILE><LINE>503</LINE></UPDATE_SUM_DEC_HORA>
+  <UPDATE_RES_UNI_HORA><FILE>C:\Users\bsmor\OneDrive\Documentos\GitHub\PROYECTO1_reloj\Proyecto1_reloj\Proyecto1_reloj\main.asm</FILE><LINE>531</LINE></UPDATE_RES_UNI_HORA>
+  <UPDATE_RES_DEC_HORA><FILE>C:\Users\bsmor\OneDrive\Documentos\GitHub\PROYECTO1_reloj\Proyecto1_reloj\Proyecto1_reloj\main.asm</FILE><LINE>536</LINE></UPDATE_RES_DEC_HORA>
+  <RESET_HORA_DEC><FILE>C:\Users\bsmor\OneDrive\Documentos\GitHub\PROYECTO1_reloj\Proyecto1_reloj\Proyecto1_reloj\main.asm</FILE><LINE>523</LINE></RESET_HORA_DEC>
+  <CONTINUAR_SUMA_DIA><FILE>C:\Users\bsmor\OneDrive\Documentos\GitHub\PROYECTO1_reloj\Proyecto1_reloj\Proyecto1_reloj\main.asm</FILE><LINE>565</LINE></CONTINUAR_SUMA_DIA>
+  <UPDATE_SUM_UNI_DIA><FILE>C:\Users\bsmor\OneDrive\Documentos\GitHub\PROYECTO1_reloj\Proyecto1_reloj\Proyecto1_reloj\main.asm</FILE><LINE>575</LINE></UPDATE_SUM_UNI_DIA>
+  <CONT_NORMAL_MES><FILE>C:\Users\bsmor\OneDrive\Documentos\GitHub\PROYECTO1_reloj\Proyecto1_reloj\Proyecto1_reloj\main.asm</FILE><LINE>590</LINE></CONT_NORMAL_MES>
+  <UPDATE_UNI_MES><FILE>C:\Users\bsmor\OneDrive\Documentos\GitHub\PROYECTO1_reloj\Proyecto1_reloj\Proyecto1_reloj\main.asm</FILE><LINE>596</LINE></UPDATE_UNI_MES>
+  <ACTUALIZAR_SUM_MES><FILE>C:\Users\bsmor\OneDrive\Documentos\GitHub\PROYECTO1_reloj\Proyecto1_reloj\Proyecto1_reloj\main.asm</FILE><LINE>607</LINE></ACTUALIZAR_SUM_MES>
+  <UPDATE_DEC_MES><FILE>C:\Users\bsmor\OneDrive\Documentos\GitHub\PROYECTO1_reloj\Proyecto1_reloj\Proyecto1_reloj\main.asm</FILE><LINE>605</LINE></UPDATE_DEC_MES>
+  <EXIT_SUM_MES><FILE>C:\Users\bsmor\OneDrive\Documentos\GitHub\PROYECTO1_reloj\Proyecto1_reloj\Proyecto1_reloj\main.asm</FILE><LINE>613</LINE></EXIT_SUM_MES>
+  <UPDATE_SUM_UNI_MIN><FILE>C:\Users\bsmor\OneDrive\Documentos\GitHub\PROYECTO1_reloj\Proyecto1_reloj\Proyecto1_reloj\main.asm</FILE><LINE>637</LINE></UPDATE_SUM_UNI_MIN>
+  <UPDATE_SUM_DEC_MIN><FILE>C:\Users\bsmor\OneDrive\Documentos\GitHub\PROYECTO1_reloj\Proyecto1_reloj\Proyecto1_reloj\main.asm</FILE><LINE>642</LINE></UPDATE_SUM_DEC_MIN>
+  <UPDATE_RES_UNI_MIN_ALARMA><FILE>C:\Users\bsmor\OneDrive\Documentos\GitHub\PROYECTO1_reloj\Proyecto1_reloj\Proyecto1_reloj\main.asm</FILE><LINE>667</LINE></UPDATE_RES_UNI_MIN_ALARMA>
+  <UPDATE_RES_DEC_MIN_ALARMA><FILE>C:\Users\bsmor\OneDrive\Documentos\GitHub\PROYECTO1_reloj\Proyecto1_reloj\Proyecto1_reloj\main.asm</FILE><LINE>672</LINE></UPDATE_RES_DEC_MIN_ALARMA>
+  <CONTINUAR_BOTON><FILE>C:\Users\bsmor\OneDrive\Documentos\GitHub\PROYECTO1_reloj\Proyecto1_reloj\Proyecto1_reloj\main.asm</FILE><LINE>690</LINE></CONTINUAR_BOTON>
+  <MODO0_ISR><FILE>C:\Users\bsmor\OneDrive\Documentos\GitHub\PROYECTO1_reloj\Proyecto1_reloj\Proyecto1_reloj\main.asm</FILE><LINE>710</LINE></MODO0_ISR>
+  <MODO1_ISR><FILE>C:\Users\bsmor\OneDrive\Documentos\GitHub\PROYECTO1_reloj\Proyecto1_reloj\Proyecto1_reloj\main.asm</FILE><LINE>712</LINE></MODO1_ISR>
+  <MODO2_ISR><FILE>C:\Users\bsmor\OneDrive\Documentos\GitHub\PROYECTO1_reloj\Proyecto1_reloj\Proyecto1_reloj\main.asm</FILE><LINE>714</LINE></MODO2_ISR>
+  <MODO3_ISR><FILE>C:\Users\bsmor\OneDrive\Documentos\GitHub\PROYECTO1_reloj\Proyecto1_reloj\Proyecto1_reloj\main.asm</FILE><LINE>720</LINE></MODO3_ISR>
+  <MODO4_ISR><FILE>C:\Users\bsmor\OneDrive\Documentos\GitHub\PROYECTO1_reloj\Proyecto1_reloj\Proyecto1_reloj\main.asm</FILE><LINE>726</LINE></MODO4_ISR>
+  <MODO5_ISR><FILE>C:\Users\bsmor\OneDrive\Documentos\GitHub\PROYECTO1_reloj\Proyecto1_reloj\Proyecto1_reloj\main.asm</FILE><LINE>732</LINE></MODO5_ISR>
+  <MODO6_ISR><FILE>C:\Users\bsmor\OneDrive\Documentos\GitHub\PROYECTO1_reloj\Proyecto1_reloj\Proyecto1_reloj\main.asm</FILE><LINE>738</LINE></MODO6_ISR>
+  <MODO7_ISR><FILE>C:\Users\bsmor\OneDrive\Documentos\GitHub\PROYECTO1_reloj\Proyecto1_reloj\Proyecto1_reloj\main.asm</FILE><LINE>744</LINE></MODO7_ISR>
+  <MODO8_ISR><FILE>C:\Users\bsmor\OneDrive\Documentos\GitHub\PROYECTO1_reloj\Proyecto1_reloj\Proyecto1_reloj\main.asm</FILE><LINE>750</LINE></MODO8_ISR>
+  <EXIT_MODO_ISR><FILE>C:\Users\bsmor\OneDrive\Documentos\GitHub\PROYECTO1_reloj\Proyecto1_reloj\Proyecto1_reloj\main.asm</FILE><LINE>755</LINE></EXIT_MODO_ISR>
+  <DISPLAY1><FILE>C:\Users\bsmor\OneDrive\Documentos\GitHub\PROYECTO1_reloj\Proyecto1_reloj\Proyecto1_reloj\main.asm</FILE><LINE>783</LINE></DISPLAY1>
+  <DISPLAY2><FILE>C:\Users\bsmor\OneDrive\Documentos\GitHub\PROYECTO1_reloj\Proyecto1_reloj\Proyecto1_reloj\main.asm</FILE><LINE>816</LINE></DISPLAY2>
+  <DISPLAY3><FILE>C:\Users\bsmor\OneDrive\Documentos\GitHub\PROYECTO1_reloj\Proyecto1_reloj\Proyecto1_reloj\main.asm</FILE><LINE>850</LINE></DISPLAY3>
+  <DISPLAY4_RJMP><FILE>C:\Users\bsmor\OneDrive\Documentos\GitHub\PROYECTO1_reloj\Proyecto1_reloj\Proyecto1_reloj\main.asm</FILE><LINE>780</LINE></DISPLAY4_RJMP>
+  <DISPLAY4><FILE>C:\Users\bsmor\OneDrive\Documentos\GitHub\PROYECTO1_reloj\Proyecto1_reloj\Proyecto1_reloj\main.asm</FILE><LINE>885</LINE></DISPLAY4>
+  <DISPLAY1_HORA><FILE>C:\Users\bsmor\OneDrive\Documentos\GitHub\PROYECTO1_reloj\Proyecto1_reloj\Proyecto1_reloj\main.asm</FILE><LINE>796</LINE></DISPLAY1_HORA>
+  <DISPLAY1_FECHA><FILE>C:\Users\bsmor\OneDrive\Documentos\GitHub\PROYECTO1_reloj\Proyecto1_reloj\Proyecto1_reloj\main.asm</FILE><LINE>799</LINE></DISPLAY1_FECHA>
+  <DISPLAY1_ALARMA><FILE>C:\Users\bsmor\OneDrive\Documentos\GitHub\PROYECTO1_reloj\Proyecto1_reloj\Proyecto1_reloj\main.asm</FILE><LINE>802</LINE></DISPLAY1_ALARMA>
+  <FLUJO_DISPLAY1><FILE>C:\Users\bsmor\OneDrive\Documentos\GitHub\PROYECTO1_reloj\Proyecto1_reloj\Proyecto1_reloj\main.asm</FILE><LINE>805</LINE></FLUJO_DISPLAY1>
+  <FIN_TMR0><FILE>C:\Users\bsmor\OneDrive\Documentos\GitHub\PROYECTO1_reloj\Proyecto1_reloj\Proyecto1_reloj\main.asm</FILE><LINE>919</LINE></FIN_TMR0>
+  <DISPLAY2_HORA><FILE>C:\Users\bsmor\OneDrive\Documentos\GitHub\PROYECTO1_reloj\Proyecto1_reloj\Proyecto1_reloj\main.asm</FILE><LINE>829</LINE></DISPLAY2_HORA>
+  <DISPLAY2_FECHA><FILE>C:\Users\bsmor\OneDrive\Documentos\GitHub\PROYECTO1_reloj\Proyecto1_reloj\Proyecto1_reloj\main.asm</FILE><LINE>832</LINE></DISPLAY2_FECHA>
+  <DISPLAY2_ALARMA><FILE>C:\Users\bsmor\OneDrive\Documentos\GitHub\PROYECTO1_reloj\Proyecto1_reloj\Proyecto1_reloj\main.asm</FILE><LINE>835</LINE></DISPLAY2_ALARMA>
+  <FLUJO_DISPLAY2><FILE>C:\Users\bsmor\OneDrive\Documentos\GitHub\PROYECTO1_reloj\Proyecto1_reloj\Proyecto1_reloj\main.asm</FILE><LINE>838</LINE></FLUJO_DISPLAY2>
+  <DISPLAY3_HORA><FILE>C:\Users\bsmor\OneDrive\Documentos\GitHub\PROYECTO1_reloj\Proyecto1_reloj\Proyecto1_reloj\main.asm</FILE><LINE>863</LINE></DISPLAY3_HORA>
+  <DISPLAY3_FECHA><FILE>C:\Users\bsmor\OneDrive\Documentos\GitHub\PROYECTO1_reloj\Proyecto1_reloj\Proyecto1_reloj\main.asm</FILE><LINE>866</LINE></DISPLAY3_FECHA>
+  <DISPLAY3_ALARMA><FILE>C:\Users\bsmor\OneDrive\Documentos\GitHub\PROYECTO1_reloj\Proyecto1_reloj\Proyecto1_reloj\main.asm</FILE><LINE>869</LINE></DISPLAY3_ALARMA>
+  <FLUJO_DISPLAY3><FILE>C:\Users\bsmor\OneDrive\Documentos\GitHub\PROYECTO1_reloj\Proyecto1_reloj\Proyecto1_reloj\main.asm</FILE><LINE>872</LINE></FLUJO_DISPLAY3>
+  <DISPLAY4_HORA><FILE>C:\Users\bsmor\OneDrive\Documentos\GitHub\PROYECTO1_reloj\Proyecto1_reloj\Proyecto1_reloj\main.asm</FILE><LINE>898</LINE></DISPLAY4_HORA>
+  <DISPLAY4_FECHA><FILE>C:\Users\bsmor\OneDrive\Documentos\GitHub\PROYECTO1_reloj\Proyecto1_reloj\Proyecto1_reloj\main.asm</FILE><LINE>901</LINE></DISPLAY4_FECHA>
+  <DISPLAY4_ALARMA><FILE>C:\Users\bsmor\OneDrive\Documentos\GitHub\PROYECTO1_reloj\Proyecto1_reloj\Proyecto1_reloj\main.asm</FILE><LINE>904</LINE></DISPLAY4_ALARMA>
+  <FLUJO_DISPLAY4><FILE>C:\Users\bsmor\OneDrive\Documentos\GitHub\PROYECTO1_reloj\Proyecto1_reloj\Proyecto1_reloj\main.asm</FILE><LINE>907</LINE></FLUJO_DISPLAY4>
+  <RESET_END_ISR><FILE>C:\Users\bsmor\OneDrive\Documentos\GitHub\PROYECTO1_reloj\Proyecto1_reloj\Proyecto1_reloj\main.asm</FILE><LINE>926</LINE></RESET_END_ISR>
+  <UPDATE_UNI_MIN><FILE>C:\Users\bsmor\OneDrive\Documentos\GitHub\PROYECTO1_reloj\Proyecto1_reloj\Proyecto1_reloj\main.asm</FILE><LINE>949</LINE></UPDATE_UNI_MIN>
+  <EXIT_TMR1_ISR><FILE>C:\Users\bsmor\OneDrive\Documentos\GitHub\PROYECTO1_reloj\Proyecto1_reloj\Proyecto1_reloj\main.asm</FILE><LINE>1009</LINE></EXIT_TMR1_ISR>
+  <UPDATE_DEC_MIN><FILE>C:\Users\bsmor\OneDrive\Documentos\GitHub\PROYECTO1_reloj\Proyecto1_reloj\Proyecto1_reloj\main.asm</FILE><LINE>963</LINE></UPDATE_DEC_MIN>
+  <CONT_NORMAL><FILE>C:\Users\bsmor\OneDrive\Documentos\GitHub\PROYECTO1_reloj\Proyecto1_reloj\Proyecto1_reloj\main.asm</FILE><LINE>980</LINE></CONT_NORMAL>
+  <UPDATE_UNI_HORA><FILE>C:\Users\bsmor\OneDrive\Documentos\GitHub\PROYECTO1_reloj\Proyecto1_reloj\Proyecto1_reloj\main.asm</FILE><LINE>987</LINE></UPDATE_UNI_HORA>
+  <RESET_TOTAL><FILE>C:\Users\bsmor\OneDrive\Documentos\GitHub\PROYECTO1_reloj\Proyecto1_reloj\Proyecto1_reloj\main.asm</FILE><LINE>999</LINE></RESET_TOTAL>
+  <CONTINUAR_DEC_HORA><FILE>C:\Users\bsmor\OneDrive\Documentos\GitHub\PROYECTO1_reloj\Proyecto1_reloj\Proyecto1_reloj\main.asm</FILE><LINE>1005</LINE></CONTINUAR_DEC_HORA>
  </LABELS>
 </ASSEMBLER_INFO>

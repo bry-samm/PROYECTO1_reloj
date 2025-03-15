@@ -334,7 +334,7 @@ CONF_DIA:
 	CALL	SUMA_DIA
 EXIT_DIA:
 	RJMP	MAIN
-
+//--------------------------------------------------------------------------------------------------------------
 CONF_MES:
 	LDI		ACTION_DIS, 0x02
 	SBI		PORTB, PB3			// LEDS que muestran el modo 101
@@ -351,20 +351,44 @@ CONF_MES:
 	CALL	SUMA_MES		
 EXIT_MES:
 	RJMP	MAIN
+//-------------------------------------------------------------------------------------------------------------------
 CONF_ALARMA_MIN:
-	LDI		ACTION_DIS, 0x01
+	LDI		ACTION_DIS, 0x03
 	CBI		PORTB, PB3			// LEDS que muestran el modo 110
 	SBI		PORTB, PB4
 	SBI		PORTB, PB5
 
-	RJMP	MAIN
+
+	//Parar interrupción del timer1
+	CLR		R16
+	STS		TIMSK1, R16
+
+    CPI     ACTION, 0x01       ; Compara ACTION con 0x01
+    BREQ    DO_SUMA_MIN_ALARMA            ; Si ACTION == 0x01, salta a DO_SUMA
+    CPI     ACTION, 0x02       ; Compara ACTION con 0x02
+    BREQ    DO_RESTA_MIN_ALARMA           ; Si ACTION == 0x02, salta a DO_RESTA
+    CLR     ACTION             ; Limpia ACTION (opcional, dependiendo de tu lógica)
+    RJMP    MAIN               ; Vuelve al inicio del bucle
+
+DO_SUMA_MIN_ALARMA:
+    CALL    SUMA_MIN_ALARMA               ; Llama a la subrutina SUMA
+    CLR     ACTION             ; Limpia ACTION después de la operación
+    RJMP    MAIN               ; Vuelve al inicio del bucle
+
+DO_RESTA_MIN_ALARMA:
+    CALL    RESTA_MIN_ALARMA              ; Llama a la subrutina RESTA
+    CLR     ACTION             ; Limpia ACTION después de la operación
+    RJMP    MAIN               ; Vuelve al inicio del bucle
+
+//-------------------------------------------------------------------------------------------------------------------
 CONF_ALARMA_HORA:
-	LDI		ACTION_DIS, 0x01
+	LDI		ACTION_DIS, 0x03
 	SBI		PORTB, PB3			// LEDS que muestran el modo 111
 	SBI		PORTB, PB4
 	SBI		PORTB, PB5
 
 	RJMP	MAIN
+//---------------------------------------------------------------------------------------------------------------------
 ON_OFF:
 	LDI		ZL, LOW(ALARMA_LETRA <<1)	//Coloca el direccionador indirecto en la posición inicial
 	LDI		ZH, HIGH(ALARMA_LETRA <<1)
@@ -383,7 +407,7 @@ SUMA_MIN:
     MOV     R16, R3            ; Carga R3 en R16
     INC     R16                ; Incrementa R16
     CPI     R16, 10            ; Compara R16 con 10
-    BRNE    UPDATE_SUM_UNI_MIN ; Si R16 != 10, salta a UPDATE_SUM_UNI_MIN
+    BRNE    UPDATE_SUM_UNI_MIN_ALARMA ; Si R16 != 10, salta a UPDATE_SUM_UNI_MIN
 
     ; Si R16 == 10, reinicia las unidades de minutos e incrementa las decenas
     CLR     R16                ; Reinicia R16 a 0
@@ -391,19 +415,19 @@ SUMA_MIN:
     MOV     R16, R4            ; Carga R4 en R16
     INC     R16                ; Incrementa R16 (decenas de minutos)
     CPI     R16, 6             ; Compara R16 con 6
-    BRNE    UPDATE_SUM_DEC_MIN ; Si R16 != 6, salta a UPDATE_SUM_DEC_MIN
+    BRNE    UPDATE_SUM_DEC_MIN_ALARMA ; Si R16 != 6, salta a UPDATE_SUM_DEC_MIN
 
     ; Si R16 == 6, reinicia las decenas de minutos
     CLR     R16                ; Reinicia R16 a 0
     MOV     R4, R16            ; Guarda 0 en R4 (decenas de minutos)
     RET                        ; Retorna de la subrutina
 
-UPDATE_SUM_UNI_MIN:
+UPDATE_SUM_UNI_MIN_ALARMA:
     ; Actualiza las unidades de minutos
     MOV     R3, R16            ; Guarda R16 en R3
     RET                        ; Retorna de la subrutina
 
-UPDATE_SUM_DEC_MIN:
+UPDATE_SUM_DEC_MIN_ALARMA:
     ; Actualiza las decenas de minutos
     MOV     R4, R16            ; Guarda R16 en R4
     RET                        ; Retorna de la subrutina
@@ -589,6 +613,66 @@ ACTUALIZAR_SUM_MES:
 EXIT_SUM_MES:
 	MOV		R25, R16
     RET
+//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+SUMA_MIN_ALARMA:
+    ; Incrementa las unidades de minutos (R3)
+    MOV     R16, R11            ; Carga R3 en R16
+    INC     R16                ; Incrementa R16
+    CPI     R16, 10            ; Compara R16 con 10
+    BRNE    UPDATE_SUM_UNI_MIN ; Si R16 != 10, salta a UPDATE_SUM_UNI_MIN
+
+    ; Si R16 == 10, reinicia las unidades de minutos e incrementa las decenas
+    CLR     R16                ; Reinicia R16 a 0
+    MOV     R11, R16            ; Guarda 0 en R3 (unidades de minutos)
+    MOV     R16, R12            ; Carga R4 en R16
+    INC     R16                ; Incrementa R16 (decenas de minutos)
+    CPI     R16, 6             ; Compara R16 con 6
+    BRNE    UPDATE_SUM_DEC_MIN ; Si R16 != 6, salta a UPDATE_SUM_DEC_MIN
+
+    ; Si R16 == 6, reinicia las decenas de minutos
+    CLR     R16                ; Reinicia R16 a 0
+    MOV     R12, R16            ; Guarda 0 en R4 (decenas de minutos)
+    RET                        ; Retorna de la subrutina
+
+UPDATE_SUM_UNI_MIN:
+    ; Actualiza las unidades de minutos
+    MOV     R11, R16            ; Guarda R16 en R3
+    RET                        ; Retorna de la subrutina
+
+UPDATE_SUM_DEC_MIN:
+    ; Actualiza las decenas de minutos
+    MOV     R12, R16            ; Guarda R16 en R4
+    RET                        ; Retorna de la subrutina
+//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+RESTA_MIN_ALARMA:
+    ; Resta las unidades de minutos (R3)
+    MOV     R16, R11            ; Carga R3 en R16
+    DEC     R16                ; Decrementa R16
+    CPI     R16, 0xFF          ; Compara R16 con -1 (0xFF en complemento a 2)
+    BRNE    UPDATE_RES_UNI_MIN_ALARMA  ; Si R16 != -1, salta a UPDATE_RES_UNI_MIN
+
+    ; Si R16 == -1, ajusta las unidades a 9 y decrementa las decenas
+    LDI     R16, 9             ; Carga 9 en R16 (unidades de minutos)
+    MOV     R11, R16            ; Guarda 9 en R3
+    MOV     R16, R12            ; Carga R4 en R16
+    DEC     R16                ; Decrementa R16 (decenas de minutos)
+    CPI     R16, 0xFF          ; Compara R16 con -1 (0xFF en complemento a 2)
+    BRNE    UPDATE_RES_DEC_MIN_ALARMA  ; Si R16 != -1, salta a UPDATE_RES_DEC_MIN
+
+    ; Si R16 == -1, ajusta las decenas a 5 (para volver a 59)
+    LDI     R16, 5             ; Carga 5 en R16 (decenas de minutos)
+    MOV     R12, R16            ; Guarda 5 en R4
+    RET                        ; Retorna de la subrutina
+
+UPDATE_RES_UNI_MIN_ALARMA:
+    ; Actualiza las unidades de minutos
+    MOV     R11, R16            ; Guarda R16 en R3
+    RET                        ; Retorna de la subrutina
+
+UPDATE_RES_DEC_MIN_ALARMA:
+    ; Actualiza las decenas de minutos
+    MOV     R12, R16            ; Guarda R16 en R4
+    RET                        ; Retorna de la subrutina
 
 //================================================== RUTINAS DE INTERRUPCIÓN =====================================================================
 ISR_BOTON:
@@ -691,7 +775,10 @@ ISR_TIMER0:
 	CPI		R16, 0x03
 	BREQ	DISPLAY3
 	CPI		R16, 0x04
-	BREQ	DISPLAY4
+	BREQ	DISPLAY4_RJMP
+
+DISPLAY4_RJMP:
+	RJMP	DISPLAY4
 //++++++++++++++++++++++++++++++++
 DISPLAY1:
 	CBI		PORTC, PC0
@@ -704,11 +791,16 @@ DISPLAY1:
 	BREQ	DISPLAY1_HORA
 	CPI		ACTION_DIS, 0x02
 	BREQ	DISPLAY1_FECHA
+	CPI		ACTION_DIS, 0x03
+	BREQ	DISPLAY1_ALARMA
 DISPLAY1_HORA:
 	MOV		R16, R3
 	RJMP	FLUJO_DISPLAY1
 DISPLAY1_FECHA:
 	MOV		R16, R7
+	RJMP	FLUJO_DISPLAY1
+DISPLAY1_ALARMA:
+	MOV		R16, R11
 
 FLUJO_DISPLAY1:
 	//MOV		R16, R3
@@ -727,17 +819,21 @@ DISPLAY2:
 	CBI		PORTC, PC3
 
 	OUT		PORTD, R1
-
 //Verificar el modo actual para mostrar hora o fecha
 	CPI		ACTION_DIS, 0x01
 	BREQ	DISPLAY2_HORA
 	CPI		ACTION_DIS, 0x02
 	BREQ	DISPLAY2_FECHA
+	CPI		ACTION_DIS, 0x03
+	BREQ	DISPLAY2_ALARMA
 DISPLAY2_HORA:
 	MOV		R16, R4
 	RJMP	FLUJO_DISPLAY2
 DISPLAY2_FECHA:
 	MOV		R16, R8
+	RJMP	FLUJO_DISPLAY2
+DISPLAY2_ALARMA:
+	MOV		R16, R12
 
 FLUJO_DISPLAY2:
 	//MOV		R16, R4
@@ -762,11 +858,16 @@ DISPLAY3:
 	BREQ	DISPLAY3_HORA
 	CPI		ACTION_DIS, 0x02
 	BREQ	DISPLAY3_FECHA
+	CPI		ACTION_DIS, 0x03
+	BREQ	DISPLAY3_ALARMA
 DISPLAY3_HORA:
 	MOV		R16, R5
 	RJMP	FLUJO_DISPLAY3
 DISPLAY3_FECHA:
 	MOV		R16, R9
+	RJMP	FLUJO_DISPLAY3
+DISPLAY3_ALARMA:
+	MOV		R16, R13
 
 FLUJO_DISPLAY3:
     //MOV     R16, R5						// Cargar unidades de hora
@@ -776,9 +877,7 @@ FLUJO_DISPLAY3:
     ADC     ZH, R1
     LPM     R16, Z
 	SBI     PORTC, PC1
-
     OUT     PORTD, R16
-
     RJMP    FIN_TMR0
 
 DISPLAY4:
@@ -792,11 +891,16 @@ DISPLAY4:
 	BREQ	DISPLAY4_HORA
 	CPI		ACTION_DIS, 0x02
 	BREQ	DISPLAY4_FECHA
+	CPI		ACTION_DIS, 0x03
+	BREQ	DISPLAY4_ALARMA
 DISPLAY4_HORA:
 	MOV		R16, R6
 	RJMP	FLUJO_DISPLAY4
 DISPLAY4_FECHA:
 	MOV		R16, R10
+	RJMP	FLUJO_DISPLAY4
+DISPLAY4_ALARMA:
+	MOV		R16, R14
 
 FLUJO_DISPLAY4:
    // MOV     R16, R6						// Cargar decenas de hora
