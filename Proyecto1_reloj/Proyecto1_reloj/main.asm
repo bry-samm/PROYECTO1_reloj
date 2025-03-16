@@ -215,9 +215,9 @@ MAIN:
 	CPI		MODO, 3
 	BREQ	CONF_HORA_RJMP
 	CPI		MODO, 4
-	BREQ	CONF_DIA_RJMP
-	CPI		MODO, 5
 	BREQ	CONF_MES_RJMP
+	CPI		MODO, 5
+	BREQ	CONF_DIA_RJMP
 	CPI		MODO, 6
 	BREQ	CONF_ALARMA_MIN_RJMP
 	CPI		MODO, 7
@@ -615,165 +615,189 @@ UPDATE_RES_DEC_HORA:
     RET                        ; Retorna de la subrutina
 //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 SUMA_DIA:
-	MOV		R24, R8
-    MOV     R27, R24     ; Copiar R16 en R17 para hacer los cálculos separados
-    LSL     R24          ; R16 = R16 * 2  (Multiplicar por 2)
-    LSL     R27          ; R17 = R17 * 2  (Multiplicar por 2)
-    LSL     R27          ; R17 = R17 * 4  (Multiplicar por 4)
-    LSL     R27          ; R17 = R17 * 8  (Multiplicar por 8)
-    ADD     R24, R27     ; R16 = (R16 * 2) + (R17 * 8) = R16 * 10
-	ADD		R24, R7
+    ; Calcular el día actual en formato decimal (R24 = R8 * 10 + R7)
+    MOV     R24, R8
+    MOV     R27, R24
+    LSL     R24          ; R24 = R8 * 2
+    LSL     R27          ; R27 = R8 * 2
+    LSL     R27          ; R27 = R8 * 4
+    LSL     R27          ; R27 = R8 * 8
+    ADD     R24, R27     ; R24 = (R8 * 2) + (R8 * 8) = R8 * 10
+    ADD     R24, R7      ; R24 = R8 * 10 + R7
 
-	LDI		ZL, LOW(TABLA_DIAS << 1)
-	LDI		ZH, HIGH(TABLA_DIAS << 1)
-	ADD		ZL, R25
-	ADC		ZH, R1
-	LPM		R27, Z
+    ; Obtener el número de días del mes actual (en decimal)
+    LDI     ZL, LOW(TABLA_DIAS << 1)  ; Cargar la dirección baja de la tabla
+    LDI     ZH, HIGH(TABLA_DIAS << 1) ; Cargar la dirección alta de la tabla
+    MOV     R16, R25                  ; Cargar el mes actual en R16
+    DEC     R16                       ; Ajustar el índice (R16 = R25 - 1)
+    ADD     ZL, R16                   ; Sumar el índice del mes a la dirección
+    ADC     ZH, R1                    ; Añadir el acarreo si es necesario
+    LPM     R27, Z                    ; Cargar el número de días del mes en R27 (decimal)
 
-	MOV		R16, R24
-	CP		R16, R27
-	BRNE    CONTINUAR_SUMA_DIA
-	LDI		R16, 0x01
-    MOV		R7, R16
-    CLR     R8
-    CLR     R24
-    RET
+    ; Comparar el día actual con el número máximo de días del mes
+    CP      R24, R27                  ; Comparar R24 con R27
+    BRLO    CONTINUAR_SUMA_DIA        ; Si R24 < R27, continuar sumando
+
+    ; Si R24 >= R27, reiniciar el día a 1
+    LDI     R16, 1                    ; Cargar 1 en R16
+    MOV     R7, R16                   ; Guardar 1 en R7 (unidades del día)
+    CLR     R8                        ; Limpiar R8 (decenas del día)
+    RET                               ; Retornar de la subrutina
 
 CONTINUAR_SUMA_DIA:
-    MOV     R16, R7
-    INC     R16
-    CPI     R16, 10
-    BRNE    UPDATE_SUM_UNI_DIA
-    CLR     R16
-    CLR     R7
-    INC     R8              ; Incrementar R8 cuando R7 llega a 10
-    RET
+    ; Incrementar las unidades del día
+    MOV     R16, R7                   ; Cargar R7 en R16
+    INC     R16                       ; Incrementar R16
+    CPI     R16, 10                   ; Comparar R16 con 10
+    BRNE    UPDATE_SUM_UNI_DIA        ; Si no es 10, actualizar las unidades
+
+    ; Si las unidades son 10, reiniciar a 0 e incrementar las decenas
+    CLR     R16                       ; Limpiar R16
+    MOV     R7, R16                   ; Guardar 0 en R7 (unidades del día)
+    INC     R8                        ; Incrementar R8 (decenas del día)
+    RET                               ; Retornar de la subrutina
 
 UPDATE_SUM_UNI_DIA:
-    MOV     R7, R16
-    RET
+    ; Actualizar las unidades del día
+    MOV     R7, R16                   ; Guardar R16 en R7
+    RET                               ; Retornar de la subrutina
+
 //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 RESTA_DIA:
+    ; Calcular el día actual en formato decimal (R24 = R8 * 10 + R7)
     MOV     R24, R8
-    MOV     R27, R24     ; Copiar R8 en R27 para cálculos separados
-    LSL     R24          ; R24 = R24 * 2  (Multiplicar por 2)
-    LSL     R27          ; R27 = R27 * 2  (Multiplicar por 2)
-    LSL     R27          ; R27 = R27 * 4  (Multiplicar por 4)
-    LSL     R27          ; R27 = R27 * 8  (Multiplicar por 8)
-    ADD     R24, R27     ; R24 = (R24 * 2) + (R27 * 8) = R24 * 10
-    ADD     R24, R7
+    MOV     R27, R24
+    LSL     R24          ; R24 = R8 * 2
+    LSL     R27          ; R27 = R8 * 2
+    LSL     R27          ; R27 = R8 * 4
+    LSL     R27          ; R27 = R8 * 8
+    ADD     R24, R27     ; R24 = (R8 * 2) + (R8 * 8) = R8 * 10
+    ADD     R24, R7      ; R24 = R8 * 10 + R7
 
-    ; Obtener el número de días del mes actual
-    LDI     ZL, LOW(TABLA_DIAS << 1)
-    LDI     ZH, HIGH(TABLA_DIAS << 1)
-    ADD     ZL, R25
-    ADC     ZH, R1
-    LPM     R27, Z    ; Cargar el número de días del mes en R27
+    ; Obtener el número de días del mes actual (en decimal)
+    LDI     ZL, LOW(TABLA_DIAS << 1)  ; Cargar la dirección baja de la tabla
+    LDI     ZH, HIGH(TABLA_DIAS << 1) ; Cargar la dirección alta de la tabla
+    MOV     R16, R25                  ; Cargar el mes actual en R16
+    DEC     R16                       ; Ajustar el índice (R16 = R25 - 1)
+    ADD     ZL, R16                   ; Sumar el índice del mes a la dirección
+    ADC     ZH, R1                    ; Añadir el acarreo si es necesario
+    LPM     R27, Z                    ; Cargar el número de días del mes en R27 (decimal)
 
-    MOV     R16, R8
-    CPI     R16, 0
-    BRNE    CONTINUAR_RESTA_DIA
+    ; Verificar si el día actual es 1 (R7 = 1 y R8 = 0)
+    MOV     R16, R7                   ; Cargar R7 en R16
+    CPI     R16, 1                    ; Comparar R16 con 1
+    BRNE    DECREMENTAR_NORMAL        ; Si R16 no es 1, decrementar normalmente
+    MOV     R16, R8                   ; Cargar R8 en R16
+    CPI     R16, 0                    ; Comparar R16 con 0
+    BRNE    DECREMENTAR_NORMAL        ; Si R16 no es 0, decrementar normalmente
 
-    MOV     R16, R7
-    DEC     R16
-    CPI     R16, 0
-    BRNE    UPDATE_RES_UNI_DIA
+    ; Si el día actual es 1, ajustar al último día del mes actual (en decimal)
+    MOV     R24, R27                  ; Cargar el número de días del mes en R24
+    RJMP    CONVERTIR_A_BCD           ; Convertir a BCD y actualizar R7 y R8
 
-    ; Si estamos en día 1 y restamos, buscar el día máximo del mes
-    RJMP    ENCONTRAR_DIA
+DECREMENTAR_NORMAL:
+    ; Decrementar las unidades del día
+    MOV     R16, R7                   ; Cargar R7 en R16
+    DEC     R16                       ; Decrementar R16
+    MOV     R7, R16                   ; Guardar R16 en R7
+    CPI     R16, 0xFF                 ; Verificar si R16 es -1 (0xFF)
+    BRNE    EXIT_RESTA_DIA            ; Si no es -1, salir
 
-CONTINUAR_RESTA_DIA:
-    MOV     R16, R7
-    DEC     R16
-    CPI     R16, 0xFF
-    BRNE    UPDATE_RES_UNI_DIA
+    ; Si las unidades son -1, ajustar las decenas y las unidades
+    MOV     R16, R8                   ; Cargar R8 en R16
+    DEC     R16                       ; Decrementar R16
+    MOV     R8, R16                   ; Guardar R16 en R8
+    CPI     R16, 0xFF                 ; Verificar si R16 es -1 (0xFF)
+    BRNE    AJUSTAR_DECENAS           ; Si no es -1, ajustar las decenas
 
-    LDI     R16, 9
-    MOV     R7, R16
-    MOV     R16, R8
-    DEC     R16
-    RJMP    UPDATE_RES_DEC_DIA
+    ; Si las decenas son -1, ajustar al último día del mes actual (en decimal)
+    MOV     R24, R27                  ; Cargar el número de días del mes en R24
+    RJMP    CONVERTIR_A_BCD           ; Convertir a BCD y actualizar R7 y R8
 
-UPDATE_RES_UNI_DIA:
-    MOV     R7, R16
-    RET
+AJUSTAR_DECENAS:
+    ; Ajustar las decenas
+    LDI     R16, 9                    ; Cargar 9 en R16
+    MOV     R7, R16                   ; Guardar R16 en R7
+    RET                               ; Retornar de la subrutina
 
-UPDATE_RES_DEC_DIA:
-    MOV     R8, R16
-    RET
+CONVERTIR_A_BCD:
+    ; Convertir el valor decimal de la tabla a BCD
+    MOV     R16, R24                  ; Cargar el número de días en R16
+    CLR     R17                       ; Limpiar R17 para las decenas
+CONVERTIR_LOOP:
+    CPI     R16, 10                   ; Comparar con 10
+    BRLO    CONVERSION_COMPLETA       ; Si es menor que 10, la conversión está completa
+    INC     R17                       ; Incrementar las decenas
+    SUBI    R16, 10                   ; Restar 10 a las unidades
+    RJMP    CONVERTIR_LOOP            ; Repetir hasta que R16 < 10
+CONVERSION_COMPLETA:
+    ; R17 = decenas, R16 = unidades (en BCD)
+    MOV     R7, R16                   ; Guardar las unidades del día en R7
+    MOV     R8, R17                   ; Guardar las decenas del día en R8
+    RET                               ; Retornar de la subrutina
 
-EXIT_RES_DIA:
-    RET
-
-;--------------------
-; Encuentra el día máximo del mes actual y lo divide en decenas y unidades
-ENCONTRAR_DIA:
-    ; Obtener el número de días del mes actual desde TABLA_DIAS
-    LDI     ZL, LOW(TABLA_DIAS << 1)
-    LDI     ZH, HIGH(TABLA_DIAS << 1)
-    ADD     ZL, R25   ; Sumar el índice del mes actual
-    ADC     ZH, R1
-    LPM     R27, Z    ; Cargar el número de días del mes en R27 (Ejemplo: 31 para enero)
-
-    ; Convertir el número de días (R27) a decenas (R8) y unidades (R7) sin usar DIV
-    MOV     R16, R27  ; Copiar el número de días a R16 (Ejemplo: 31)
-
-    CLR     R8        ; Limpiar R8 (decenas)
-FIND_TENS:
-    CPI     R16, 10   ; ¿R16 < 10?
-    BRLO    STORE_UNITS  ; Si es menor, pasar a almacenar unidades
-    SUBI    R16, 10   ; Restar 10
-    INC     R8        ; Incrementar R8 (decenas)
-    RJMP    FIND_TENS  ; Repetir hasta que R16 < 10
-
-STORE_UNITS:
-    MOV     R7, R16  ; R16 ahora contiene las unidades, guardarlas en R7
-    RET
+EXIT_RESTA_DIA:
+    RET                               ; Retornar de la subrutina
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 SUMA_MES:
-	MOV		R16, R10
-	CPI		R16, 1
-	BRNE	CONT_NORMAL_MES
-	MOV		R16, R9
-	INC		R16
-	CPI		R16, 3
-	BRNE    UPDATE_UNI_MES
-	RJMP	RESET_MES
+	LDI		R16, 0x01
+	MOV		R7, R16
+	CLR		R8
+
+    MOV     R16, R10
+    CPI     R16, 1
+    BRNE    CONT_NORMAL_MES	
+    MOV     R16, R9
+    INC     R16
+    CPI     R16, 3
+    BRNE    UPDATE_UNI_MES
+    RJMP    RESET_MES
+
 CONT_NORMAL_MES:
-	MOV		R16, R9
-	INC		R16
-	CPI		R16, 10
-	BRNE    UPDATE_UNI_MES
+    MOV     R16, R9
+    INC     R16
+    CPI     R16, 10
+    BRNE    UPDATE_UNI_MES
     CLR     R16
+
 UPDATE_UNI_MES:
     MOV     R9, R16
-	CPI		R16, 0
-	BRNE	ACTUALIZAR_SUM_MES
-	MOV		R16, R10
+    CPI     R16, 0
+    BRNE    ACTUALIZAR_SUM_MES
+    MOV     R16, R10
     INC     R16
     CPI     R16, 2
     BRNE    UPDATE_DEC_MES
     CLR     R16
+
 UPDATE_DEC_MES:
     MOV     R10, R16
-	RJMP	ACTUALIZAR_SUM_MES
+    RJMP    ACTUALIZAR_SUM_MES
+
 RESET_MES:
-	LDI		R16 ,0x01
-	MOV		R9, R16
-	CLR		R16
-	MOV		R10, R16
+    LDI     R16, 0x01
+    MOV     R9, R16
+    CLR     R16
+    MOV     R10, R16
+
 ACTUALIZAR_SUM_MES:
-	MOV		R16, R25
-	INC		R16
-	CPI		R16, 13
-	BRNE	EXIT_SUM_MES
-	LDI		R16, 0x01
+    MOV     R16, R25
+    INC     R16
+    CPI     R16, 13
+    BRNE    EXIT_SUM_MES
+    LDI     R16, 0x01
+
 EXIT_SUM_MES:
-	MOV		R25, R16
+    MOV     R25, R16
     RET
+
 //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-/*RESTA_MES:
+RESTA_MES:
+	LDI		R16, 0x01
+	MOV		R7, R16
+	CLR		R8
+
     ; Decrementar el mes
     MOV     R16, R25                  ; Cargar el mes actual en R16
     DEC     R16                       ; Decrementar R16
@@ -794,12 +818,55 @@ UPDATE_MES:
 
 CONVERTIR_MES_A_BCD:
     CPI     R16, 10                   ; Comparar con 10
-    BRLO    CONVERSION_COMPLETA       ; Si es menor que 10, la conversión está completa
+    BRLO    CONVERSION_COMPLETA_MES   ; Si es menor que 10, la conversión está completa
     INC     R10                       ; Incrementar las decenas
     SUBI    R16, 10                   ; Restar 10 a las unidades
     RJMP    CONVERTIR_MES_A_BCD       ; Repetir hasta que R16 < 10
 
-CONVERSION_COMPLETA:
+CONVERSION_COMPLETA_MES:
+    ; Guardar las unidades en R9
+    MOV     R9, R16                   ; Guardar R16 en R9 (unidades)
+
+    ; Verificar si el mes es 12
+    CPI     R25, 12                   ; Comparar R25 con 12
+    BRNE    EXIT_RESTA_MES            ; Si no es 12, salir
+
+    ; Si el mes es 12, ajustar R10 y R9
+    LDI     R16, 1                    ; Cargar 1 en R16 (decenas)
+    MOV     R10, R16                  ; Guardar R16 en R10
+    LDI     R16, 2                    ; Cargar 2 en R16 (unidades)
+    MOV     R9, R16                   ; Guardar R16 en R9
+
+EXIT_RESTA_MES:
+    RET                               ; Retornar de la subrutina
+/*
+RESTA_MES:
+    ; Decrementar el mes
+    MOV     R16, R25                  ; Cargar el mes actual en R16
+    DEC     R16                       ; Decrementar R16
+    CPI     R16, 0                    ; Verificar si el mes es 0
+    BRNE    UPDATE_MES                ; Si no es 0, actualizar el mes
+
+    ; Si el mes es 0, ajustar a 12
+    LDI     R16, 12                   ; Cargar 12 en R16
+    MOV     R25, R16                  ; Guardar 12 en R25 (mes actual)
+
+UPDATE_MES:
+    ; Actualizar el mes
+    MOV     R25, R16                  ; Guardar R16 en R25
+
+    ; Convertir el mes a unidades (R9) y decenas (R10)
+    CLR     R10                       ; Limpiar R10 (decenas)
+    CLR     R9                        ; Limpiar R9 (unidades)
+
+CONVERTIR_MES_A_BCD:
+    CPI     R16, 10                   ; Comparar con 10
+    BRLO    CONVERSION_COMPLETA_MES       ; Si es menor que 10, la conversión está completa
+    INC     R10                       ; Incrementar las decenas
+    SUBI    R16, 10                   ; Restar 10 a las unidades
+    RJMP    CONVERTIR_MES_A_BCD       ; Repetir hasta que R16 < 10
+
+CONVERSION_COMPLETA_MES:
     ; Guardar las unidades en R9
     MOV     R9, R16                   ; Guardar R16 en R9 (unidades)
     RET                               ; Retornar de la subrutina*/
@@ -1286,8 +1353,11 @@ UPDATE_UNI_MIN:
 
     // Verificar si se debe incrementar decenas de minutos
     CPI     R16, 0             // Si unidades de minutos no son 0, no incrementar decenas
-    BRNE    EXIT_TMR1_ISR	   // Salir de la interrupción
-
+    BRNE    SALIR_ISR_1	   // Salir de la interrupción
+	RJMP	CONTINUAR_UNI_MIN
+SALIR_ISR_1:
+	RJMP	EXIT_TMR1_ISR
+CONTINUAR_UNI_MIN:
     // Incrementar minutos (decenas)
     MOV     R16, R4			   // Mover decenas de minutos a R16
     INC     R16                // Incrementar decenas de minutos
@@ -1300,8 +1370,11 @@ UPDATE_DEC_MIN:
 
     // Verificar si se debe incrementar horas
     CPI     R16, 0             // Si decenas de minutos no son 0, no incrementar horas
-    BRNE    EXIT_TMR1_ISR		// Salir de la interrupción
-
+    BRNE    SALIR_ISR_2		// Salir de la interrupción
+	RJMP	CONTINUAR_DEC_MIN
+SALIR_ISR_2:
+	RJMP	EXIT_TMR1_ISR
+CONTINUAR_DEC_MIN:
     // Incrementar horas (unidades)
 	MOV		R16, R6				// Mover el valor de R6 (decena hora) a R16
 	CPI		R16, 2				//Comparar si es 2 y así unidad de hora no cuente hasta 9
@@ -1324,8 +1397,11 @@ UPDATE_UNI_HORA:
 
     // Verificar si se debe incrementar decenas de horas
     CPI     R16, 0             // Si unidades de horas no son 0, no incrementar decenas
-    BRNE    EXIT_TMR1_ISR
-
+    BRNE    SALIR_ISR_3
+	RJMP	CONTINUAR_UNI_HORA
+SALIR_ISR_3:
+	RJMP	EXIT_TMR1_ISR
+CONTINUAR_UNI_HORA:
    // Incrementar horas (decenas)
 	MOV     R16, R6            // Mover decenas de horas a R16
 	CPI		R16, 2				// Comparar si es igual a 2
@@ -1335,18 +1411,129 @@ RESET_TOTAL:
 	CLR		R6					// Reiniciar R6 (decena hora)
 	CLR		R5					// Reiniciar R5 (unidad hora)
 	CLR		R16					// Reiniciar registro de propósito general
-	RJMP	EXIT_TMR1_ISR		// Salir de la interrupción
+	RJMP	NUEVO_DIA		// Salir de la interrupción
 
 CONTINUAR_DEC_HORA:
 	INC		R16					// Incrementar R16
 	MOV		R6, R16				
+	RJMP	EXIT_TMR1_ISR
+
+NUEVO_DIA:
+    ; Calcular el día actual en formato decimal (R24 = R8 * 10 + R7)
+    MOV     R24, R8
+    MOV     R27, R24
+    LSL     R24          ; R24 = R8 * 2
+    LSL     R27          ; R27 = R8 * 2
+    LSL     R27          ; R27 = R8 * 4
+    LSL     R27          ; R27 = R8 * 8
+    ADD     R24, R27     ; R24 = (R8 * 2) + (R8 * 8) = R8 * 10
+    ADD     R24, R7      ; R24 = R8 * 10 + R7
+
+    ; Obtener el número de días del mes actual (en decimal)
+    LDI     ZL, LOW(TABLA_DIAS << 1)  ; Cargar la dirección baja de la tabla
+    LDI     ZH, HIGH(TABLA_DIAS << 1) ; Cargar la dirección alta de la tabla
+    MOV     R16, R25                  ; Cargar el mes actual en R16
+    DEC     R16                       ; Ajustar el índice (R16 = R25 - 1)
+    ADD     ZL, R16                   ; Sumar el índice del mes a la dirección
+    ADC     ZH, R1                    ; Añadir el acarreo si es necesario
+    LPM     R27, Z                    ; Cargar el número de días del mes en R27 (decimal)
+
+    ; Comparar el día actual con el número máximo de días del mes
+    CP      R24, R27                  ; Comparar R24 con R27
+    BRLO    CONTINUAR_SUMA_DIA_ISR    ; Si R24 < R27, continuar sumando
+
+    ; Si R24 >= R27, reiniciar el día a 1 y sumar un mes
+    LDI     R16, 1                    ; Cargar 1 en R16
+    MOV     R7, R16                   ; Guardar 1 en R7 (unidades del día)
+    CLR     R8                        ; Limpiar R8 (decenas del día)
+
+    ; Verificar si el mes es 12 (diciembre)
+    MOV     R16, R25                  ; Cargar el mes actual en R16
+    CPI     R16, 12                   ; Comparar R16 con 12
+    BRNE    SUMA_MES_ISR              ; Si no es 12, sumar un mes
+
+    ; Si el mes es 12, reiniciar a 1 de enero
+    LDI     R16, 1                    ; Cargar 1 en R16
+    MOV     R25, R16                  ; Reiniciar el mes a 1
+    MOV     R9, R16                   ; Reiniciar R9 (unidades del mes) a 1
+    CLR     R10                       ; Reiniciar R10 (decenas del mes) a 0
+    RJMP    EXIT_TMR1_ISR             ; Salir de la subrutina
+
+SUMA_MES_ISR:
+    LDI     R16, 0x01
+    MOV     R7, R16
+    CLR     R8
+
+    MOV     R16, R10
+    CPI     R16, 1
+    BRNE    CONT_NORMAL_MES_ISR
+    MOV     R16, R9
+    INC     R16
+    CPI     R16, 3
+    BRNE    UPDATE_UNI_MES_ISR
+    RJMP    RESET_MES_ISR
+
+CONT_NORMAL_MES_ISR:
+    MOV     R16, R9
+    INC     R16
+    CPI     R16, 10
+    BRNE    UPDATE_UNI_MES_ISR
+    CLR     R16
+
+UPDATE_UNI_MES_ISR:
+    MOV     R9, R16
+    CPI     R16, 0
+    BRNE    ACTUALIZAR_SUM_MES_ISR
+    MOV     R16, R10
+    INC     R16
+    CPI     R16, 2
+    BRNE    UPDATE_DEC_MES_ISR
+    CLR     R16
+
+UPDATE_DEC_MES_ISR:
+    MOV     R10, R16
+    RJMP    ACTUALIZAR_SUM_MES_ISR
+
+RESET_MES_ISR:
+    LDI     R16, 0x01
+    MOV     R9, R16
+    CLR     R16
+    MOV     R10, R16
+
+ACTUALIZAR_SUM_MES_ISR:
+    MOV     R16, R25
+    INC     R16
+    CPI     R16, 13
+    BRNE    EXIT_SUM_MES_ISR
+    LDI     R16, 0x01
+
+EXIT_SUM_MES_ISR:
+    MOV     R25, R16
+    RJMP    EXIT_TMR1_ISR
+
+CONTINUAR_SUMA_DIA_ISR:
+    ; Incrementar las unidades del día
+    MOV     R16, R7                   ; Cargar R7 en R16
+    INC     R16                       ; Incrementar R16
+    CPI     R16, 10                   ; Comparar R16 con 10
+    BRNE    UPDATE_SUM_UNI_DIA_ISR    ; Si no es 10, actualizar las unidades
+
+    ; Si las unidades son 10, reiniciar a 0 e incrementar las decenas
+    CLR     R16                       ; Limpiar R16
+    MOV     R7, R16                   ; Guardar 0 en R7 (unidades del día)
+    INC     R8                        ; Incrementar R8 (decenas del día)
+    RJMP    EXIT_TMR1_ISR             ; Retornar de la subrutina
+
+UPDATE_SUM_UNI_DIA_ISR:
+    ; Actualizar las unidades del día
+    MOV     R7, R16                   ; Guardar R16 en R7
+    RJMP    EXIT_TMR1_ISR             ; Retornar de la subrutina
 
 EXIT_TMR1_ISR:
     POP     R16
     OUT     SREG, R16
     POP     R16
     RETI
-
 //.........................................................................................................
 
 ISR_TIMER2:

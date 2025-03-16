@@ -1,5 +1,5 @@
 
-AVRASM ver. 2.2.8  C:\Users\bsmor\OneDrive\Documentos\GitHub\PROYECTO1_reloj\Proyecto1_reloj\Proyecto1_reloj\main.asm Sat Mar 15 16:38:00 2025
+AVRASM ver. 2.2.8  C:\Users\bsmor\OneDrive\Documentos\GitHub\PROYECTO1_reloj\Proyecto1_reloj\Proyecto1_reloj\main.asm Sat Mar 15 21:50:09 2025
 
 [builtin](2): Including file 'C:/Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.7.374\avrasm\inc\m328Pdef.inc'
 C:\Users\bsmor\OneDrive\Documentos\GitHub\PROYECTO1_reloj\Proyecto1_reloj\Proyecto1_reloj\main.asm(11): Including file 'C:/Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.7.374\avrasm\inc\M328PDEF.inc'
@@ -1071,16 +1071,16 @@ C:\Users\bsmor\OneDrive\Documentos\GitHub\PROYECTO1_reloj\Proyecto1_reloj\Proyec
 000000 940c 0022                 	JMP	START
                                  	
                                  .org	PCI0addr
-000006 940c 0291                 	JMP	ISR_BOTON
+000006 940c 029d                 	JMP	ISR_BOTON
                                  
                                  .org	OVF2addr
-000012 940c 03ad                 	JMP	ISR_TIMER2
+000012 940c 040b                 	JMP	ISR_TIMER2
                                  	
                                  .org	OVF1addr
-00001a 940c 0377                 	JMP	ISR_TIMER1
+00001a 940c 0383                 	JMP	ISR_TIMER1
                                  
                                  .org	OVF0addr
-000020 940c 02d5                 	JMP	ISR_TIMER0
+000020 940c 02e1                 	JMP	ISR_TIMER0
                                  	
                                  //==============================================================================
                                  START:
@@ -1256,9 +1256,9 @@ C:\Users\bsmor\OneDrive\Documentos\GitHub\PROYECTO1_reloj\Proyecto1_reloj\Proyec
 00009d 3043                      	CPI		MODO, 3
 00009e f071                      	BREQ	CONF_HORA_RJMP
 00009f 3044                      	CPI		MODO, 4
-0000a0 f069                      	BREQ	CONF_DIA_RJMP
+0000a0 f071                      	BREQ	CONF_MES_RJMP
 0000a1 3045                      	CPI		MODO, 5
-0000a2 f061                      	BREQ	CONF_MES_RJMP
+0000a2 f059                      	BREQ	CONF_DIA_RJMP
 0000a3 3046                      	CPI		MODO, 6
 0000a4 f059                      	BREQ	CONF_ALARMA_MIN_RJMP
 0000a5 3047                      	CPI		MODO, 7
@@ -1295,7 +1295,7 @@ C:\Users\bsmor\OneDrive\Documentos\GitHub\PROYECTO1_reloj\Proyecto1_reloj\Proyec
 0000b7 e001                      	LDI		R16, (1 << TOIE1)
 0000b8 9300 006f                 	STS		TIMSK1, R16
                                  
-0000ba 940e 0283                 	CALL	SONAR_ALARMA
+0000ba 940e 028f                 	CALL	SONAR_ALARMA
                                  
 0000bc cfda                      	RJMP	MAIN
                                  //---------------------------------------------------------------------------------------------------------------
@@ -1308,7 +1308,7 @@ C:\Users\bsmor\OneDrive\Documentos\GitHub\PROYECTO1_reloj\Proyecto1_reloj\Proyec
 0000c1 e001                      	LDI		R16, (1 << TOIE1)
 0000c2 9300 006f                 	STS		TIMSK1, R16
                                  
-0000c4 940e 0283                 	CALL	SONAR_ALARMA
+0000c4 940e 028f                 	CALL	SONAR_ALARMA
                                  
 0000c6 cfd0                      	RJMP	MAIN
                                  //--------------------------------------------------------------------------------------------------------------
@@ -1417,7 +1417,7 @@ C:\Users\bsmor\OneDrive\Documentos\GitHub\PROYECTO1_reloj\Proyecto1_reloj\Proyec
 000116 cf80                          RJMP    MAIN               ; Vuelve al inicio del bucle
                                  
                                  DO_RESTA_MES:
-000117 940e 0224                     CALL    RESTA_MES              ; Llama a la subrutina RESTA
+000117 940e 0227                     CALL    RESTA_MES              ; Llama a la subrutina RESTA
 000119 2766                          CLR     ACTION             ; Limpia ACTION después de la operación
 00011a cf7c                          RJMP    MAIN               ; Vuelve al inicio del bucle
                                  //-------------------------------------------------------------------------------------------------------------------
@@ -1440,12 +1440,12 @@ C:\Users\bsmor\OneDrive\Documentos\GitHub\PROYECTO1_reloj\Proyecto1_reloj\Proyec
 000127 cf6f                          RJMP    MAIN               ; Vuelve al inicio del bucle
                                  
                                  DO_SUMA_MIN_ALARMA:
-000128 940e 0234                     CALL    SUMA_MIN_ALARMA               ; Llama a la subrutina SUMA
+000128 940e 0240                     CALL    SUMA_MIN_ALARMA               ; Llama a la subrutina SUMA
 00012a 2766                          CLR     ACTION             ; Limpia ACTION después de la operación
 00012b cf6b                          RJMP    MAIN               ; Vuelve al inicio del bucle
                                  
                                  DO_RESTA_MIN_ALARMA:
-00012c 940e 0245                     CALL    RESTA_MIN_ALARMA              ; Llama a la subrutina RESTA
+00012c 940e 0251                     CALL    RESTA_MIN_ALARMA              ; Llama a la subrutina RESTA
 00012e 2766                          CLR     ACTION             ; Limpia ACTION después de la operación
 00012f cf67                          RJMP    MAIN               ; Vuelve al inicio del bucle
                                  
@@ -1468,12 +1468,12 @@ C:\Users\bsmor\OneDrive\Documentos\GitHub\PROYECTO1_reloj\Proyecto1_reloj\Proyec
 00013c cf5a                          RJMP    MAIN               ; Vuelve al inicio del bucle
                                  
                                  DO_SUMA_HORA_ALARMA:
-00013d 940e 0256                     CALL    SUMA_HORA_ALARMA               ; Llama a la subrutina SUMA
+00013d 940e 0262                     CALL    SUMA_HORA_ALARMA               ; Llama a la subrutina SUMA
 00013f 2766                          CLR     ACTION             ; Limpia ACTION después de la operación
 000140 cf56                          RJMP    MAIN               ; Vuelve al inicio del bucle
                                  
                                  DO_RESTA_HORA_ALARMA:
-000141 940e 0270                     CALL    RESTA_HORA_ALARMA              ; Llama a la subrutina RESTA
+000141 940e 027c                     CALL    RESTA_HORA_ALARMA              ; Llama a la subrutina RESTA
 000143 2766                          CLR     ACTION             ; Limpia ACTION después de la operación
 000144 cf52                          RJMP    MAIN               ; Vuelve al inicio del bucle
                                  
@@ -1497,7 +1497,7 @@ C:\Users\bsmor\OneDrive\Documentos\GitHub\PROYECTO1_reloj\Proyecto1_reloj\Proyec
 000150 24ff                      	CLR		R15					// Coloco el valor correspondiente para que su muestre "nada"
 000151 e012                      	LDI		R17, 0x02			// Coloco el valor correspondiente para que se muestre "N"
 000152 e021                      	LDI		R18, 0x01			// Coloco el valor correspondiente para que se muestre "O"
-000153 940e 0283                     CALL    SONAR_ALARMA               ; Llama a la subrutina SUMA
+000153 940e 028f                     CALL    SONAR_ALARMA               ; Llama a la subrutina SUMA
 000155 2766                          CLR     ACTION             ; Limpia ACTION después de la operación
 000156 cf40                          RJMP    MAIN               ; Vuelve al inicio del bucle
                                  
@@ -1507,7 +1507,7 @@ C:\Users\bsmor\OneDrive\Documentos\GitHub\PROYECTO1_reloj\Proyecto1_reloj\Proyec
 000159 2ef0                      	MOV		R15, R16			// Coloco el valor correspondiente para que su muestre "F"
 00015a e013                      	LDI		R17, 0x03			// Coloco el valor correspondiente para que se muestre "F"
 00015b e021                      	LDI		R18, 0x01			// Coloco el valor correspondiente para que se muestre "O"
-00015c 940e 0283                     CALL    SONAR_ALARMA              ; Llama a la subrutina RESTA
+00015c 940e 028f                     CALL    SONAR_ALARMA              ; Llama a la subrutina RESTA
 00015e 2766                          CLR     ACTION             ; Limpia ACTION después de la operación
 00015f cf37                          RJMP    MAIN               ; Vuelve al inicio del bucle
                                  
@@ -1656,745 +1656,931 @@ C:\Users\bsmor\OneDrive\Documentos\GitHub\PROYECTO1_reloj\Proyecto1_reloj\Proyec
 0001b1 9508                          RET                        ; Retorna de la subrutina
                                  //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
                                  SUMA_DIA:
-0001b2 2d88                      	MOV		R24, R8
-0001b3 2fb8                          MOV     R27, R24     ; Copiar R16 en R17 para hacer los cálculos separados
-0001b4 0f88                          LSL     R24          ; R16 = R16 * 2  (Multiplicar por 2)
-0001b5 0fbb                          LSL     R27          ; R17 = R17 * 2  (Multiplicar por 2)
-0001b6 0fbb                          LSL     R27          ; R17 = R17 * 4  (Multiplicar por 4)
-0001b7 0fbb                          LSL     R27          ; R17 = R17 * 8  (Multiplicar por 8)
-0001b8 0f8b                          ADD     R24, R27     ; R16 = (R16 * 2) + (R17 * 8) = R16 * 10
-0001b9 0d87                      	ADD		R24, R7
+                                     ; Calcular el día actual en formato decimal (R24 = R8 * 10 + R7)
+0001b2 2d88                          MOV     R24, R8
+0001b3 2fb8                          MOV     R27, R24
+0001b4 0f88                          LSL     R24          ; R24 = R8 * 2
+0001b5 0fbb                          LSL     R27          ; R27 = R8 * 2
+0001b6 0fbb                          LSL     R27          ; R27 = R8 * 4
+0001b7 0fbb                          LSL     R27          ; R27 = R8 * 8
+0001b8 0f8b                          ADD     R24, R27     ; R24 = (R8 * 2) + (R8 * 8) = R8 * 10
+0001b9 0d87                          ADD     R24, R7      ; R24 = R8 * 10 + R7
                                  
-0001ba ebe4                      	LDI		ZL, LOW(TABLA_DIAS << 1)
-0001bb e0f0                      	LDI		ZH, HIGH(TABLA_DIAS << 1)
-0001bc 0fe9                      	ADD		ZL, R25
-0001bd 1df1                      	ADC		ZH, R1
-0001be 91b4                      	LPM		R27, Z
+                                     ; Obtener el número de días del mes actual (en decimal)
+0001ba ebe4                          LDI     ZL, LOW(TABLA_DIAS << 1)  ; Cargar la dirección baja de la tabla
+0001bb e0f0                          LDI     ZH, HIGH(TABLA_DIAS << 1) ; Cargar la dirección alta de la tabla
+0001bc 2f09                          MOV     R16, R25                  ; Cargar el mes actual en R16
+0001bd 950a                          DEC     R16                       ; Ajustar el índice (R16 = R25 - 1)
+0001be 0fe0                          ADD     ZL, R16                   ; Sumar el índice del mes a la dirección
+0001bf 1df1                          ADC     ZH, R1                    ; Añadir el acarreo si es necesario
+0001c0 91b4                          LPM     R27, Z                    ; Cargar el número de días del mes en R27 (decimal)
                                  
-0001bf 2f08                      	MOV		R16, R24
-0001c0 170b                      	CP		R16, R27
-0001c1 f429                      	BRNE    CONTINUAR_SUMA_DIA
-0001c2 e001                      	LDI		R16, 0x01
-0001c3 2e70                          MOV		R7, R16
-0001c4 2488                          CLR     R8
-0001c5 2788                          CLR     R24
-0001c6 9508                          RET
+                                     ; Comparar el día actual con el número máximo de días del mes
+0001c1 178b                          CP      R24, R27                  ; Comparar R24 con R27
+0001c2 f020                          BRLO    CONTINUAR_SUMA_DIA        ; Si R24 < R27, continuar sumando
+                                 
+                                     ; Si R24 >= R27, reiniciar el día a 1
+0001c3 e001                          LDI     R16, 1                    ; Cargar 1 en R16
+0001c4 2e70                          MOV     R7, R16                   ; Guardar 1 en R7 (unidades del día)
+0001c5 2488                          CLR     R8                        ; Limpiar R8 (decenas del día)
+0001c6 9508                          RET                               ; Retornar de la subrutina
                                  
                                  CONTINUAR_SUMA_DIA:
-0001c7 2d07                          MOV     R16, R7
-0001c8 9503                          INC     R16
-0001c9 300a                          CPI     R16, 10
-0001ca f421                          BRNE    UPDATE_SUM_UNI_DIA
-0001cb 2700                          CLR     R16
-0001cc 2477                          CLR     R7
-0001cd 9483                          INC     R8              ; Incrementar R8 cuando R7 llega a 10
-0001ce 9508                          RET
+                                     ; Incrementar las unidades del día
+0001c7 2d07                          MOV     R16, R7                   ; Cargar R7 en R16
+0001c8 9503                          INC     R16                       ; Incrementar R16
+0001c9 300a                          CPI     R16, 10                   ; Comparar R16 con 10
+0001ca f421                          BRNE    UPDATE_SUM_UNI_DIA        ; Si no es 10, actualizar las unidades
+                                 
+                                     ; Si las unidades son 10, reiniciar a 0 e incrementar las decenas
+0001cb 2700                          CLR     R16                       ; Limpiar R16
+0001cc 2e70                          MOV     R7, R16                   ; Guardar 0 en R7 (unidades del día)
+0001cd 9483                          INC     R8                        ; Incrementar R8 (decenas del día)
+0001ce 9508                          RET                               ; Retornar de la subrutina
                                  
                                  UPDATE_SUM_UNI_DIA:
-0001cf 2e70                          MOV     R7, R16
-0001d0 9508                          RET
+                                     ; Actualizar las unidades del día
+0001cf 2e70                          MOV     R7, R16                   ; Guardar R16 en R7
+0001d0 9508                          RET                               ; Retornar de la subrutina
+                                 
                                  //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
                                  RESTA_DIA:
+                                     ; Calcular el día actual en formato decimal (R24 = R8 * 10 + R7)
 0001d1 2d88                          MOV     R24, R8
-0001d2 2fb8                          MOV     R27, R24     ; Copiar R8 en R27 para cálculos separados
-0001d3 0f88                          LSL     R24          ; R24 = R24 * 2  (Multiplicar por 2)
-0001d4 0fbb                          LSL     R27          ; R27 = R27 * 2  (Multiplicar por 2)
-0001d5 0fbb                          LSL     R27          ; R27 = R27 * 4  (Multiplicar por 4)
-0001d6 0fbb                          LSL     R27          ; R27 = R27 * 8  (Multiplicar por 8)
-0001d7 0f8b                          ADD     R24, R27     ; R24 = (R24 * 2) + (R27 * 8) = R24 * 10
-0001d8 0d87                          ADD     R24, R7
+0001d2 2fb8                          MOV     R27, R24
+0001d3 0f88                          LSL     R24          ; R24 = R8 * 2
+0001d4 0fbb                          LSL     R27          ; R27 = R8 * 2
+0001d5 0fbb                          LSL     R27          ; R27 = R8 * 4
+0001d6 0fbb                          LSL     R27          ; R27 = R8 * 8
+0001d7 0f8b                          ADD     R24, R27     ; R24 = (R8 * 2) + (R8 * 8) = R8 * 10
+0001d8 0d87                          ADD     R24, R7      ; R24 = R8 * 10 + R7
                                  
-                                     ; Obtener el número de días del mes actual
-0001d9 ebe4                          LDI     ZL, LOW(TABLA_DIAS << 1)
-0001da e0f0                          LDI     ZH, HIGH(TABLA_DIAS << 1)
-0001db 0fe9                          ADD     ZL, R25
-0001dc 1df1                          ADC     ZH, R1
-0001dd 91b4                          LPM     R27, Z    ; Cargar el número de días del mes en R27
+                                     ; Obtener el número de días del mes actual (en decimal)
+0001d9 ebe4                          LDI     ZL, LOW(TABLA_DIAS << 1)  ; Cargar la dirección baja de la tabla
+0001da e0f0                          LDI     ZH, HIGH(TABLA_DIAS << 1) ; Cargar la dirección alta de la tabla
+0001db 2f09                          MOV     R16, R25                  ; Cargar el mes actual en R16
+0001dc 950a                          DEC     R16                       ; Ajustar el índice (R16 = R25 - 1)
+0001dd 0fe0                          ADD     ZL, R16                   ; Sumar el índice del mes a la dirección
+0001de 1df1                          ADC     ZH, R1                    ; Añadir el acarreo si es necesario
+0001df 91b4                          LPM     R27, Z                    ; Cargar el número de días del mes en R27 (decimal)
                                  
-0001de 2d08                          MOV     R16, R8
-0001df 3000                          CPI     R16, 0
-0001e0 f429                          BRNE    CONTINUAR_RESTA_DIA
+                                     ; Verificar si el día actual es 1 (R7 = 1 y R8 = 0)
+0001e0 2d07                          MOV     R16, R7                   ; Cargar R7 en R16
+0001e1 3001                          CPI     R16, 1                    ; Comparar R16 con 1
+0001e2 f429                          BRNE    DECREMENTAR_NORMAL        ; Si R16 no es 1, decrementar normalmente
+0001e3 2d08                          MOV     R16, R8                   ; Cargar R8 en R16
+0001e4 3000                          CPI     R16, 0                    ; Comparar R16 con 0
+0001e5 f411                          BRNE    DECREMENTAR_NORMAL        ; Si R16 no es 0, decrementar normalmente
                                  
-0001e1 2d07                          MOV     R16, R7
-0001e2 950a                          DEC     R16
-0001e3 3000                          CPI     R16, 0
-0001e4 f451                          BRNE    UPDATE_RES_UNI_DIA
+                                     ; Si el día actual es 1, ajustar al último día del mes actual (en decimal)
+0001e6 2f8b                          MOV     R24, R27                  ; Cargar el número de días del mes en R24
+0001e7 c00f                          RJMP    CONVERTIR_A_BCD           ; Convertir a BCD y actualizar R7 y R8
                                  
-                                     ; Si estamos en día 1 y restamos, buscar el día máximo del mes
-0001e5 c00e                          RJMP    ENCONTRAR_DIA
+                                 DECREMENTAR_NORMAL:
+                                     ; Decrementar las unidades del día
+0001e8 2d07                          MOV     R16, R7                   ; Cargar R7 en R16
+0001e9 950a                          DEC     R16                       ; Decrementar R16
+0001ea 2e70                          MOV     R7, R16                   ; Guardar R16 en R7
+0001eb 3f0f                          CPI     R16, 0xFF                 ; Verificar si R16 es -1 (0xFF)
+0001ec f4a1                          BRNE    EXIT_RESTA_DIA            ; Si no es -1, salir
                                  
-                                 CONTINUAR_RESTA_DIA:
-0001e6 2d07                          MOV     R16, R7
-0001e7 950a                          DEC     R16
-0001e8 3f0f                          CPI     R16, 0xFF
-0001e9 f429                          BRNE    UPDATE_RES_UNI_DIA
+                                     ; Si las unidades son -1, ajustar las decenas y las unidades
+0001ed 2d08                          MOV     R16, R8                   ; Cargar R8 en R16
+0001ee 950a                          DEC     R16                       ; Decrementar R16
+0001ef 2e80                          MOV     R8, R16                   ; Guardar R16 en R8
+0001f0 3f0f                          CPI     R16, 0xFF                 ; Verificar si R16 es -1 (0xFF)
+0001f1 f411                          BRNE    AJUSTAR_DECENAS           ; Si no es -1, ajustar las decenas
                                  
-0001ea e009                          LDI     R16, 9
-0001eb 2e70                          MOV     R7, R16
-0001ec 2d08                          MOV     R16, R8
-0001ed 950a                          DEC     R16
-0001ee c002                          RJMP    UPDATE_RES_DEC_DIA
+                                     ; Si las decenas son -1, ajustar al último día del mes actual (en decimal)
+0001f2 2f8b                          MOV     R24, R27                  ; Cargar el número de días del mes en R24
+0001f3 c003                          RJMP    CONVERTIR_A_BCD           ; Convertir a BCD y actualizar R7 y R8
                                  
-                                 UPDATE_RES_UNI_DIA:
-0001ef 2e70                          MOV     R7, R16
-0001f0 9508                          RET
+                                 AJUSTAR_DECENAS:
+                                     ; Ajustar las decenas
+0001f4 e009                          LDI     R16, 9                    ; Cargar 9 en R16
+0001f5 2e70                          MOV     R7, R16                   ; Guardar R16 en R7
+0001f6 9508                          RET                               ; Retornar de la subrutina
                                  
-                                 UPDATE_RES_DEC_DIA:
-0001f1 2e80                          MOV     R8, R16
-0001f2 9508                          RET
+                                 CONVERTIR_A_BCD:
+                                     ; Convertir el valor decimal de la tabla a BCD
+0001f7 2f08                          MOV     R16, R24                  ; Cargar el número de días en R16
+0001f8 2711                          CLR     R17                       ; Limpiar R17 para las decenas
+                                 CONVERTIR_LOOP:
+0001f9 300a                          CPI     R16, 10                   ; Comparar con 10
+0001fa f018                          BRLO    CONVERSION_COMPLETA       ; Si es menor que 10, la conversión está completa
+0001fb 9513                          INC     R17                       ; Incrementar las decenas
+0001fc 500a                          SUBI    R16, 10                   ; Restar 10 a las unidades
+0001fd cffb                          RJMP    CONVERTIR_LOOP            ; Repetir hasta que R16 < 10
+                                 CONVERSION_COMPLETA:
+                                     ; R17 = decenas, R16 = unidades (en BCD)
+0001fe 2e70                          MOV     R7, R16                   ; Guardar las unidades del día en R7
+0001ff 2e81                          MOV     R8, R17                   ; Guardar las decenas del día en R8
+000200 9508                          RET                               ; Retornar de la subrutina
                                  
-                                 EXIT_RES_DIA:
-0001f3 9508                          RET
-                                 
-                                 ;--------------------
-                                 ; Encuentra el día máximo del mes actual y lo divide en decenas y unidades
-                                 ENCONTRAR_DIA:
-                                     ; Obtener el número de días del mes actual desde TABLA_DIAS
-0001f4 ebe4                          LDI     ZL, LOW(TABLA_DIAS << 1)
-0001f5 e0f0                          LDI     ZH, HIGH(TABLA_DIAS << 1)
-0001f6 0fe9                          ADD     ZL, R25   ; Sumar el índice del mes actual
-0001f7 1df1                          ADC     ZH, R1
-0001f8 91b4                          LPM     R27, Z    ; Cargar el número de días del mes en R27 (Ejemplo: 31 para enero)
-                                 
-                                     ; Convertir el número de días (R27) a decenas (R8) y unidades (R7) sin usar DIV
-0001f9 2f0b                          MOV     R16, R27  ; Copiar el número de días a R16 (Ejemplo: 31)
-                                 
-0001fa 2488                          CLR     R8        ; Limpiar R8 (decenas)
-                                 FIND_TENS:
-0001fb 300a                          CPI     R16, 10   ; ¿R16 < 10?
-0001fc f018                          BRLO    STORE_UNITS  ; Si es menor, pasar a almacenar unidades
-0001fd 500a                          SUBI    R16, 10   ; Restar 10
-0001fe 9483                          INC     R8        ; Incrementar R8 (decenas)
-0001ff cffb                          RJMP    FIND_TENS  ; Repetir hasta que R16 < 10
-                                 
-                                 STORE_UNITS:
-000200 2e70                          MOV     R7, R16  ; R16 ahora contiene las unidades, guardarlas en R7
-000201 9508                          RET
+                                 EXIT_RESTA_DIA:
+000201 9508                          RET                               ; Retornar de la subrutina
                                  
                                  //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
                                  SUMA_MES:
-000202 2d0a                      	MOV		R16, R10
-000203 3001                      	CPI		R16, 1
-000204 f429                      	BRNE	CONT_NORMAL_MES
-000205 2d09                      	MOV		R16, R9
-000206 9503                      	INC		R16
-000207 3003                      	CPI		R16, 3
-000208 f431                      	BRNE    UPDATE_UNI_MES
-000209 c00f                      	RJMP	RESET_MES
+000202 e001                      	LDI		R16, 0x01
+000203 2e70                      	MOV		R7, R16
+000204 2488                      	CLR		R8
+                                 
+000205 2d0a                          MOV     R16, R10
+000206 3001                          CPI     R16, 1
+000207 f429                          BRNE    CONT_NORMAL_MES	
+000208 2d09                          MOV     R16, R9
+000209 9503                          INC     R16
+00020a 3003                          CPI     R16, 3
+00020b f431                          BRNE    UPDATE_UNI_MES
+00020c c00f                          RJMP    RESET_MES
+                                 
                                  CONT_NORMAL_MES:
-00020a 2d09                      	MOV		R16, R9
-00020b 9503                      	INC		R16
-00020c 300a                      	CPI		R16, 10
-00020d f409                      	BRNE    UPDATE_UNI_MES
-00020e 2700                          CLR     R16
+00020d 2d09                          MOV     R16, R9
+00020e 9503                          INC     R16
+00020f 300a                          CPI     R16, 10
+000210 f409                          BRNE    UPDATE_UNI_MES
+000211 2700                          CLR     R16
+                                 
                                  UPDATE_UNI_MES:
-00020f 2e90                          MOV     R9, R16
-000210 3000                      	CPI		R16, 0
-000211 f459                      	BRNE	ACTUALIZAR_SUM_MES
-000212 2d0a                      	MOV		R16, R10
-000213 9503                          INC     R16
-000214 3002                          CPI     R16, 2
-000215 f409                          BRNE    UPDATE_DEC_MES
-000216 2700                          CLR     R16
+000212 2e90                          MOV     R9, R16
+000213 3000                          CPI     R16, 0
+000214 f459                          BRNE    ACTUALIZAR_SUM_MES
+000215 2d0a                          MOV     R16, R10
+000216 9503                          INC     R16
+000217 3002                          CPI     R16, 2
+000218 f409                          BRNE    UPDATE_DEC_MES
+000219 2700                          CLR     R16
+                                 
                                  UPDATE_DEC_MES:
-000217 2ea0                          MOV     R10, R16
-000218 c004                      	RJMP	ACTUALIZAR_SUM_MES
+00021a 2ea0                          MOV     R10, R16
+00021b c004                          RJMP    ACTUALIZAR_SUM_MES
+                                 
                                  RESET_MES:
-000219 e001                      	LDI		R16 ,0x01
-00021a 2e90                      	MOV		R9, R16
-00021b 2700                      	CLR		R16
-00021c 2ea0                      	MOV		R10, R16
+00021c e001                          LDI     R16, 0x01
+00021d 2e90                          MOV     R9, R16
+00021e 2700                          CLR     R16
+00021f 2ea0                          MOV     R10, R16
+                                 
                                  ACTUALIZAR_SUM_MES:
-00021d 2f09                      	MOV		R16, R25
-00021e 9503                      	INC		R16
-00021f 300d                      	CPI		R16, 13
-000220 f409                      	BRNE	EXIT_SUM_MES
-000221 e001                      	LDI		R16, 0x01
+000220 2f09                          MOV     R16, R25
+000221 9503                          INC     R16
+000222 300d                          CPI     R16, 13
+000223 f409                          BRNE    EXIT_SUM_MES
+000224 e001                          LDI     R16, 0x01
+                                 
                                  EXIT_SUM_MES:
-000222 2f90                      	MOV		R25, R16
-000223 9508                          RET
+000225 2f90                          MOV     R25, R16
+000226 9508                          RET
+                                 
                                  //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
                                  RESTA_MES:
+000227 e001                      	LDI		R16, 0x01
+000228 2e70                      	MOV		R7, R16
+000229 2488                      	CLR		R8
+                                 
                                      ; Decrementar el mes
-000224 2f09                          MOV     R16, R25                  ; Cargar el mes actual en R16
-000225 950a                          DEC     R16                       ; Decrementar R16
-000226 3000                          CPI     R16, 0                    ; Verificar si el mes es 0
-000227 f411                          BRNE    UPDATE_MES                ; Si no es 0, actualizar el mes
+00022a 2f09                          MOV     R16, R25                  ; Cargar el mes actual en R16
+00022b 950a                          DEC     R16                       ; Decrementar R16
+00022c 3000                          CPI     R16, 0                    ; Verificar si el mes es 0
+00022d f411                          BRNE    UPDATE_MES                ; Si no es 0, actualizar el mes
                                  
                                      ; Si el mes es 0, ajustar a 12
-000228 e00c                          LDI     R16, 12                   ; Cargar 12 en R16
-000229 2f90                          MOV     R25, R16                  ; Guardar 12 en R25 (mes actual)
+00022e e00c                          LDI     R16, 12                   ; Cargar 12 en R16
+00022f 2f90                          MOV     R25, R16                  ; Guardar 12 en R25 (mes actual)
                                  
                                  UPDATE_MES:
                                      ; Actualizar el mes
-00022a 2f90                          MOV     R25, R16                  ; Guardar R16 en R25
+000230 2f90                          MOV     R25, R16                  ; Guardar R16 en R25
                                  
                                      ; Convertir el mes a unidades (R9) y decenas (R10)
-00022b 24aa                          CLR     R10                       ; Limpiar R10 (decenas)
-00022c 2499                          CLR     R9                        ; Limpiar R9 (unidades)
+000231 24aa                          CLR     R10                       ; Limpiar R10 (decenas)
+000232 2499                          CLR     R9                        ; Limpiar R9 (unidades)
                                  
                                  CONVERTIR_MES_A_BCD:
-00022d 300a                          CPI     R16, 10                   ; Comparar con 10
-00022e f018                          BRLO    CONVERSION_COMPLETA       ; Si es menor que 10, la conversión está completa
-00022f 94a3                          INC     R10                       ; Incrementar las decenas
-000230 500a                          SUBI    R16, 10                   ; Restar 10 a las unidades
-000231 cffb                          RJMP    CONVERTIR_MES_A_BCD       ; Repetir hasta que R16 < 10
+000233 300a                          CPI     R16, 10                   ; Comparar con 10
+000234 f018                          BRLO    CONVERSION_COMPLETA_MES   ; Si es menor que 10, la conversión está completa
+000235 94a3                          INC     R10                       ; Incrementar las decenas
+000236 500a                          SUBI    R16, 10                   ; Restar 10 a las unidades
+000237 cffb                          RJMP    CONVERTIR_MES_A_BCD       ; Repetir hasta que R16 < 10
                                  
-                                 CONVERSION_COMPLETA:
+                                 CONVERSION_COMPLETA_MES:
                                      ; Guardar las unidades en R9
-000232 2e90                          MOV     R9, R16                   ; Guardar R16 en R9 (unidades)
+000238 2e90                          MOV     R9, R16                   ; Guardar R16 en R9 (unidades)
                                  
+                                     ; Verificar si el mes es 12
+000239 309c                          CPI     R25, 12                   ; Comparar R25 con 12
+00023a f421                          BRNE    EXIT_RESTA_MES            ; Si no es 12, salir
                                  
-000233 9508                          RET                               ; Retornar de la subrutina
+                                     ; Si el mes es 12, ajustar R10 y R9
+00023b e001                          LDI     R16, 1                    ; Cargar 1 en R16 (decenas)
+00023c 2ea0                          MOV     R10, R16                  ; Guardar R16 en R10
+00023d e002                          LDI     R16, 2                    ; Cargar 2 en R16 (unidades)
+00023e 2e90                          MOV     R9, R16                   ; Guardar R16 en R9
+                                 
+                                 EXIT_RESTA_MES:
+00023f 9508                          RET                               ; Retornar de la subrutina
+                                 /*
+                                 RESTA_MES:
+                                     ; Decrementar el mes
+                                     MOV     R16, R25                  ; Cargar el mes actual en R16
+                                     DEC     R16                       ; Decrementar R16
+                                     CPI     R16, 0                    ; Verificar si el mes es 0
+                                     BRNE    UPDATE_MES                ; Si no es 0, actualizar el mes
+                                 
+                                     ; Si el mes es 0, ajustar a 12
+                                     LDI     R16, 12                   ; Cargar 12 en R16
+                                     MOV     R25, R16                  ; Guardar 12 en R25 (mes actual)
+                                 
+                                 UPDATE_MES:
+                                     ; Actualizar el mes
+                                     MOV     R25, R16                  ; Guardar R16 en R25
+                                 
+                                     ; Convertir el mes a unidades (R9) y decenas (R10)
+                                     CLR     R10                       ; Limpiar R10 (decenas)
+                                     CLR     R9                        ; Limpiar R9 (unidades)
+                                 
+                                 CONVERTIR_MES_A_BCD:
+                                     CPI     R16, 10                   ; Comparar con 10
+                                     BRLO    CONVERSION_COMPLETA_MES       ; Si es menor que 10, la conversión está completa
+                                     INC     R10                       ; Incrementar las decenas
+                                     SUBI    R16, 10                   ; Restar 10 a las unidades
+                                     RJMP    CONVERTIR_MES_A_BCD       ; Repetir hasta que R16 < 10
+                                 
+                                 CONVERSION_COMPLETA_MES:
+                                     ; Guardar las unidades en R9
+                                     MOV     R9, R16                   ; Guardar R16 en R9 (unidades)
+                                     RET                               ; Retornar de la subrutina*/
+                                 
                                  //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
                                  SUMA_MIN_ALARMA:
                                      ; Incrementa las unidades de minutos (R3)
-000234 2d0b                          MOV     R16, R11            ; Carga R3 en R16
-000235 9503                          INC     R16                ; Incrementa R16
-000236 300a                          CPI     R16, 10            ; Compara R16 con 10
-000237 f449                          BRNE    UPDATE_SUM_UNI_MIN ; Si R16 != 10, salta a UPDATE_SUM_UNI_MIN
+000240 2d0b                          MOV     R16, R11            ; Carga R3 en R16
+000241 9503                          INC     R16                ; Incrementa R16
+000242 300a                          CPI     R16, 10            ; Compara R16 con 10
+000243 f449                          BRNE    UPDATE_SUM_UNI_MIN ; Si R16 != 10, salta a UPDATE_SUM_UNI_MIN
                                  
                                      ; Si R16 == 10, reinicia las unidades de minutos e incrementa las decenas
-000238 2700                          CLR     R16                ; Reinicia R16 a 0
-000239 2eb0                          MOV     R11, R16            ; Guarda 0 en R3 (unidades de minutos)
-00023a 2d0c                          MOV     R16, R12            ; Carga R4 en R16
-00023b 9503                          INC     R16                ; Incrementa R16 (decenas de minutos)
-00023c 3006                          CPI     R16, 6             ; Compara R16 con 6
-00023d f429                          BRNE    UPDATE_SUM_DEC_MIN ; Si R16 != 6, salta a UPDATE_SUM_DEC_MIN
+000244 2700                          CLR     R16                ; Reinicia R16 a 0
+000245 2eb0                          MOV     R11, R16            ; Guarda 0 en R3 (unidades de minutos)
+000246 2d0c                          MOV     R16, R12            ; Carga R4 en R16
+000247 9503                          INC     R16                ; Incrementa R16 (decenas de minutos)
+000248 3006                          CPI     R16, 6             ; Compara R16 con 6
+000249 f429                          BRNE    UPDATE_SUM_DEC_MIN ; Si R16 != 6, salta a UPDATE_SUM_DEC_MIN
                                  
                                      ; Si R16 == 6, reinicia las decenas de minutos
-00023e 2700                          CLR     R16                ; Reinicia R16 a 0
-00023f 2ec0                          MOV     R12, R16            ; Guarda 0 en R4 (decenas de minutos)
-000240 9508                          RET                        ; Retorna de la subrutina
+00024a 2700                          CLR     R16                ; Reinicia R16 a 0
+00024b 2ec0                          MOV     R12, R16            ; Guarda 0 en R4 (decenas de minutos)
+00024c 9508                          RET                        ; Retorna de la subrutina
                                  
                                  UPDATE_SUM_UNI_MIN:
                                      ; Actualiza las unidades de minutos
-000241 2eb0                          MOV     R11, R16            ; Guarda R16 en R3
-000242 9508                          RET                        ; Retorna de la subrutina
+00024d 2eb0                          MOV     R11, R16            ; Guarda R16 en R3
+00024e 9508                          RET                        ; Retorna de la subrutina
                                  
                                  UPDATE_SUM_DEC_MIN:
                                      ; Actualiza las decenas de minutos
-000243 2ec0                          MOV     R12, R16            ; Guarda R16 en R4
-000244 9508                          RET                        ; Retorna de la subrutina
+00024f 2ec0                          MOV     R12, R16            ; Guarda R16 en R4
+000250 9508                          RET                        ; Retorna de la subrutina
                                  //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
                                  RESTA_MIN_ALARMA:
                                      ; Resta las unidades de minutos (R3)
-000245 2d0b                          MOV     R16, R11            ; Carga R3 en R16
-000246 950a                          DEC     R16                ; Decrementa R16
-000247 3f0f                          CPI     R16, 0xFF          ; Compara R16 con -1 (0xFF en complemento a 2)
-000248 f449                          BRNE    UPDATE_RES_UNI_MIN_ALARMA  ; Si R16 != -1, salta a UPDATE_RES_UNI_MIN
+000251 2d0b                          MOV     R16, R11            ; Carga R3 en R16
+000252 950a                          DEC     R16                ; Decrementa R16
+000253 3f0f                          CPI     R16, 0xFF          ; Compara R16 con -1 (0xFF en complemento a 2)
+000254 f449                          BRNE    UPDATE_RES_UNI_MIN_ALARMA  ; Si R16 != -1, salta a UPDATE_RES_UNI_MIN
                                  
                                      ; Si R16 == -1, ajusta las unidades a 9 y decrementa las decenas
-000249 e009                          LDI     R16, 9             ; Carga 9 en R16 (unidades de minutos)
-00024a 2eb0                          MOV     R11, R16            ; Guarda 9 en R3
-00024b 2d0c                          MOV     R16, R12            ; Carga R4 en R16
-00024c 950a                          DEC     R16                ; Decrementa R16 (decenas de minutos)
-00024d 3f0f                          CPI     R16, 0xFF          ; Compara R16 con -1 (0xFF en complemento a 2)
-00024e f429                          BRNE    UPDATE_RES_DEC_MIN_ALARMA  ; Si R16 != -1, salta a UPDATE_RES_DEC_MIN
+000255 e009                          LDI     R16, 9             ; Carga 9 en R16 (unidades de minutos)
+000256 2eb0                          MOV     R11, R16            ; Guarda 9 en R3
+000257 2d0c                          MOV     R16, R12            ; Carga R4 en R16
+000258 950a                          DEC     R16                ; Decrementa R16 (decenas de minutos)
+000259 3f0f                          CPI     R16, 0xFF          ; Compara R16 con -1 (0xFF en complemento a 2)
+00025a f429                          BRNE    UPDATE_RES_DEC_MIN_ALARMA  ; Si R16 != -1, salta a UPDATE_RES_DEC_MIN
                                  
                                      ; Si R16 == -1, ajusta las decenas a 5 (para volver a 59)
-00024f e005                          LDI     R16, 5             ; Carga 5 en R16 (decenas de minutos)
-000250 2ec0                          MOV     R12, R16            ; Guarda 5 en R4
-000251 9508                          RET                        ; Retorna de la subrutina
+00025b e005                          LDI     R16, 5             ; Carga 5 en R16 (decenas de minutos)
+00025c 2ec0                          MOV     R12, R16            ; Guarda 5 en R4
+00025d 9508                          RET                        ; Retorna de la subrutina
                                  
                                  UPDATE_RES_UNI_MIN_ALARMA:
                                      ; Actualiza las unidades de minutos
-000252 2eb0                          MOV     R11, R16            ; Guarda R16 en R3
-000253 9508                          RET                        ; Retorna de la subrutina
+00025e 2eb0                          MOV     R11, R16            ; Guarda R16 en R3
+00025f 9508                          RET                        ; Retorna de la subrutina
                                  
                                  UPDATE_RES_DEC_MIN_ALARMA:
                                      ; Actualiza las decenas de minutos
-000254 2ec0                          MOV     R12, R16            ; Guarda R16 en R4
-000255 9508                          RET                        ; Retorna de la subrutina
+000260 2ec0                          MOV     R12, R16            ; Guarda R16 en R4
+000261 9508                          RET                        ; Retorna de la subrutina
                                  //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
                                  SUMA_HORA_ALARMA:
                                      ; Incrementa las unidades de hora (R5)
-000256 2d0e                      	MOV		R16, R14
-000257 3002                      	CPI		R16, 2
-000258 f429                      	BRNE	CONTINUAR_NORMAL_HORA_ALARMA
+000262 2d0e                      	MOV		R16, R14
+000263 3002                      	CPI		R16, 2
+000264 f429                      	BRNE	CONTINUAR_NORMAL_HORA_ALARMA
                                  
-000259 2d0d                      	MOV		R16, R13
-00025a 9503                      	INC		R16
-00025b 3004                      	CPI		R16, 4
-00025c f479                      	BRNE	UPDATE_SUM_UNI_HORA_ALARMA
-00025d c00a                      	RJMP	RESET_HORAS_ALARMA
+000265 2d0d                      	MOV		R16, R13
+000266 9503                      	INC		R16
+000267 3004                      	CPI		R16, 4
+000268 f479                      	BRNE	UPDATE_SUM_UNI_HORA_ALARMA
+000269 c00a                      	RJMP	RESET_HORAS_ALARMA
                                  
                                  CONTINUAR_NORMAL_HORA_ALARMA:
-00025e 2d0d                          MOV     R16, R13            ; Carga R5 en R16
-00025f 9503                          INC     R16                ; Incrementa R16
-000260 300a                          CPI     R16, 10            ; Compara R16 con 10
-000261 f451                          BRNE    UPDATE_SUM_UNI_HORA_ALARMA ; Si R16 != 10, salta a UPDATE_SUM_UNI_MIN
+00026a 2d0d                          MOV     R16, R13            ; Carga R5 en R16
+00026b 9503                          INC     R16                ; Incrementa R16
+00026c 300a                          CPI     R16, 10            ; Compara R16 con 10
+00026d f451                          BRNE    UPDATE_SUM_UNI_HORA_ALARMA ; Si R16 != 10, salta a UPDATE_SUM_UNI_MIN
                                  
                                      ; Si R16 == 10, reinicia las unidades de minutos e incrementa las decenas
-000262 2700                          CLR     R16                ; Reinicia R16 a 0
-000263 2ed0                          MOV     R13, R16            ; Guarda 0 en R3 (unidades de minutos)
-000264 2d0e                          MOV     R16, R14            ; Carga R4 en R16
-000265 9503                          INC     R16                ; Incrementa R16 (decenas de minutos)
-000266 3006                          CPI     R16, 6             ; Compara R16 con 6
-000267 f431                          BRNE    UPDATE_SUM_DEC_HORA_ALARMA ; Si R16 != 6, salta a UPDATE_SUM_DEC_MIN
+00026e 2700                          CLR     R16                ; Reinicia R16 a 0
+00026f 2ed0                          MOV     R13, R16            ; Guarda 0 en R3 (unidades de minutos)
+000270 2d0e                          MOV     R16, R14            ; Carga R4 en R16
+000271 9503                          INC     R16                ; Incrementa R16 (decenas de minutos)
+000272 3006                          CPI     R16, 6             ; Compara R16 con 6
+000273 f431                          BRNE    UPDATE_SUM_DEC_HORA_ALARMA ; Si R16 != 6, salta a UPDATE_SUM_DEC_MIN
                                  
                                  RESET_HORAS_ALARMA:
                                      ; Si R16 == 6, reinicia las decenas de minutos
-000268 2700                          CLR     R16                ; Reinicia R16 a 0
-000269 2ee0                          MOV     R14, R16            ; Guarda 0 en R4 (decenas de minutos)
-00026a 2ed0                      	MOV		R13, R16
-00026b 9508                          RET                        ; Retorna de la subrutina
+000274 2700                          CLR     R16                ; Reinicia R16 a 0
+000275 2ee0                          MOV     R14, R16            ; Guarda 0 en R4 (decenas de minutos)
+000276 2ed0                      	MOV		R13, R16
+000277 9508                          RET                        ; Retorna de la subrutina
                                  
                                  UPDATE_SUM_UNI_HORA_ALARMA:
                                      ; Actualiza las unidades de minutos
-00026c 2ed0                          MOV     R13, R16            ; Guarda R16 en R3
-00026d 9508                          RET                        ; Retorna de la subrutina
+000278 2ed0                          MOV     R13, R16            ; Guarda R16 en R3
+000279 9508                          RET                        ; Retorna de la subrutina
                                  
                                  UPDATE_SUM_DEC_HORA_ALARMA:
                                      ; Actualiza las decenas de minutos
-00026e 2ee0                          MOV     R14 , R16            ; Guarda R16 en R4
-00026f 9508                          RET                        ; Retorna de la subrutina
+00027a 2ee0                          MOV     R14 , R16            ; Guarda R16 en R4
+00027b 9508                          RET                        ; Retorna de la subrutina
                                  //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
                                  RESTA_HORA_ALARMA:
                                      ; Resta las unidades de minutos (R3)
-000270 2d0d                          MOV     R16, R13            ; Carga R3 en R16
-000271 950a                          DEC     R16                ; Decrementa R16
-000272 3f0f                          CPI     R16, 0xFF          ; Compara R16 con -1 (0xFF en complemento a 2)
-000273 f459                          BRNE    UPDATE_RES_UNI_HORA_ALARMA  ; Si R16 != -1, salta a UPDATE_RES_UNI_MIN
+00027c 2d0d                          MOV     R16, R13            ; Carga R3 en R16
+00027d 950a                          DEC     R16                ; Decrementa R16
+00027e 3f0f                          CPI     R16, 0xFF          ; Compara R16 con -1 (0xFF en complemento a 2)
+00027f f459                          BRNE    UPDATE_RES_UNI_HORA_ALARMA  ; Si R16 != -1, salta a UPDATE_RES_UNI_MIN
                                  
                                      ; Si R16 == -1, ajusta las unidades a 9 y decrementa las decenas
-000274 e009                          LDI     R16, 9             ; Carga 9 en R16 (unidades de minutos)
-000275 2ed0                          MOV     R13, R16            ; Guarda 9 en R3
-000276 2d0e                          MOV     R16, R14           ; Carga R4 en R16
-000277 950a                          DEC     R16                ; Decrementa R16 (decenas de minutos)
-000278 3f0f                          CPI     R16, 0xFF          ; Compara R16 con -1 (0xFF en complemento a 2)
-000279 f439                          BRNE    UPDATE_RES_DEC_HORA_ALARMA  ; Si R16 != -1, salta a UPDATE_RES_DEC_MIN
+000280 e009                          LDI     R16, 9             ; Carga 9 en R16 (unidades de minutos)
+000281 2ed0                          MOV     R13, R16            ; Guarda 9 en R3
+000282 2d0e                          MOV     R16, R14           ; Carga R4 en R16
+000283 950a                          DEC     R16                ; Decrementa R16 (decenas de minutos)
+000284 3f0f                          CPI     R16, 0xFF          ; Compara R16 con -1 (0xFF en complemento a 2)
+000285 f439                          BRNE    UPDATE_RES_DEC_HORA_ALARMA  ; Si R16 != -1, salta a UPDATE_RES_DEC_MIN
                                  
                                  RESET_HORA_DEC_ALARMA:
                                      ; Si R16 == -1, ajusta las decenas a 5 (para volver a 59)
-00027a e002                          LDI     R16, 2             ; Carga 5 en R16 (decenas de minutos)
-00027b 2ee0                          MOV     R14, R16            ; Guarda 5 en R4
-00027c e003                      	LDI		R16, 3
-00027d 2ed0                      	MOV		R13, R16
-00027e 9508                          RET                        ; Retorna de la subrutina
+000286 e002                          LDI     R16, 2             ; Carga 5 en R16 (decenas de minutos)
+000287 2ee0                          MOV     R14, R16            ; Guarda 5 en R4
+000288 e003                      	LDI		R16, 3
+000289 2ed0                      	MOV		R13, R16
+00028a 9508                          RET                        ; Retorna de la subrutina
                                  
                                  UPDATE_RES_UNI_HORA_ALARMA:
                                      ; Actualiza las unidades de minutos
-00027f 2ed0                          MOV     R13, R16            ; Guarda R16 en R3
-000280 9508                          RET                        ; Retorna de la subrutina
+00028b 2ed0                          MOV     R13, R16            ; Guarda R16 en R3
+00028c 9508                          RET                        ; Retorna de la subrutina
                                  
                                  UPDATE_RES_DEC_HORA_ALARMA:
                                      ; Actualiza las decenas de minutos
-000281 2ee0                          MOV     R14, R16            ; Guarda R16 en R4
-000282 9508                          RET                        ; Retorna de la subrutina
+00028d 2ee0                          MOV     R14, R16            ; Guarda R16 en R4
+00028e 9508                          RET                        ; Retorna de la subrutina
                                  //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
                                  SONAR_ALARMA:
-000283 3031                      	CPI		R19, 0x01
-000284 f451                      	BRNE	NO_SONAR
-000285 143b                      	CP		R3, R11
-000286 f441                      	BRNE	NO_SONAR
-000287 144c                      	CP		R4, R12
-000288 f431                      	BRNE	NO_SONAR
-000289 145d                      	CP		R5, R13
-00028a f421                      	BRNE	NO_SONAR
-00028b 146e                      	CP		R6, R14
-00028c f411                      	BRNE	NO_SONAR
-00028d 9a44                      	SBI		PORTC, PC4
-00028e c001                      	RJMP	EXIT_ALARMA
+00028f 3031                      	CPI		R19, 0x01
+000290 f451                      	BRNE	NO_SONAR
+000291 143b                      	CP		R3, R11
+000292 f441                      	BRNE	NO_SONAR
+000293 144c                      	CP		R4, R12
+000294 f431                      	BRNE	NO_SONAR
+000295 145d                      	CP		R5, R13
+000296 f421                      	BRNE	NO_SONAR
+000297 146e                      	CP		R6, R14
+000298 f411                      	BRNE	NO_SONAR
+000299 9a44                      	SBI		PORTC, PC4
+00029a c001                      	RJMP	EXIT_ALARMA
                                  NO_SONAR:
-00028f 9844                      	CBI		PORTC, PC4
+00029b 9844                      	CBI		PORTC, PC4
                                  EXIT_ALARMA:
-000290 9508                      	RET
+00029c 9508                      	RET
                                  //================================================== RUTINAS DE INTERRUPCIÓN =====================================================================
                                  ISR_BOTON:
-000291 930f                          PUSH	R16
-000292 b70f                          IN		R16, SREG
-000293 930f                          PUSH	R16
+00029d 930f                          PUSH	R16
+00029e b70f                          IN		R16, SREG
+00029f 930f                          PUSH	R16
                                  
-000294 9b1a                      	SBIS	PINB, PB2			// Verifica si se presionó el botón de modo
-000295 9543                      	INC		MODO
-000296 e009                      	LDI		R16, MODO_CANT
-000297 1740                      	CP		MODO, R16			// Verifica si ya se sobrepasó la cantidad de modos
-000298 f409                      	BRNE	CONTINUAR_BOTON		
-000299 2744                      	CLR		MODO
+0002a0 9b1a                      	SBIS	PINB, PB2			// Verifica si se presionó el botón de modo
+0002a1 9543                      	INC		MODO
+0002a2 e009                      	LDI		R16, MODO_CANT
+0002a3 1740                      	CP		MODO, R16			// Verifica si ya se sobrepasó la cantidad de modos
+0002a4 f409                      	BRNE	CONTINUAR_BOTON		
+0002a5 2744                      	CLR		MODO
                                  
                                  CONTINUAR_BOTON:				//Verifica que modo debe de ejecutarse
-00029a 3040                      	CPI		MODO, 0
-00029b f081                      	BREQ	MODO0_ISR
-00029c 3041                      	CPI		MODO, 1
-00029d f079                      	BREQ	MODO1_ISR
-00029e 3042                      	CPI		MODO, 2
-00029f f071                      	BREQ	MODO2_ISR
-0002a0 3043                      	CPI		MODO, 3
-0002a1 f089                      	BREQ	MODO3_ISR
-0002a2 3044                      	CPI		MODO, 4
-0002a3 f0a1                      	BREQ	MODO4_ISR
-0002a4 3045                      	CPI		MODO, 5
-0002a5 f0b9                      	BREQ	MODO5_ISR
-0002a6 3046                      	CPI		MODO, 6
-0002a7 f0d1                      	BREQ	MODO6_ISR
-0002a8 3047                      	CPI		MODO, 7
-0002a9 f0e9                      	BREQ	MODO7_ISR
-0002aa 3048                      	CPI		MODO, 8
-0002ab f101                      	BREQ	MODO8_ISR
+0002a6 3040                      	CPI		MODO, 0
+0002a7 f081                      	BREQ	MODO0_ISR
+0002a8 3041                      	CPI		MODO, 1
+0002a9 f079                      	BREQ	MODO1_ISR
+0002aa 3042                      	CPI		MODO, 2
+0002ab f071                      	BREQ	MODO2_ISR
+0002ac 3043                      	CPI		MODO, 3
+0002ad f089                      	BREQ	MODO3_ISR
+0002ae 3044                      	CPI		MODO, 4
+0002af f0a1                      	BREQ	MODO4_ISR
+0002b0 3045                      	CPI		MODO, 5
+0002b1 f0b9                      	BREQ	MODO5_ISR
+0002b2 3046                      	CPI		MODO, 6
+0002b3 f0d1                      	BREQ	MODO6_ISR
+0002b4 3047                      	CPI		MODO, 7
+0002b5 f0e9                      	BREQ	MODO7_ISR
+0002b6 3048                      	CPI		MODO, 8
+0002b7 f101                      	BREQ	MODO8_ISR
                                  //Comienza verificación y ejecución de modos
                                  MODO0_ISR:
-0002ac c024                      	RJMP	EXIT_MODO_ISR
+0002b8 c024                      	RJMP	EXIT_MODO_ISR
                                  MODO1_ISR:
-0002ad c023                      	RJMP	EXIT_MODO_ISR
+0002b9 c023                      	RJMP	EXIT_MODO_ISR
                                  MODO2_ISR:
-0002ae 9b19                      	SBIS	PINB, PB1
-0002af e061                      	LDI		ACTION, 0x01
-0002b0 9b18                      	SBIS	PINB, PB0
-0002b1 e062                      	LDI		ACTION, 0x02
-0002b2 c01e                      	RJMP	EXIT_MODO_ISR
+0002ba 9b19                      	SBIS	PINB, PB1
+0002bb e061                      	LDI		ACTION, 0x01
+0002bc 9b18                      	SBIS	PINB, PB0
+0002bd e062                      	LDI		ACTION, 0x02
+0002be c01e                      	RJMP	EXIT_MODO_ISR
                                  MODO3_ISR:
-0002b3 9b19                      	SBIS	PINB, PB1
-0002b4 e061                      	LDI		ACTION, 0x01
-0002b5 9b18                      	SBIS	PINB, PB0
-0002b6 e062                      	LDI		ACTION, 0x02
-0002b7 c019                      	RJMP	EXIT_MODO_ISR
+0002bf 9b19                      	SBIS	PINB, PB1
+0002c0 e061                      	LDI		ACTION, 0x01
+0002c1 9b18                      	SBIS	PINB, PB0
+0002c2 e062                      	LDI		ACTION, 0x02
+0002c3 c019                      	RJMP	EXIT_MODO_ISR
                                  MODO4_ISR:
-0002b8 9b19                      	SBIS	PINB, PB1
-0002b9 e061                      	LDI		ACTION, 0x01
-0002ba 9b18                      	SBIS	PINB, PB0
-0002bb e062                      	LDI		ACTION, 0x02
-0002bc c014                      	RJMP	EXIT_MODO_ISR
+0002c4 9b19                      	SBIS	PINB, PB1
+0002c5 e061                      	LDI		ACTION, 0x01
+0002c6 9b18                      	SBIS	PINB, PB0
+0002c7 e062                      	LDI		ACTION, 0x02
+0002c8 c014                      	RJMP	EXIT_MODO_ISR
                                  MODO5_ISR:
-0002bd 9b19                      	SBIS	PINB, PB1
-0002be e061                      	LDI		ACTION, 0x01
-0002bf 9b18                      	SBIS	PINB, PB0
-0002c0 e062                      	LDI		ACTION, 0x02
-0002c1 c00f                      	RJMP	EXIT_MODO_ISR
+0002c9 9b19                      	SBIS	PINB, PB1
+0002ca e061                      	LDI		ACTION, 0x01
+0002cb 9b18                      	SBIS	PINB, PB0
+0002cc e062                      	LDI		ACTION, 0x02
+0002cd c00f                      	RJMP	EXIT_MODO_ISR
                                  MODO6_ISR:
-0002c2 9b19                      	SBIS	PINB, PB1
-0002c3 e061                      	LDI		ACTION, 0x01
-0002c4 9b18                      	SBIS	PINB, PB0
-0002c5 e062                      	LDI		ACTION, 0x02
-0002c6 c00a                      	RJMP	EXIT_MODO_ISR
+0002ce 9b19                      	SBIS	PINB, PB1
+0002cf e061                      	LDI		ACTION, 0x01
+0002d0 9b18                      	SBIS	PINB, PB0
+0002d1 e062                      	LDI		ACTION, 0x02
+0002d2 c00a                      	RJMP	EXIT_MODO_ISR
                                  MODO7_ISR:
-0002c7 9b19                      	SBIS	PINB, PB1
-0002c8 e061                      	LDI		ACTION, 0x01
-0002c9 9b18                      	SBIS	PINB, PB0
-0002ca e062                      	LDI		ACTION, 0x02
-0002cb c005                      	RJMP	EXIT_MODO_ISR
+0002d3 9b19                      	SBIS	PINB, PB1
+0002d4 e061                      	LDI		ACTION, 0x01
+0002d5 9b18                      	SBIS	PINB, PB0
+0002d6 e062                      	LDI		ACTION, 0x02
+0002d7 c005                      	RJMP	EXIT_MODO_ISR
                                  MODO8_ISR:
-0002cc 9b19                      	SBIS	PINB, PB1
-0002cd e061                      	LDI		ACTION, 0x01
-0002ce 9b18                      	SBIS	PINB, PB0
-0002cf e062                      	LDI		ACTION, 0x02
-0002d0 c000                      	RJMP	EXIT_MODO_ISR
+0002d8 9b19                      	SBIS	PINB, PB1
+0002d9 e061                      	LDI		ACTION, 0x01
+0002da 9b18                      	SBIS	PINB, PB0
+0002db e062                      	LDI		ACTION, 0x02
+0002dc c000                      	RJMP	EXIT_MODO_ISR
                                  EXIT_MODO_ISR:
-0002d1 910f                          POP		R16
-0002d2 bf0f                          OUT		SREG, R16
-0002d3 910f                          POP		R16
-0002d4 9518                          RETI
+0002dd 910f                          POP		R16
+0002de bf0f                          OUT		SREG, R16
+0002df 910f                          POP		R16
+0002e0 9518                          RETI
                                  //.......................................................................................................................
                                  ISR_TIMER0:
-0002d5 930f                      	PUSH	R16
-0002d6 b70f                      	IN		R16,  SREG
-0002d7 930f                      	PUSH	R16
+0002e1 930f                      	PUSH	R16
+0002e2 b70f                      	IN		R16,  SREG
+0002e3 930f                      	PUSH	R16
                                  
-0002d8 ef0b                      	LDI		R16, T0VALOR		//Cargar a R16 el valor de T0VALOR definido al inicio
-0002d9 bd06                      	OUT		TCNT0, R16			// Cargar valor inicial en TCNT0
+0002e4 ef0b                      	LDI		R16, T0VALOR		//Cargar a R16 el valor de T0VALOR definido al inicio
+0002e5 bd06                      	OUT		TCNT0, R16			// Cargar valor inicial en TCNT0
                                  
-0002da 9423                      	INC		R2
-0002db 2d02                      	MOV		R16, R2
-0002dc 3001                      	CPI		R16, 0x01
-0002dd f041                      	BREQ	DISPLAY1
-0002de 3002                      	CPI		R16, 0x02
-0002df f141                      	BREQ	DISPLAY2
-0002e0 3003                      	CPI		R16, 0x03
-0002e1 f011                      	BREQ	DISPLAY3_RJMP
-0002e2 3004                      	CPI		R16, 0x04
-0002e3 f009                      	BREQ	DISPLAY4_RJMP
+0002e6 9423                      	INC		R2
+0002e7 2d02                      	MOV		R16, R2
+0002e8 3001                      	CPI		R16, 0x01
+0002e9 f041                      	BREQ	DISPLAY1
+0002ea 3002                      	CPI		R16, 0x02
+0002eb f141                      	BREQ	DISPLAY2
+0002ec 3003                      	CPI		R16, 0x03
+0002ed f011                      	BREQ	DISPLAY3_RJMP
+0002ee 3004                      	CPI		R16, 0x04
+0002ef f009                      	BREQ	DISPLAY4_RJMP
                                  
                                  DISPLAY3_RJMP:
-0002e4 c045                      	RJMP	DISPLAY3
+0002f0 c045                      	RJMP	DISPLAY3
                                  DISPLAY4_RJMP:
-0002e5 c066                      	RJMP	DISPLAY4
+0002f1 c066                      	RJMP	DISPLAY4
                                  //++++++++++++++++++++++++++++++++
                                  DISPLAY1:
-0002e6 9840                      	CBI		PORTC, PC0
-0002e7 9841                      	CBI		PORTC, PC1
-0002e8 9842                      	CBI		PORTC, PC2
+0002f2 9840                      	CBI		PORTC, PC0
+0002f3 9841                      	CBI		PORTC, PC1
+0002f4 9842                      	CBI		PORTC, PC2
                                  
-0002e9 b81b                      	OUT		PORTD, R1
+0002f5 b81b                      	OUT		PORTD, R1
                                  //Verificar el modo actual para mostrar hora o fecha
-0002ea 3071                      	CPI		ACTION_DIS, 0x01
-0002eb f031                      	BREQ	DISPLAY1_HORA
-0002ec 3072                      	CPI		ACTION_DIS, 0x02
-0002ed f031                      	BREQ	DISPLAY1_FECHA
-0002ee 3073                      	CPI		ACTION_DIS, 0x03
-0002ef f031                      	BREQ	DISPLAY1_ALARMA
-0002f0 3074                      	CPI		ACTION_DIS, 0x04
-0002f1 f069                      	BREQ	DISPLAY1_ALARMA_ON_OFF
+0002f6 3071                      	CPI		ACTION_DIS, 0x01
+0002f7 f031                      	BREQ	DISPLAY1_HORA
+0002f8 3072                      	CPI		ACTION_DIS, 0x02
+0002f9 f031                      	BREQ	DISPLAY1_FECHA
+0002fa 3073                      	CPI		ACTION_DIS, 0x03
+0002fb f031                      	BREQ	DISPLAY1_ALARMA
+0002fc 3074                      	CPI		ACTION_DIS, 0x04
+0002fd f069                      	BREQ	DISPLAY1_ALARMA_ON_OFF
                                  DISPLAY1_HORA:
-0002f2 2d03                      	MOV		R16, R3
-0002f3 c003                      	RJMP	FLUJO_DISPLAY1
+0002fe 2d03                      	MOV		R16, R3
+0002ff c003                      	RJMP	FLUJO_DISPLAY1
                                  DISPLAY1_FECHA:
-0002f4 2d07                      	MOV		R16, R7
-0002f5 c001                      	RJMP	FLUJO_DISPLAY1
+000300 2d07                      	MOV		R16, R7
+000301 c001                      	RJMP	FLUJO_DISPLAY1
                                  DISPLAY1_ALARMA:
-0002f6 2d0b                      	MOV		R16, R11
+000302 2d0b                      	MOV		R16, R11
                                  
                                  FLUJO_DISPLAY1:
                                  	//MOV		R16, R3
-0002f7 eaea                      	LDI		ZL, LOW(DISPLAY_VAL <<1)	//Coloca el direccionador indirecto en la posición inicial
-0002f8 e0f0                      	LDI		ZH, HIGH(DISPLAY_VAL <<1)
-0002f9 0fe0                      	ADD		ZL, R16
-0002fa 1df1                      	ADC		ZH, R1
-0002fb 9104                      	LPM		R16, Z
-0002fc 9a43                      	SBI		PORTC, PC3
-0002fd b90b                      	OUT		PORTD, R16
-0002fe c06f                      	RJMP	FIN_TMR0
+000303 eaea                      	LDI		ZL, LOW(DISPLAY_VAL <<1)	//Coloca el direccionador indirecto en la posición inicial
+000304 e0f0                      	LDI		ZH, HIGH(DISPLAY_VAL <<1)
+000305 0fe0                      	ADD		ZL, R16
+000306 1df1                      	ADC		ZH, R1
+000307 9104                      	LPM		R16, Z
+000308 9a43                      	SBI		PORTC, PC3
+000309 b90b                      	OUT		PORTD, R16
+00030a c06f                      	RJMP	FIN_TMR0
                                  DISPLAY1_ALARMA_ON_OFF:
-0002ff 2d0f                      	MOV		R16, R15
-000300 ece0                      	LDI		ZL, LOW(ALARMA_LETRA <<1)	//Coloca el direccionador indirecto en la posición inicial
-000301 e0f0                      	LDI		ZH, HIGH(ALARMA_LETRA <<1)
-000302 0fe0                      	ADD		ZL, R16
-000303 1df1                      	ADC		ZH, R1
-000304 9104                      	LPM		R16, Z
-000305 9a43                      	SBI		PORTC, PC3
-000306 b90b                      	OUT		PORTD, R16
-000307 c066                      	RJMP	FIN_TMR0
+00030b 2d0f                      	MOV		R16, R15
+00030c ece0                      	LDI		ZL, LOW(ALARMA_LETRA <<1)	//Coloca el direccionador indirecto en la posición inicial
+00030d e0f0                      	LDI		ZH, HIGH(ALARMA_LETRA <<1)
+00030e 0fe0                      	ADD		ZL, R16
+00030f 1df1                      	ADC		ZH, R1
+000310 9104                      	LPM		R16, Z
+000311 9a43                      	SBI		PORTC, PC3
+000312 b90b                      	OUT		PORTD, R16
+000313 c066                      	RJMP	FIN_TMR0
                                  
                                  //+++++++++++++++++++++++++++++++++++++++++++++++++++
                                  DISPLAY2:
-000308 9840                      	CBI		PORTC, PC0
-000309 9841                      	CBI		PORTC, PC1
-00030a 9843                      	CBI		PORTC, PC3
+000314 9840                      	CBI		PORTC, PC0
+000315 9841                      	CBI		PORTC, PC1
+000316 9843                      	CBI		PORTC, PC3
                                  
-00030b b81b                      	OUT		PORTD, R1
+000317 b81b                      	OUT		PORTD, R1
                                  //Verificar el modo actual para mostrar hora o fecha
-00030c 3071                      	CPI		ACTION_DIS, 0x01
-00030d f031                      	BREQ	DISPLAY2_HORA
-00030e 3072                      	CPI		ACTION_DIS, 0x02
-00030f f031                      	BREQ	DISPLAY2_FECHA
-000310 3073                      	CPI		ACTION_DIS, 0x03
-000311 f031                      	BREQ	DISPLAY2_ALARMA
-000312 3074                      	CPI		ACTION_DIS, 0x04
-000313 f069                      	BREQ	DISPLAY2_ALARMA_ON_OFF
+000318 3071                      	CPI		ACTION_DIS, 0x01
+000319 f031                      	BREQ	DISPLAY2_HORA
+00031a 3072                      	CPI		ACTION_DIS, 0x02
+00031b f031                      	BREQ	DISPLAY2_FECHA
+00031c 3073                      	CPI		ACTION_DIS, 0x03
+00031d f031                      	BREQ	DISPLAY2_ALARMA
+00031e 3074                      	CPI		ACTION_DIS, 0x04
+00031f f069                      	BREQ	DISPLAY2_ALARMA_ON_OFF
                                  DISPLAY2_HORA:
-000314 2d04                      	MOV		R16, R4
-000315 c003                      	RJMP	FLUJO_DISPLAY2
+000320 2d04                      	MOV		R16, R4
+000321 c003                      	RJMP	FLUJO_DISPLAY2
                                  DISPLAY2_FECHA:
-000316 2d08                      	MOV		R16, R8
-000317 c001                      	RJMP	FLUJO_DISPLAY2
+000322 2d08                      	MOV		R16, R8
+000323 c001                      	RJMP	FLUJO_DISPLAY2
                                  DISPLAY2_ALARMA:
-000318 2d0c                      	MOV		R16, R12
+000324 2d0c                      	MOV		R16, R12
                                  
                                  FLUJO_DISPLAY2:
                                  	//MOV		R16, R4
-000319 eaea                      	LDI		ZL, LOW(DISPLAY_VAL <<1)	//Coloca el direccionador indirecto en la posición inicial
-00031a e0f0                      	LDI		ZH, HIGH(DISPLAY_VAL <<1)
-00031b 0fe0                      	ADD		ZL, R16
-00031c 1df1                      	ADC		ZH, R1
-00031d 9104                      	LPM		R16, Z
-00031e 9a42                      	SBI		PORTC, PC2
-00031f b90b                      	OUT		PORTD, R16
+000325 eaea                      	LDI		ZL, LOW(DISPLAY_VAL <<1)	//Coloca el direccionador indirecto en la posición inicial
+000326 e0f0                      	LDI		ZH, HIGH(DISPLAY_VAL <<1)
+000327 0fe0                      	ADD		ZL, R16
+000328 1df1                      	ADC		ZH, R1
+000329 9104                      	LPM		R16, Z
+00032a 9a42                      	SBI		PORTC, PC2
+00032b b90b                      	OUT		PORTD, R16
                                  
-000320 c04d                      	RJMP	FIN_TMR0
+00032c c04d                      	RJMP	FIN_TMR0
                                  DISPLAY2_ALARMA_ON_OFF:
-000321 2f01                      	MOV		R16, R17
-000322 ece0                      	LDI		ZL, LOW(ALARMA_LETRA <<1)	//Coloca el direccionador indirecto en la posición inicial
-000323 e0f0                      	LDI		ZH, HIGH(ALARMA_LETRA <<1)
-000324 0fe0                      	ADD		ZL, R16
-000325 1df1                      	ADC		ZH, R1
-000326 9104                      	LPM		R16, Z
-000327 9a42                      	SBI		PORTC, PC2
-000328 b90b                      	OUT		PORTD, R16
-000329 c044                      	RJMP	FIN_TMR0
+00032d 2f01                      	MOV		R16, R17
+00032e ece0                      	LDI		ZL, LOW(ALARMA_LETRA <<1)	//Coloca el direccionador indirecto en la posición inicial
+00032f e0f0                      	LDI		ZH, HIGH(ALARMA_LETRA <<1)
+000330 0fe0                      	ADD		ZL, R16
+000331 1df1                      	ADC		ZH, R1
+000332 9104                      	LPM		R16, Z
+000333 9a42                      	SBI		PORTC, PC2
+000334 b90b                      	OUT		PORTD, R16
+000335 c044                      	RJMP	FIN_TMR0
                                  //+++++++++++++++++++++++++++++++++++++++++++++++
                                  DISPLAY3:
-00032a 9840                      	CBI		PORTC, PC0
-00032b 9842                      	CBI		PORTC, PC2
-00032c 9843                      	CBI		PORTC, PC3
-00032d b81b                          OUT     PORTD, R1
+000336 9840                      	CBI		PORTC, PC0
+000337 9842                      	CBI		PORTC, PC2
+000338 9843                      	CBI		PORTC, PC3
+000339 b81b                          OUT     PORTD, R1
                                  
                                  //Verificar el modo actual para mostrar hora o fecha
-00032e 3071                      	CPI		ACTION_DIS, 0x01
-00032f f031                      	BREQ	DISPLAY3_HORA
-000330 3072                      	CPI		ACTION_DIS, 0x02
-000331 f031                      	BREQ	DISPLAY3_FECHA
-000332 3073                      	CPI		ACTION_DIS, 0x03
-000333 f031                      	BREQ	DISPLAY3_ALARMA
-000334 3074                      	CPI		ACTION_DIS, 0x04
-000335 f069                      	BREQ	DISPLAY3_ALARMA_ON_OFF
+00033a 3071                      	CPI		ACTION_DIS, 0x01
+00033b f031                      	BREQ	DISPLAY3_HORA
+00033c 3072                      	CPI		ACTION_DIS, 0x02
+00033d f031                      	BREQ	DISPLAY3_FECHA
+00033e 3073                      	CPI		ACTION_DIS, 0x03
+00033f f031                      	BREQ	DISPLAY3_ALARMA
+000340 3074                      	CPI		ACTION_DIS, 0x04
+000341 f069                      	BREQ	DISPLAY3_ALARMA_ON_OFF
                                  DISPLAY3_HORA:
-000336 2d05                      	MOV		R16, R5
-000337 c003                      	RJMP	FLUJO_DISPLAY3
+000342 2d05                      	MOV		R16, R5
+000343 c003                      	RJMP	FLUJO_DISPLAY3
                                  DISPLAY3_FECHA:
-000338 2d09                      	MOV		R16, R9
-000339 c001                      	RJMP	FLUJO_DISPLAY3
+000344 2d09                      	MOV		R16, R9
+000345 c001                      	RJMP	FLUJO_DISPLAY3
                                  DISPLAY3_ALARMA:
-00033a 2d0d                      	MOV		R16, R13
+000346 2d0d                      	MOV		R16, R13
                                  
                                  FLUJO_DISPLAY3:
                                      //MOV     R16, R5						// Cargar unidades de hora
-00033b eaea                          LDI     ZL, LOW(DISPLAY_VAL <<1)
-00033c e0f0                          LDI     ZH, HIGH(DISPLAY_VAL <<1)
-00033d 0fe0                          ADD     ZL, R16
-00033e 1df1                          ADC     ZH, R1
-00033f 9104                          LPM     R16, Z
-000340 9a41                      	SBI     PORTC, PC1
-000341 b90b                          OUT     PORTD, R16
-000342 c02b                          RJMP    FIN_TMR0
+000347 eaea                          LDI     ZL, LOW(DISPLAY_VAL <<1)
+000348 e0f0                          LDI     ZH, HIGH(DISPLAY_VAL <<1)
+000349 0fe0                          ADD     ZL, R16
+00034a 1df1                          ADC     ZH, R1
+00034b 9104                          LPM     R16, Z
+00034c 9a41                      	SBI     PORTC, PC1
+00034d b90b                          OUT     PORTD, R16
+00034e c02b                          RJMP    FIN_TMR0
                                  
                                  DISPLAY3_ALARMA_ON_OFF:
-000343 2f02                      	MOV		R16, R18
-000344 ece0                      	LDI		ZL, LOW(ALARMA_LETRA <<1)	//Coloca el direccionador indirecto en la posición inicial
-000345 e0f0                      	LDI		ZH, HIGH(ALARMA_LETRA <<1)
-000346 0fe0                      	ADD		ZL, R16
-000347 1df1                      	ADC		ZH, R1
-000348 9104                      	LPM		R16, Z
-000349 9a41                      	SBI		PORTC, PC1
-00034a b90b                      	OUT		PORTD, R16
-00034b c022                      	RJMP	FIN_TMR0
+00034f 2f02                      	MOV		R16, R18
+000350 ece0                      	LDI		ZL, LOW(ALARMA_LETRA <<1)	//Coloca el direccionador indirecto en la posición inicial
+000351 e0f0                      	LDI		ZH, HIGH(ALARMA_LETRA <<1)
+000352 0fe0                      	ADD		ZL, R16
+000353 1df1                      	ADC		ZH, R1
+000354 9104                      	LPM		R16, Z
+000355 9a41                      	SBI		PORTC, PC1
+000356 b90b                      	OUT		PORTD, R16
+000357 c022                      	RJMP	FIN_TMR0
                                  //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
                                  DISPLAY4:
-00034c 9841                      	CBI		PORTC, PC1
-00034d 9842                      	CBI		PORTC, PC2
-00034e 9843                      	CBI		PORTC, PC3
+000358 9841                      	CBI		PORTC, PC1
+000359 9842                      	CBI		PORTC, PC2
+00035a 9843                      	CBI		PORTC, PC3
                                  
-00034f b81b                          OUT     PORTD, R1
+00035b b81b                          OUT     PORTD, R1
                                  //Verificar el modo actual para mostrar hora o fecha
-000350 3071                      	CPI		ACTION_DIS, 0x01
-000351 f031                      	BREQ	DISPLAY4_HORA
-000352 3072                      	CPI		ACTION_DIS, 0x02
-000353 f031                      	BREQ	DISPLAY4_FECHA
-000354 3073                      	CPI		ACTION_DIS, 0x03
-000355 f031                      	BREQ	DISPLAY4_ALARMA
-000356 3074                      	CPI		ACTION_DIS, 0x04
-000357 f069                      	BREQ	DISPLAY4_ALARMA_ON_OFF
+00035c 3071                      	CPI		ACTION_DIS, 0x01
+00035d f031                      	BREQ	DISPLAY4_HORA
+00035e 3072                      	CPI		ACTION_DIS, 0x02
+00035f f031                      	BREQ	DISPLAY4_FECHA
+000360 3073                      	CPI		ACTION_DIS, 0x03
+000361 f031                      	BREQ	DISPLAY4_ALARMA
+000362 3074                      	CPI		ACTION_DIS, 0x04
+000363 f069                      	BREQ	DISPLAY4_ALARMA_ON_OFF
                                  DISPLAY4_HORA:
-000358 2d06                      	MOV		R16, R6
-000359 c003                      	RJMP	FLUJO_DISPLAY4
+000364 2d06                      	MOV		R16, R6
+000365 c003                      	RJMP	FLUJO_DISPLAY4
                                  DISPLAY4_FECHA:
-00035a 2d0a                      	MOV		R16, R10
-00035b c001                      	RJMP	FLUJO_DISPLAY4
+000366 2d0a                      	MOV		R16, R10
+000367 c001                      	RJMP	FLUJO_DISPLAY4
                                  DISPLAY4_ALARMA:
-00035c 2d0e                      	MOV		R16, R14
+000368 2d0e                      	MOV		R16, R14
                                  
                                  FLUJO_DISPLAY4:
                                     // MOV     R16, R6						// Cargar decenas de hora
-00035d eaea                          LDI     ZL, LOW(DISPLAY_VAL <<1)
-00035e e0f0                          LDI     ZH, HIGH(DISPLAY_VAL <<1)
-00035f 0fe0                          ADD     ZL, R16
-000360 1df1                          ADC     ZH, R1
-000361 9104                          LPM     R16, Z
-000362 9a40                      	SBI     PORTC, PC0
-000363 b90b                          OUT     PORTD, R16
+000369 eaea                          LDI     ZL, LOW(DISPLAY_VAL <<1)
+00036a e0f0                          LDI     ZH, HIGH(DISPLAY_VAL <<1)
+00036b 0fe0                          ADD     ZL, R16
+00036c 1df1                          ADC     ZH, R1
+00036d 9104                          LPM     R16, Z
+00036e 9a40                      	SBI     PORTC, PC0
+00036f b90b                          OUT     PORTD, R16
                                  
-000364 c009                          RJMP    FIN_TMR0
+000370 c009                          RJMP    FIN_TMR0
                                  DISPLAY4_ALARMA_ON_OFF:
-000365 2d01                      	MOV		R16, R1
-000366 ece0                      	LDI		ZL, LOW(ALARMA_LETRA <<1)	//Coloca el direccionador indirecto en la posición inicial
-000367 e0f0                      	LDI		ZH, HIGH(ALARMA_LETRA <<1)
-000368 0fe0                      	ADD		ZL, R16
-000369 1df1                      	ADC		ZH, R1
-00036a 9104                      	LPM		R16, Z
-00036b 9a40                      	SBI		PORTC, PC0
-00036c b90b                      	OUT		PORTD, R16
-00036d c000                      	RJMP	FIN_TMR0
+000371 2d01                      	MOV		R16, R1
+000372 ece0                      	LDI		ZL, LOW(ALARMA_LETRA <<1)	//Coloca el direccionador indirecto en la posición inicial
+000373 e0f0                      	LDI		ZH, HIGH(ALARMA_LETRA <<1)
+000374 0fe0                      	ADD		ZL, R16
+000375 1df1                      	ADC		ZH, R1
+000376 9104                      	LPM		R16, Z
+000377 9a40                      	SBI		PORTC, PC0
+000378 b90b                      	OUT		PORTD, R16
+000379 c000                      	RJMP	FIN_TMR0
                                  //++++++++++++++++++++++++++++++++++++++++++++++++++++
                                  FIN_TMR0:
-00036e 2d02                      	MOV		R16, R2
-00036f 3004                      	CPI		R16, 0x04
-000370 f411                      	BRNE	RESET_END_ISR
-000371 2700                      	CLR		R16
-000372 2e20                      	MOV		R2, R16
+00037a 2d02                      	MOV		R16, R2
+00037b 3004                      	CPI		R16, 0x04
+00037c f411                      	BRNE	RESET_END_ISR
+00037d 2700                      	CLR		R16
+00037e 2e20                      	MOV		R2, R16
                                  
                                  RESET_END_ISR:
-000373 910f                      	POP		R16
-000374 bf0f                      	OUT		SREG, R16
-000375 910f                      	POP		R16
-000376 9518                      	RETI
+00037f 910f                      	POP		R16
+000380 bf0f                      	OUT		SREG, R16
+000381 910f                      	POP		R16
+000382 9518                      	RETI
                                  //...........................................................................................................
                                  ISR_TIMER1:
-000377 930f                          PUSH    R16
-000378 b70f                          IN      R16, SREG
-000379 930f                          PUSH    R16
+000383 930f                          PUSH    R16
+000384 b70f                          IN      R16, SREG
+000385 930f                          PUSH    R16
                                  
-00037a e10e                          LDI     R16, LOW(T1VALOR)  // Recarga Timer1
-00037b 9300 0084                     STS     TCNT1L, R16
-00037d e10b                          LDI     R16, HIGH(T1VALOR)
-00037e 9300 0085                     STS     TCNT1H, R16
+000386 e10e                          LDI     R16, LOW(T1VALOR)  // Recarga Timer1
+000387 9300 0084                     STS     TCNT1L, R16
+000389 e10b                          LDI     R16, HIGH(T1VALOR)
+00038a 9300 0085                     STS     TCNT1H, R16
                                  
                                      // Incrementar minutos (unidades)
-000380 2d03                          MOV     R16, R3            // Mover unidades de minutos a R16
-000381 9503                          INC     R16                // Incrementar unidades de minutos
-000382 300a                          CPI     R16, 10            // Comparar si unidades de minutos llegan a 10
-000383 f409                          BRNE    UPDATE_UNI_MIN     // Si no, actualizar R3 y salir
-000384 2700                          CLR     R16                // Si sí, resetear unidades de minutos
+00038c 2d03                          MOV     R16, R3            // Mover unidades de minutos a R16
+00038d 9503                          INC     R16                // Incrementar unidades de minutos
+00038e 300a                          CPI     R16, 10            // Comparar si unidades de minutos llegan a 10
+00038f f409                          BRNE    UPDATE_UNI_MIN     // Si no, actualizar R3 y salir
+000390 2700                          CLR     R16                // Si sí, resetear unidades de minutos
                                  
                                  UPDATE_UNI_MIN:
-000385 2e30                          MOV     R3, R16            // Actualizar R3 con el nuevo valor
+000391 2e30                          MOV     R3, R16            // Actualizar R3 con el nuevo valor
                                  
                                      // Verificar si se debe incrementar decenas de minutos
-000386 3000                          CPI     R16, 0             // Si unidades de minutos no son 0, no incrementar decenas
-000387 f509                          BRNE    EXIT_TMR1_ISR	   // Salir de la interrupción
-                                 
+000392 3000                          CPI     R16, 0             // Si unidades de minutos no son 0, no incrementar decenas
+000393 f409                          BRNE    SALIR_ISR_1	   // Salir de la interrupción
+000394 c001                      	RJMP	CONTINUAR_UNI_MIN
+                                 SALIR_ISR_1:
+000395 c071                      	RJMP	EXIT_TMR1_ISR
+                                 CONTINUAR_UNI_MIN:
                                      // Incrementar minutos (decenas)
-000388 2d04                          MOV     R16, R4			   // Mover decenas de minutos a R16
-000389 9503                          INC     R16                // Incrementar decenas de minutos
-00038a 3006                          CPI     R16, 6             // Comparar si decenas de minutos llegan a 6
-00038b f409                          BRNE    UPDATE_DEC_MIN     // Si no, actualizar R4 y salir
-00038c 2700                          CLR     R16                // Si sí, resetear decenas de minutos
+000396 2d04                          MOV     R16, R4			   // Mover decenas de minutos a R16
+000397 9503                          INC     R16                // Incrementar decenas de minutos
+000398 3006                          CPI     R16, 6             // Comparar si decenas de minutos llegan a 6
+000399 f409                          BRNE    UPDATE_DEC_MIN     // Si no, actualizar R4 y salir
+00039a 2700                          CLR     R16                // Si sí, resetear decenas de minutos
                                  
                                  UPDATE_DEC_MIN:
-00038d 2e40                          MOV     R4, R16            // Actualizar R4 con el nuevo valor
+00039b 2e40                          MOV     R4, R16            // Actualizar R4 con el nuevo valor
                                  
                                      // Verificar si se debe incrementar horas
-00038e 3000                          CPI     R16, 0             // Si decenas de minutos no son 0, no incrementar horas
-00038f f4c9                          BRNE    EXIT_TMR1_ISR		// Salir de la interrupción
-                                 
+00039c 3000                          CPI     R16, 0             // Si decenas de minutos no son 0, no incrementar horas
+00039d f409                          BRNE    SALIR_ISR_2		// Salir de la interrupción
+00039e c001                      	RJMP	CONTINUAR_DEC_MIN
+                                 SALIR_ISR_2:
+00039f c067                      	RJMP	EXIT_TMR1_ISR
+                                 CONTINUAR_DEC_MIN:
                                      // Incrementar horas (unidades)
-000390 2d06                      	MOV		R16, R6				// Mover el valor de R6 (decena hora) a R16
-000391 3002                      	CPI		R16, 2				//Comparar si es 2 y así unidad de hora no cuente hasta 9
-000392 f429                      	BRNE	CONT_NORMAL			// Si no es igual continuar contando normal de 0 a 9
-000393 2d05                      	MOV		R16, R5				// Si si, mover R5 (unidad hora) a R16
-000394 9503                      	INC		R16					// Incrementar R16
-000395 3004                      	CPI		R16, 4				// Comparar si es igual a 4
-000396 f431                      	BRNE	UPDATE_UNI_HORA		// Si no es igual saltar a actualizar unidad hora
-000397 c00b                      	RJMP	RESET_TOTAL			// Si es igual, resetear el contador debido a que llegó a 23:59
+0003a0 2d06                      	MOV		R16, R6				// Mover el valor de R6 (decena hora) a R16
+0003a1 3002                      	CPI		R16, 2				//Comparar si es 2 y así unidad de hora no cuente hasta 9
+0003a2 f429                      	BRNE	CONT_NORMAL			// Si no es igual continuar contando normal de 0 a 9
+0003a3 2d05                      	MOV		R16, R5				// Si si, mover R5 (unidad hora) a R16
+0003a4 9503                      	INC		R16					// Incrementar R16
+0003a5 3004                      	CPI		R16, 4				// Comparar si es igual a 4
+0003a6 f431                      	BRNE	UPDATE_UNI_HORA		// Si no es igual saltar a actualizar unidad hora
+0003a7 c00d                      	RJMP	RESET_TOTAL			// Si es igual, resetear el contador debido a que llegó a 23:59
                                  	
                                  CONT_NORMAL:	
-000398 2d05                          MOV     R16, R5            // Mover unidades de horas a R16
-000399 9503                          INC     R16                // Incrementar unidades de horas
-00039a 300a                          CPI     R16, 10            // Si unidades de horas llegan a 10
-00039b f409                          BRNE    UPDATE_UNI_HORA    // Si no, actualizar R5 y salir
-00039c 2700                          CLR     R16                // Si sí, resetear unidades de horas
+0003a8 2d05                          MOV     R16, R5            // Mover unidades de horas a R16
+0003a9 9503                          INC     R16                // Incrementar unidades de horas
+0003aa 300a                          CPI     R16, 10            // Si unidades de horas llegan a 10
+0003ab f409                          BRNE    UPDATE_UNI_HORA    // Si no, actualizar R5 y salir
+0003ac 2700                          CLR     R16                // Si sí, resetear unidades de horas
                                  
                                  UPDATE_UNI_HORA:
-00039d 2e50                          MOV     R5, R16            // Actualizar R5 con el nuevo valor
+0003ad 2e50                          MOV     R5, R16            // Actualizar R5 con el nuevo valor
                                  
                                      // Verificar si se debe incrementar decenas de horas
-00039e 3000                          CPI     R16, 0             // Si unidades de horas no son 0, no incrementar decenas
-00039f f449                          BRNE    EXIT_TMR1_ISR
-                                 
+0003ae 3000                          CPI     R16, 0             // Si unidades de horas no son 0, no incrementar decenas
+0003af f409                          BRNE    SALIR_ISR_3
+0003b0 c001                      	RJMP	CONTINUAR_UNI_HORA
+                                 SALIR_ISR_3:
+0003b1 c055                      	RJMP	EXIT_TMR1_ISR
+                                 CONTINUAR_UNI_HORA:
                                     // Incrementar horas (decenas)
-0003a0 2d06                      	MOV     R16, R6            // Mover decenas de horas a R16
-0003a1 3002                      	CPI		R16, 2				// Comparar si es igual a 2
-0003a2 f421                      	BRNE	CONTINUAR_DEC_HORA	// Si no es igual ir a actualizar decena hora
+0003b2 2d06                      	MOV     R16, R6            // Mover decenas de horas a R16
+0003b3 3002                      	CPI		R16, 2				// Comparar si es igual a 2
+0003b4 f421                      	BRNE	CONTINUAR_DEC_HORA	// Si no es igual ir a actualizar decena hora
                                  
                                  RESET_TOTAL:
-0003a3 2466                      	CLR		R6					// Reiniciar R6 (decena hora)
-0003a4 2455                      	CLR		R5					// Reiniciar R5 (unidad hora)
-0003a5 2700                      	CLR		R16					// Reiniciar registro de propósito general
-0003a6 c002                      	RJMP	EXIT_TMR1_ISR		// Salir de la interrupción
+0003b5 2466                      	CLR		R6					// Reiniciar R6 (decena hora)
+0003b6 2455                      	CLR		R5					// Reiniciar R5 (unidad hora)
+0003b7 2700                      	CLR		R16					// Reiniciar registro de propósito general
+0003b8 c003                      	RJMP	NUEVO_DIA		// Salir de la interrupción
                                  
                                  CONTINUAR_DEC_HORA:
-0003a7 9503                      	INC		R16					// Incrementar R16
-0003a8 2e60                      	MOV		R6, R16				
+0003b9 9503                      	INC		R16					// Incrementar R16
+0003ba 2e60                      	MOV		R6, R16				
+0003bb c04b                      	RJMP	EXIT_TMR1_ISR
+                                 
+                                 NUEVO_DIA:
+                                     ; Calcular el día actual en formato decimal (R24 = R8 * 10 + R7)
+0003bc 2d88                          MOV     R24, R8
+0003bd 2fb8                          MOV     R27, R24
+0003be 0f88                          LSL     R24          ; R24 = R8 * 2
+0003bf 0fbb                          LSL     R27          ; R27 = R8 * 2
+0003c0 0fbb                          LSL     R27          ; R27 = R8 * 4
+0003c1 0fbb                          LSL     R27          ; R27 = R8 * 8
+0003c2 0f8b                          ADD     R24, R27     ; R24 = (R8 * 2) + (R8 * 8) = R8 * 10
+0003c3 0d87                          ADD     R24, R7      ; R24 = R8 * 10 + R7
+                                 
+                                     ; Obtener el número de días del mes actual (en decimal)
+0003c4 ebe4                          LDI     ZL, LOW(TABLA_DIAS << 1)  ; Cargar la dirección baja de la tabla
+0003c5 e0f0                          LDI     ZH, HIGH(TABLA_DIAS << 1) ; Cargar la dirección alta de la tabla
+0003c6 2f09                          MOV     R16, R25                  ; Cargar el mes actual en R16
+0003c7 950a                          DEC     R16                       ; Ajustar el índice (R16 = R25 - 1)
+0003c8 0fe0                          ADD     ZL, R16                   ; Sumar el índice del mes a la dirección
+0003c9 1df1                          ADC     ZH, R1                    ; Añadir el acarreo si es necesario
+0003ca 91b4                          LPM     R27, Z                    ; Cargar el número de días del mes en R27 (decimal)
+                                 
+                                     ; Comparar el día actual con el número máximo de días del mes
+0003cb 178b                          CP      R24, R27                  ; Comparar R24 con R27
+0003cc f180                          BRLO    CONTINUAR_SUMA_DIA_ISR    ; Si R24 < R27, continuar sumando
+                                 
+                                     ; Si R24 >= R27, reiniciar el día a 1 y sumar un mes
+0003cd e001                          LDI     R16, 1                    ; Cargar 1 en R16
+0003ce 2e70                          MOV     R7, R16                   ; Guardar 1 en R7 (unidades del día)
+0003cf 2488                          CLR     R8                        ; Limpiar R8 (decenas del día)
+                                 
+                                     ; Verificar si el mes es 12 (diciembre)
+0003d0 2f09                          MOV     R16, R25                  ; Cargar el mes actual en R16
+0003d1 300c                          CPI     R16, 12                   ; Comparar R16 con 12
+0003d2 f429                          BRNE    SUMA_MES_ISR              ; Si no es 12, sumar un mes
+                                 
+                                     ; Si el mes es 12, reiniciar a 1 de enero
+0003d3 e001                          LDI     R16, 1                    ; Cargar 1 en R16
+0003d4 2f90                          MOV     R25, R16                  ; Reiniciar el mes a 1
+0003d5 2e90                          MOV     R9, R16                   ; Reiniciar R9 (unidades del mes) a 1
+0003d6 24aa                          CLR     R10                       ; Reiniciar R10 (decenas del mes) a 0
+0003d7 c02f                          RJMP    EXIT_TMR1_ISR             ; Salir de la subrutina
+                                 
+                                 SUMA_MES_ISR:
+0003d8 e001                          LDI     R16, 0x01
+0003d9 2e70                          MOV     R7, R16
+0003da 2488                          CLR     R8
+                                 
+0003db 2d0a                          MOV     R16, R10
+0003dc 3001                          CPI     R16, 1
+0003dd f429                          BRNE    CONT_NORMAL_MES_ISR
+0003de 2d09                          MOV     R16, R9
+0003df 9503                          INC     R16
+0003e0 3003                          CPI     R16, 3
+0003e1 f431                          BRNE    UPDATE_UNI_MES_ISR
+0003e2 c00f                          RJMP    RESET_MES_ISR
+                                 
+                                 CONT_NORMAL_MES_ISR:
+0003e3 2d09                          MOV     R16, R9
+0003e4 9503                          INC     R16
+0003e5 300a                          CPI     R16, 10
+0003e6 f409                          BRNE    UPDATE_UNI_MES_ISR
+0003e7 2700                          CLR     R16
+                                 
+                                 UPDATE_UNI_MES_ISR:
+0003e8 2e90                          MOV     R9, R16
+0003e9 3000                          CPI     R16, 0
+0003ea f459                          BRNE    ACTUALIZAR_SUM_MES_ISR
+0003eb 2d0a                          MOV     R16, R10
+0003ec 9503                          INC     R16
+0003ed 3002                          CPI     R16, 2
+0003ee f409                          BRNE    UPDATE_DEC_MES_ISR
+0003ef 2700                          CLR     R16
+                                 
+                                 UPDATE_DEC_MES_ISR:
+0003f0 2ea0                          MOV     R10, R16
+0003f1 c004                          RJMP    ACTUALIZAR_SUM_MES_ISR
+                                 
+                                 RESET_MES_ISR:
+0003f2 e001                          LDI     R16, 0x01
+0003f3 2e90                          MOV     R9, R16
+0003f4 2700                          CLR     R16
+0003f5 2ea0                          MOV     R10, R16
+                                 
+                                 ACTUALIZAR_SUM_MES_ISR:
+0003f6 2f09                          MOV     R16, R25
+0003f7 9503                          INC     R16
+0003f8 300d                          CPI     R16, 13
+0003f9 f409                          BRNE    EXIT_SUM_MES_ISR
+0003fa e001                          LDI     R16, 0x01
+                                 
+                                 EXIT_SUM_MES_ISR:
+0003fb 2f90                          MOV     R25, R16
+0003fc c00a                          RJMP    EXIT_TMR1_ISR
+                                 
+                                 CONTINUAR_SUMA_DIA_ISR:
+                                     ; Incrementar las unidades del día
+0003fd 2d07                          MOV     R16, R7                   ; Cargar R7 en R16
+0003fe 9503                          INC     R16                       ; Incrementar R16
+0003ff 300a                          CPI     R16, 10                   ; Comparar R16 con 10
+000400 f421                          BRNE    UPDATE_SUM_UNI_DIA_ISR    ; Si no es 10, actualizar las unidades
+                                 
+                                     ; Si las unidades son 10, reiniciar a 0 e incrementar las decenas
+000401 2700                          CLR     R16                       ; Limpiar R16
+000402 2e70                          MOV     R7, R16                   ; Guardar 0 en R7 (unidades del día)
+000403 9483                          INC     R8                        ; Incrementar R8 (decenas del día)
+000404 c002                          RJMP    EXIT_TMR1_ISR             ; Retornar de la subrutina
+                                 
+                                 UPDATE_SUM_UNI_DIA_ISR:
+                                     ; Actualizar las unidades del día
+000405 2e70                          MOV     R7, R16                   ; Guardar R16 en R7
+000406 c000                          RJMP    EXIT_TMR1_ISR             ; Retornar de la subrutina
                                  
                                  EXIT_TMR1_ISR:
-0003a9 910f                          POP     R16
-0003aa bf0f                          OUT     SREG, R16
-0003ab 910f                          POP     R16
-0003ac 9518                          RETI
-                                 
+000407 910f                          POP     R16
+000408 bf0f                          OUT     SREG, R16
+000409 910f                          POP     R16
+00040a 9518                          RETI
                                  //.........................................................................................................
                                  
                                  ISR_TIMER2:
-0003ad 930f                      	PUSH	R16
-0003ae b70f                      	IN		R16,  SREG
-0003af 930f                      	PUSH	R16
+00040b 930f                      	PUSH	R16
+00040c b70f                      	IN		R16,  SREG
+00040d 930f                      	PUSH	R16
                                  	/*LDI		R16, T2VALOR		// Cargar definido al inicio T2VALOR
                                  	STS		TCNT2, R16			// Cargar valor inicial en TCNT2
                                  	INC		R26
@@ -2403,10 +2589,10 @@ C:\Users\bsmor\OneDrive\Documentos\GitHub\PROYECTO1_reloj\Proyecto1_reloj\Proyec
                                  	SBI		PINC, PC5
                                  	CLR		R26
                                  FIN_TMR2:*/
-0003b0 910f                      	POP		R16
-0003b1 bf0f                      	OUT		SREG, R16
-0003b2 910f                      	POP		R16
-0003b3 9518                      	RETI
+00040e 910f                      	POP		R16
+00040f bf0f                      	OUT		SREG, R16
+000410 910f                      	POP		R16
+000411 9518                      	RETI
 
 
 RESOURCE USE INFORMATION
@@ -2425,27 +2611,27 @@ counted separately from r26..r31 here.
 
 "ATmega328P" register use summary:
 x  :   0 y  :   0 z  :  11 r0 :   0 r1 :  17 r2 :   5 r3 :  11 r4 :  11 
-r5 :  16 r6 :  14 r7 :  13 r8 :  11 r9 :   8 r10:   8 r11:   9 r12:   9 
-r13:  12 r14:  10 r15:   4 r16: 348 r17:   4 r18:   4 r19:   4 r20:  23 
-r21:   2 r22:  51 r23:  26 r24:  13 r25:   9 r26:   1 r27:  16 r28:   1 
+r5 :  16 r6 :  14 r7 :  21 r8 :  16 r9 :  14 r10:  14 r11:   9 r12:   9 
+r13:  12 r14:  10 r15:   4 r16: 404 r17:   7 r18:   4 r19:   4 r20:  23 
+r21:   2 r22:  51 r23:  26 r24:  21 r25:  14 r26:   1 r27:  23 r28:   1 
 r29:   0 r30:  24 r31:  24 
 Registers used: 31 out of 35 (88.6%)
 
 "ATmega328P" instruction use summary:
-.lds  :   0 .sts  :   0 adc   :  11 add   :  15 adiw  :   0 and   :   0 
+.lds  :   0 .sts  :   0 adc   :  11 add   :  17 adiw  :   0 and   :   0 
 andi  :   0 asr   :   0 bclr  :   0 bld   :   0 brbc  :   0 brbs  :   0 
 brcc  :   0 brcs  :   0 break :   0 breq  :  52 brge  :   0 brhc  :   0 
-brhs  :   0 brid  :   0 brie  :   0 brlo  :   2 brlt  :   0 brmi  :   0 
-brne  :  48 brpl  :   0 brsh  :   0 brtc  :   0 brts  :   0 brvc  :   0 
+brhs  :   0 brid  :   0 brie  :   0 brlo  :   4 brlt  :   0 brmi  :   0 
+brne  :  57 brpl  :   0 brsh  :   0 brtc  :   0 brts  :   0 brvc  :   0 
 brvs  :   0 bset  :   0 bst   :   0 call  :  17 cbi   :  31 cbr   :   0 
-clc   :   0 clh   :   0 cli   :   1 cln   :   0 clr   :  81 cls   :   0 
-clt   :   0 clv   :   0 clz   :   0 com   :   0 cp    :   6 cpc   :   0 
-cpi   :  96 cpse  :   0 dec   :  12 eor   :   0 fmul  :   0 fmuls :   0 
-fmulsu:   0 icall :   0 ijmp  :   0 in    :   4 inc   :  25 jmp   :   5 
-ld    :   0 ldd   :   0 ldi   : 100 lds   :   0 lpm   :  22 lsl   :   8 
-lsr   :   0 mov   : 120 movw  :   0 mul   :   0 muls  :   0 mulsu :   0 
+clc   :   0 clh   :   0 cli   :   1 cln   :   0 clr   :  88 cls   :   0 
+clt   :   0 clv   :   0 clz   :   0 com   :   0 cp    :   7 cpc   :   0 
+cpi   : 106 cpse  :   0 dec   :  14 eor   :   0 fmul  :   0 fmuls :   0 
+fmulsu:   0 icall :   0 ijmp  :   0 in    :   4 inc   :  31 jmp   :   5 
+ld    :   0 ldd   :   0 ldi   : 109 lds   :   0 lpm   :  22 lsl   :  12 
+lsr   :   0 mov   : 150 movw  :   0 mul   :   0 muls  :   0 mulsu :   0 
 neg   :   0 nop   :   0 or    :   0 ori   :   0 out   :  25 pop   :   8 
-push  :   8 rcall :   0 ret   :  35 reti  :   4 rjmp  :  71 rol   :   0 
+push  :   8 rcall :   0 ret   :  34 reti  :   4 rjmp  :  84 rol   :   0 
 ror   :   0 sbc   :   0 sbci  :   0 sbi   :  27 sbic  :   0 sbis  :  15 
 sbiw  :   0 sbr   :   0 sbrc  :   0 sbrs  :   0 sec   :   0 seh   :   0 
 sei   :   1 sen   :   0 ser   :   0 ses   :   0 set   :   0 sev   :   0 
@@ -2456,7 +2642,7 @@ Instructions used: 30 out of 113 (26.5%)
 "ATmega328P" memory use summary [bytes]:
 Segment   Begin    End      Code   Data   Used    Size   Use%
 ---------------------------------------------------------------
-[.cseg] 0x000000 0x000768   1822     26   1848   32768   5.6%
+[.cseg] 0x000000 0x000824   2010     26   2036   32768   6.2%
 [.dseg] 0x000100 0x000100      0      0      0    2048   0.0%
 [.eseg] 0x000000 0x000000      0      0      0    1024   0.0%
 
